@@ -1,0 +1,16 @@
+{
+  "title": "Implement Queue using Stacks",
+  "phase": 3,
+  "phaseName": "Stacks & Queues",
+  "difficulty": "Easy",
+  "tags": [
+    "stack",
+    "queue",
+    "design"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 21,
+  "authored": false
+}

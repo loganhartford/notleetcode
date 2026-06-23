@@ -1,0 +1,10 @@
+{
+  "title": "Two Sum II (Input Array Is Sorted)",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Medium",
+  "tags": ["two pointers"],
+  "languages": ["python"],
+  "stackIndex": 6,
+  "authored": true
+}

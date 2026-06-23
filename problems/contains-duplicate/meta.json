@@ -1,0 +1,14 @@
+{
+  "title": "Contains Duplicate",
+  "phase": 2,
+  "phaseName": "Hashing",
+  "difficulty": "Easy",
+  "tags": [
+    "hash set"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 14,
+  "authored": false
+}

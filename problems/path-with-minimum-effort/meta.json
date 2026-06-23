@@ -1,0 +1,15 @@
+{
+  "title": "Path With Minimum Effort",
+  "phase": 8,
+  "phaseName": "Weighted Shortest Path",
+  "difficulty": "Medium",
+  "tags": [
+    "dijkstra",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 46,
+  "authored": false
+}

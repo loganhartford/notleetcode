@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>notleetcode</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>⌨️</text></svg>" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar: the stack -->
+    <aside id="sidebar">
+      <div class="sidebar-head">
+        <h1>notleetcode</h1>
+        <div id="overall-progress" class="overall-progress"></div>
+      </div>
+      <div id="problem-list"></div>
+    </aside>
+
+    <!-- Main: problem + editor -->
+    <main id="main">
+      <div id="problem-pane">
+        <div class="pane-head">
+          <div>
+            <span id="prob-index" class="prob-index"></span>
+            <h2 id="prob-title">Loading…</h2>
+          </div>
+          <div class="prob-meta">
+            <span id="prob-diff" class="badge"></span>
+            <span id="prob-status" class="badge"></span>
+          </div>
+        </div>
+        <div id="prob-tags" class="tags"></div>
+        <div id="prob-desc" class="markdown-body"></div>
+        <div id="solution-block" class="solution-block hidden">
+          <button id="toggle-solution" class="link-btn">▸ Show reference solution</button>
+          <pre id="solution-code" class="hidden"></pre>
+        </div>
+      </div>
+
+      <div id="divider"></div>
+
+      <div id="editor-pane">
+        <div class="editor-toolbar">
+          <select id="lang-select"></select>
+          <div class="spacer"></div>
+          <button id="reset-btn" class="btn ghost" title="Reset to starter code">Reset</button>
+          <button id="run-btn" class="btn primary">▶ Run Tests</button>
+        </div>
+        <div id="editor-host"></div>
+        <div id="results-pane">
+          <div id="results-summary" class="results-summary">Run your code to see test results.</div>
+          <div id="results-detail"></div>
+        </div>
+        <div class="editor-footer">
+          <button id="prev-btn" class="btn ghost">← Prev</button>
+          <span id="save-state" class="save-state"></span>
+          <button id="next-btn" class="btn ghost">Next →</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/comment/comment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

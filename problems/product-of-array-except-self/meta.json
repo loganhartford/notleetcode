@@ -1,0 +1,10 @@
+{
+  "title": "Product of Array Except Self",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Medium",
+  "tags": ["array", "prefix"],
+  "languages": ["python"],
+  "stackIndex": 13,
+  "authored": true
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Valid Parentheses (revisit, monotonic mindset)",
+  "phase": 3,
+  "phaseName": "Stacks & Queues",
+  "difficulty": "Easy",
+  "tags": [
+    "stack"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 18,
+  "authored": false
+}

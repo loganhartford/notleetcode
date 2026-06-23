@@ -1,0 +1,15 @@
+{
+  "title": "[ROBO] Moving-average filter, then median filter",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "filter"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 62,
+  "authored": false
+}

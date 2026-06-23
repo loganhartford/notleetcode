@@ -1,0 +1,16 @@
+{
+  "title": "Flood Fill",
+  "phase": 6,
+  "phaseName": "Matrices / 2D Arrays",
+  "difficulty": "Easy",
+  "tags": [
+    "dfs",
+    "bfs",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 37,
+  "authored": false
+}

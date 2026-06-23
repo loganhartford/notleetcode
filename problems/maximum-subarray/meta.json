@@ -1,0 +1,10 @@
+{
+  "title": "Maximum Subarray (Kadane's)",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Medium",
+  "tags": ["array", "dp"],
+  "languages": ["python"],
+  "stackIndex": 10,
+  "authored": true
+}

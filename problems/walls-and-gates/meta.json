@@ -1,0 +1,16 @@
+{
+  "title": "Walls and Gates",
+  "phase": 7,
+  "phaseName": "Graphs & Grid Search",
+  "difficulty": "Medium",
+  "tags": [
+    "bfs",
+    "multi-source",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 41,
+  "authored": false
+}

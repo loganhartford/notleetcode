@@ -1,0 +1,14 @@
+{
+  "title": "[C] CRC8 / checksum",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 73,
+  "authored": false
+}

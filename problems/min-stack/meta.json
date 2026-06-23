@@ -1,0 +1,15 @@
+{
+  "title": "Min Stack",
+  "phase": 3,
+  "phaseName": "Stacks & Queues",
+  "difficulty": "Medium",
+  "tags": [
+    "stack",
+    "design"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 19,
+  "authored": false
+}

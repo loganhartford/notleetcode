@@ -1,0 +1,16 @@
+{
+  "title": "Pacific Atlantic Water Flow",
+  "phase": 7,
+  "phaseName": "Graphs & Grid Search",
+  "difficulty": "Medium",
+  "tags": [
+    "dfs",
+    "bfs",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 44,
+  "authored": false
+}

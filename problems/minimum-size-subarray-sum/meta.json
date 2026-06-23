@@ -1,0 +1,10 @@
+{
+  "title": "Minimum Size Subarray Sum",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Medium",
+  "tags": ["sliding window"],
+  "languages": ["python"],
+  "stackIndex": 12,
+  "authored": true
+}

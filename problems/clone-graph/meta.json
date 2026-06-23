@@ -1,0 +1,16 @@
+{
+  "title": "Clone Graph",
+  "phase": 7,
+  "phaseName": "Graphs & Grid Search",
+  "difficulty": "Medium",
+  "tags": [
+    "graph",
+    "dfs",
+    "bfs"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 42,
+  "authored": false
+}

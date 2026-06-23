@@ -1,0 +1,16 @@
+{
+  "title": "[ROBO] Implement A* on an occupancy grid",
+  "phase": 8,
+  "phaseName": "Weighted Shortest Path",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "a-star",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 50,
+  "authored": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "[ROBO] RRT on a 2D map with obstacles",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Hard",
+  "tags": [
+    "robotics",
+    "planning"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 68,
+  "authored": false
+}

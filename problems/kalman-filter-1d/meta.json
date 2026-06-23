@@ -1,0 +1,15 @@
+{
+  "title": "[ROBO] 1D Kalman filter (predict/update)",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "estimation"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 63,
+  "authored": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Sum of Two Integers",
+  "phase": 9,
+  "phaseName": "Bit Manipulation",
+  "difficulty": "Medium",
+  "tags": [
+    "bit manipulation"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 56,
+  "authored": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Merge Two Sorted Lists",
+  "phase": 5,
+  "phaseName": "Linked Lists",
+  "difficulty": "Easy",
+  "tags": [
+    "linked list"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 31,
+  "authored": false
+}

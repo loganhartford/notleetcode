@@ -1,0 +1,15 @@
+{
+  "title": "Binary Tree Level Order Traversal",
+  "phase": 11,
+  "phaseName": "Tier-3 Minimum",
+  "difficulty": "Medium",
+  "tags": [
+    "tree",
+    "bfs"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 77,
+  "authored": false
+}

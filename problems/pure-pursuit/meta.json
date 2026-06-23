@@ -1,0 +1,15 @@
+{
+  "title": "[ROBO] Waypoint follower (pure pursuit)",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "control"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 67,
+  "authored": false
+}

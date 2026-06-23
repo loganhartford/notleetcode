@@ -1,0 +1,14 @@
+{
+  "title": "Capacity To Ship Packages Within D Days",
+  "phase": 4,
+  "phaseName": "Binary Search",
+  "difficulty": "Medium",
+  "tags": [
+    "binary search on answer"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 28,
+  "authored": false
+}

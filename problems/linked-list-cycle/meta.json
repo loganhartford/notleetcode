@@ -1,0 +1,15 @@
+{
+  "title": "Linked List Cycle",
+  "phase": 5,
+  "phaseName": "Linked Lists",
+  "difficulty": "Easy",
+  "tags": [
+    "linked list",
+    "two pointers"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 30,
+  "authored": false
+}

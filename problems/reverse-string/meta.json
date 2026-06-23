@@ -1,0 +1,10 @@
+{
+  "title": "Reverse String",
+  "phase": 0,
+  "phaseName": "Rust Removal",
+  "difficulty": "Easy",
+  "tags": ["two pointers", "string"],
+  "languages": ["python"],
+  "stackIndex": 3,
+  "authored": true
+}

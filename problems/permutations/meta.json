@@ -1,0 +1,14 @@
+{
+  "title": "Permutations",
+  "phase": 11,
+  "phaseName": "Tier-3 Minimum",
+  "difficulty": "Medium",
+  "tags": [
+    "backtracking"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 80,
+  "authored": false
+}

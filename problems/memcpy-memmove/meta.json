@@ -1,0 +1,14 @@
+{
+  "title": "[C] memcpy and memmove",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 69,
+  "authored": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "[C] Tiny cooperative scheduler",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Hard",
+  "tags": [
+    "firmware",
+    "rtos"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 74,
+  "authored": false
+}

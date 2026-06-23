@@ -1,0 +1,15 @@
+{
+  "title": "Group Anagrams",
+  "phase": 2,
+  "phaseName": "Hashing",
+  "difficulty": "Medium",
+  "tags": [
+    "hash map",
+    "string"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 15,
+  "authored": false
+}

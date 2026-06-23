@@ -1,0 +1,15 @@
+{
+  "title": "[C] Debounce state machine (FSM)",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware",
+    "fsm"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 71,
+  "authored": false
+}

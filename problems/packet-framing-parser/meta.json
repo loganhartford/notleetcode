@@ -1,0 +1,15 @@
+{
+  "title": "[C] Serial packet framing parser",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware",
+    "parsing"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 72,
+  "authored": false
+}

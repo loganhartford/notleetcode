@@ -1,0 +1,10 @@
+{
+  "title": "3Sum",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Medium",
+  "tags": ["two pointers", "sorting"],
+  "languages": ["python"],
+  "stackIndex": 9,
+  "authored": true
+}

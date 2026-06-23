@@ -1,0 +1,10 @@
+{
+  "title": "Valid Palindrome",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Easy",
+  "tags": ["two pointers", "string"],
+  "languages": ["python"],
+  "stackIndex": 7,
+  "authored": true
+}

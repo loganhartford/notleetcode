@@ -1,0 +1,15 @@
+{
+  "title": "Network Delay Time",
+  "phase": 8,
+  "phaseName": "Weighted Shortest Path",
+  "difficulty": "Medium",
+  "tags": [
+    "dijkstra",
+    "graph"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 45,
+  "authored": false
+}

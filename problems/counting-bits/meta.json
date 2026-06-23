@@ -1,0 +1,15 @@
+{
+  "title": "Counting Bits",
+  "phase": 9,
+  "phaseName": "Bit Manipulation",
+  "difficulty": "Easy",
+  "tags": [
+    "bit manipulation",
+    "dp"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 52,
+  "authored": false
+}

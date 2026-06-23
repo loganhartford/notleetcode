@@ -1,0 +1,14 @@
+{
+  "title": "Rotate Image",
+  "phase": 6,
+  "phaseName": "Matrices / 2D Arrays",
+  "difficulty": "Medium",
+  "tags": [
+    "matrix"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 34,
+  "authored": false
+}

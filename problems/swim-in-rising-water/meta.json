@@ -1,0 +1,15 @@
+{
+  "title": "Swim in Rising Water",
+  "phase": 8,
+  "phaseName": "Weighted Shortest Path",
+  "difficulty": "Hard",
+  "tags": [
+    "dijkstra",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 47,
+  "authored": false
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Best Time to Buy and Sell Stock",
+  "phase": 0,
+  "phaseName": "Rust Removal",
+  "difficulty": "Easy",
+  "tags": ["array", "greedy"],
+  "languages": ["python"],
+  "stackIndex": 4,
+  "authored": true
+}

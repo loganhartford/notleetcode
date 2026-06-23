@@ -1,0 +1,15 @@
+{
+  "title": "Remove Nth Node From End of List",
+  "phase": 5,
+  "phaseName": "Linked Lists",
+  "difficulty": "Medium",
+  "tags": [
+    "linked list",
+    "two pointers"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 32,
+  "authored": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Maximum Depth of Binary Tree",
+  "phase": 11,
+  "phaseName": "Tier-3 Minimum",
+  "difficulty": "Easy",
+  "tags": [
+    "tree",
+    "dfs"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 76,
+  "authored": false
+}

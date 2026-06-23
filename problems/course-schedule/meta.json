@@ -1,0 +1,15 @@
+{
+  "title": "Course Schedule",
+  "phase": 7,
+  "phaseName": "Graphs & Grid Search",
+  "difficulty": "Medium",
+  "tags": [
+    "topological sort",
+    "cycle detection"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 43,
+  "authored": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Single Number",
+  "phase": 9,
+  "phaseName": "Bit Manipulation",
+  "difficulty": "Easy",
+  "tags": [
+    "bit manipulation",
+    "xor"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 54,
+  "authored": false
+}

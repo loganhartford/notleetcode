@@ -1,0 +1,16 @@
+{
+  "title": "Number of Islands",
+  "phase": 7,
+  "phaseName": "Graphs & Grid Search",
+  "difficulty": "Medium",
+  "tags": [
+    "dfs",
+    "bfs",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 38,
+  "authored": false
+}

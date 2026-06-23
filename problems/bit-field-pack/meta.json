@@ -1,0 +1,15 @@
+{
+  "title": "[C] Pack / unpack a bit-field",
+  "phase": 9,
+  "phaseName": "Bit Manipulation",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware",
+    "bit manipulation"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 60,
+  "authored": false
+}

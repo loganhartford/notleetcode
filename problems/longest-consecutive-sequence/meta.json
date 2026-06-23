@@ -1,0 +1,14 @@
+{
+  "title": "Longest Consecutive Sequence",
+  "phase": 2,
+  "phaseName": "Hashing",
+  "difficulty": "Medium",
+  "tags": [
+    "hash set"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 17,
+  "authored": false
+}

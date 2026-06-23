@@ -1,0 +1,15 @@
+{
+  "title": "[C] Implement a ring buffer",
+  "phase": 3,
+  "phaseName": "Stacks & Queues",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware",
+    "ring buffer"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 23,
+  "authored": false
+}

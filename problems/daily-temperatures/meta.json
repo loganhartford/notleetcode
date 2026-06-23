@@ -1,0 +1,14 @@
+{
+  "title": "Daily Temperatures",
+  "phase": 3,
+  "phaseName": "Stacks & Queues",
+  "difficulty": "Medium",
+  "tags": [
+    "monotonic stack"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 20,
+  "authored": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Set Matrix Zeroes",
+  "phase": 6,
+  "phaseName": "Matrices / 2D Arrays",
+  "difficulty": "Medium",
+  "tags": [
+    "matrix"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 36,
+  "authored": false
+}

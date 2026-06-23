@@ -1,0 +1,10 @@
+{
+  "title": "Longest Substring Without Repeating Characters",
+  "phase": 1,
+  "phaseName": "Two Pointers & Sliding Window",
+  "difficulty": "Medium",
+  "tags": ["sliding window", "hash map"],
+  "languages": ["python"],
+  "stackIndex": 11,
+  "authored": true
+}

@@ -1,0 +1,15 @@
+{
+  "title": "[C] Fixed-point multiply (Q-format)",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "firmware",
+    "math"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 70,
+  "authored": false
+}

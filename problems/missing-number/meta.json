@@ -1,0 +1,15 @@
+{
+  "title": "Missing Number",
+  "phase": 9,
+  "phaseName": "Bit Manipulation",
+  "difficulty": "Easy",
+  "tags": [
+    "bit manipulation",
+    "math"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 55,
+  "authored": false
+}

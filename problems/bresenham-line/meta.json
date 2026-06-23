@@ -1,0 +1,16 @@
+{
+  "title": "[ROBO] Bresenham line / line-of-sight on a grid",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "geometry",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 65,
+  "authored": false
+}

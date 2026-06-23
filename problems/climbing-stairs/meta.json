@@ -1,0 +1,14 @@
+{
+  "title": "Climbing Stairs",
+  "phase": 11,
+  "phaseName": "Tier-3 Minimum",
+  "difficulty": "Easy",
+  "tags": [
+    "dp"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 81,
+  "authored": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Search in Rotated Sorted Array",
+  "phase": 4,
+  "phaseName": "Binary Search",
+  "difficulty": "Medium",
+  "tags": [
+    "binary search"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 25,
+  "authored": false
+}

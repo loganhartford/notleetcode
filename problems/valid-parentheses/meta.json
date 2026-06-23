@@ -1,0 +1,10 @@
+{
+  "title": "Valid Parentheses",
+  "phase": 0,
+  "phaseName": "Rust Removal",
+  "difficulty": "Easy",
+  "tags": ["stack", "string"],
+  "languages": ["python"],
+  "stackIndex": 5,
+  "authored": true
+}

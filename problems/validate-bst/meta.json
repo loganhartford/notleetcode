@@ -1,0 +1,15 @@
+{
+  "title": "Validate Binary Search Tree",
+  "phase": 11,
+  "phaseName": "Tier-3 Minimum",
+  "difficulty": "Medium",
+  "tags": [
+    "tree",
+    "dfs"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 78,
+  "authored": false
+}

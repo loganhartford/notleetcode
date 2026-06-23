@@ -1,0 +1,14 @@
+{
+  "title": "Spiral Matrix",
+  "phase": 6,
+  "phaseName": "Matrices / 2D Arrays",
+  "difficulty": "Medium",
+  "tags": [
+    "matrix"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 35,
+  "authored": false
+}

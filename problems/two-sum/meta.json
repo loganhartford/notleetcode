@@ -1,0 +1,10 @@
+{
+  "title": "Two Sum",
+  "phase": 0,
+  "phaseName": "Rust Removal",
+  "difficulty": "Easy",
+  "tags": ["array", "hash map"],
+  "languages": ["python"],
+  "stackIndex": 1,
+  "authored": true
+}

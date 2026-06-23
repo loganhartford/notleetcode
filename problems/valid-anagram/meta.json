@@ -1,0 +1,10 @@
+{
+  "title": "Valid Anagram",
+  "phase": 0,
+  "phaseName": "Rust Removal",
+  "difficulty": "Easy",
+  "tags": ["string", "hash map"],
+  "languages": ["python"],
+  "stackIndex": 2,
+  "authored": true
+}

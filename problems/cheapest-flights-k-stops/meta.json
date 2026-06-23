@@ -1,0 +1,15 @@
+{
+  "title": "Cheapest Flights Within K Stops",
+  "phase": 8,
+  "phaseName": "Weighted Shortest Path",
+  "difficulty": "Medium",
+  "tags": [
+    "bellman-ford",
+    "bfs"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 48,
+  "authored": false
+}

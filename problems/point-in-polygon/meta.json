@@ -1,0 +1,15 @@
+{
+  "title": "[ROBO] Point-in-polygon test",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "geometry"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 66,
+  "authored": false
+}

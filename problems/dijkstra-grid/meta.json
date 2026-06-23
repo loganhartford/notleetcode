@@ -1,0 +1,16 @@
+{
+  "title": "[ROBO] Implement Dijkstra on a grid",
+  "phase": 8,
+  "phaseName": "Weighted Shortest Path",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "dijkstra",
+    "grid"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 49,
+  "authored": false
+}

@@ -1,0 +1,14 @@
+{
+  "title": "House Robber",
+  "phase": 11,
+  "phaseName": "Tier-3 Minimum",
+  "difficulty": "Medium",
+  "tags": [
+    "dp"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 83,
+  "authored": false
+}

@@ -1,0 +1,15 @@
+{
+  "title": "[C] Set / clear / toggle / test a bit",
+  "phase": 9,
+  "phaseName": "Bit Manipulation",
+  "difficulty": "Easy",
+  "tags": [
+    "firmware",
+    "bit manipulation"
+  ],
+  "languages": [
+    "c"
+  ],
+  "stackIndex": 57,
+  "authored": false
+}

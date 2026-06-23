@@ -1,0 +1,15 @@
+{
+  "title": "[ROBO] PID controller (with anti-windup)",
+  "phase": 10,
+  "phaseName": "Domain Implementations",
+  "difficulty": "Medium",
+  "tags": [
+    "robotics",
+    "control"
+  ],
+  "languages": [
+    "python"
+  ],
+  "stackIndex": 61,
+  "authored": false
+}
