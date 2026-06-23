@@ -1,3 +1,3 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+def point_in_polygon(polygon, point) -> bool:
+    # polygon: list of (x, y) vertices in order. point: (x, y).
+    pass

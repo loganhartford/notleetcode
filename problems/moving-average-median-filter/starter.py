@@ -1,3 +1,14 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+class MovingAverage:
+    def __init__(self, window: int):
+        pass
+
+    def next(self, val: float) -> float:
+        pass
+
+
+class MedianFilter:
+    def __init__(self, window: int):
+        pass
+
+    def next(self, val: float) -> float:
+        pass

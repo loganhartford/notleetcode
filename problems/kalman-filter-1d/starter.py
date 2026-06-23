@@ -1,3 +1,9 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+class KalmanFilter1D:
+    def __init__(self, x, P, Q, R):
+        pass
+
+    def predict(self, u=0.0) -> float:
+        pass
+
+    def update(self, z) -> float:
+        pass

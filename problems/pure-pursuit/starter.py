@@ -1,3 +1,7 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+import math
+
+
+def pure_pursuit(pose, path, lookahead) -> float:
+    # pose = (x, y, theta); path = [(x, y), ...]; lookahead = distance.
+    # Return the steering curvature toward the lookahead point.
+    pass
