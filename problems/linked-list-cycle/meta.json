@@ -8,8 +8,9 @@
     "two pointers"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 30,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

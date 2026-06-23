@@ -1,3 +1,15 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+class MinStack:
+    def __init__(self):
+        pass
+
+    def push(self, val: int) -> None:
+        pass
+
+    def pop(self) -> None:
+        pass
+
+    def top(self) -> int:
+        pass
+
+    def getMin(self) -> int:
+        pass

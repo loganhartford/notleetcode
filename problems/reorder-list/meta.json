@@ -7,8 +7,9 @@
     "linked list"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 33,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

@@ -8,8 +8,9 @@
     "math"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 55,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

@@ -3,8 +3,15 @@
   "phase": 1,
   "phaseName": "Two Pointers & Sliding Window",
   "difficulty": "Medium",
-  "tags": ["sliding window", "hash map"],
-  "languages": ["python"],
+  "tags": [
+    "sliding window",
+    "hash map"
+  ],
+  "languages": [
+    "python",
+    "c"
+  ],
   "stackIndex": 11,
-  "authored": true
+  "authored": true,
+  "defaultLanguage": "python"
 }

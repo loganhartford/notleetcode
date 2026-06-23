@@ -11,5 +11,6 @@
     "c"
   ],
   "stackIndex": 70,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

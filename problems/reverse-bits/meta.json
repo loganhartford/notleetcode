@@ -7,8 +7,9 @@
     "bit manipulation"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 53,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

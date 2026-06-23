@@ -149,7 +149,8 @@ async function openProblem(id) {
   sel.innerHTML = (current.languages || ['python'])
     .map((l) => `<option value="${l}">${langLabel(l)}</option>`)
     .join('');
-  currentLang = (current.languages && current.languages[0]) || 'python';
+  currentLang = current.defaultLanguage ||
+    (current.languages && current.languages[0]) || 'python';
   sel.value = currentLang;
 
   loadEditorForLang();

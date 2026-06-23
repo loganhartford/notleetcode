@@ -8,8 +8,9 @@
     "xor"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 54,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

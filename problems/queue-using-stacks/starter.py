@@ -1,3 +1,15 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+class MyQueue:
+    def __init__(self):
+        pass
+
+    def push(self, x: int) -> None:
+        pass
+
+    def pop(self) -> int:
+        pass
+
+    def peek(self) -> int:
+        pass
+
+    def empty(self) -> bool:
+        pass

@@ -1,3 +1,6 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+from typing import List
+
+
+def wallsAndGates(rooms: List[List[int]]) -> None:
+    # Modify rooms in place. Do not return anything.
+    pass

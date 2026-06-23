@@ -3,8 +3,14 @@
   "phase": 1,
   "phaseName": "Two Pointers & Sliding Window",
   "difficulty": "Medium",
-  "tags": ["sliding window"],
-  "languages": ["python"],
+  "tags": [
+    "sliding window"
+  ],
+  "languages": [
+    "python",
+    "c"
+  ],
   "stackIndex": 12,
-  "authored": true
+  "authored": true,
+  "defaultLanguage": "python"
 }

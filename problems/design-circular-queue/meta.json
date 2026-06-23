@@ -9,8 +9,9 @@
     "ring buffer"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 22,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }

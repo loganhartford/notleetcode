@@ -1,3 +1,6 @@
-# Not authored yet.
-# This problem is part of the stack but its starter code,
-# tests, and reference solution have not been written.
+from typing import List
+
+
+def setZeroes(matrix: List[List[int]]) -> None:
+    # Modify matrix in place. Do not return anything.
+    pass

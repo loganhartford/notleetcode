@@ -54,9 +54,6 @@ const LANGS = {
 const RESULT_BEGIN = '__TESTS_BEGIN__';
 const RESULT_END = '__TESTS_END__';
 
-// Every problem offers the same languages, regardless of what its meta says.
-const OFFERED_LANGUAGES = ['python', 'c'];
-
 // Support files copied into the sandbox alongside the user's solution.
 const SUPPORT_FILE = { python: 'nlc.py', c: 'nlc.h', cpp: 'nlc.h' };
 
@@ -108,9 +105,12 @@ function loadProblemFull(id) {
   meta.starter = {};
   meta.solution = {};
   meta.hasHarness = {};
-  // Offer C and Python on every problem, ignoring meta.languages.
-  const langs = OFFERED_LANGUAGES;
+  // Languages come from the problem's meta; default to Python.
+  const langs = meta.languages && meta.languages.length ? meta.languages : ['python'];
   meta.languages = langs;
+  if (!meta.defaultLanguage || !langs.includes(meta.defaultLanguage)) {
+    meta.defaultLanguage = langs[0];
+  }
   for (const lang of langs) {
     const cfg = LANGS[lang];
     if (!cfg) continue;
@@ -358,7 +358,8 @@ const server = http.createServer(async (req, res) => {
         phaseName: m.phaseName,
         difficulty: m.difficulty,
         tags: m.tags || [],
-        languages: OFFERED_LANGUAGES,
+        languages: m.languages && m.languages.length ? m.languages : ['python'],
+        defaultLanguage: m.defaultLanguage || (m.languages && m.languages[0]) || 'python',
         stackIndex: m.stackIndex,
         authored: !!m.authored,
         status: (progress[m.id] && progress[m.id].status) || 'todo',

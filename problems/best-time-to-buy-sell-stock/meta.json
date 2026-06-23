@@ -3,8 +3,15 @@
   "phase": 0,
   "phaseName": "Rust Removal",
   "difficulty": "Easy",
-  "tags": ["array", "greedy"],
-  "languages": ["python"],
+  "tags": [
+    "array",
+    "greedy"
+  ],
+  "languages": [
+    "python",
+    "c"
+  ],
   "stackIndex": 4,
-  "authored": true
+  "authored": true,
+  "defaultLanguage": "python"
 }

@@ -12,5 +12,6 @@
     "python"
   ],
   "stackIndex": 42,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "python"
 }

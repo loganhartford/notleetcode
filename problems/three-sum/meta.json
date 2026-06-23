@@ -3,8 +3,15 @@
   "phase": 1,
   "phaseName": "Two Pointers & Sliding Window",
   "difficulty": "Medium",
-  "tags": ["two pointers", "sorting"],
-  "languages": ["python"],
+  "tags": [
+    "two pointers",
+    "sorting"
+  ],
+  "languages": [
+    "python",
+    "c"
+  ],
   "stackIndex": 9,
-  "authored": true
+  "authored": true,
+  "defaultLanguage": "python"
 }

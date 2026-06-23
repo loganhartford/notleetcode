@@ -8,8 +8,9 @@
     "dp"
   ],
   "languages": [
-    "python"
+    "c"
   ],
   "stackIndex": 52,
-  "authored": false
+  "authored": false,
+  "defaultLanguage": "c"
 }
