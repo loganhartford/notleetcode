@@ -69,6 +69,7 @@ function wireButtons() {
   document.getElementById('next-btn').onclick = () => navigate(1);
   document.getElementById('lang-select').onchange = (e) => switchLang(e.target.value);
   document.getElementById('toggle-solution').onclick = toggleSolution;
+  document.getElementById('flag-btn').onclick = toggleFlag;
 }
 
 // ---------------------------------------------------------------------------
@@ -101,6 +102,7 @@ function renderSidebar() {
       <span class="status-dot ${p.status}"></span>
       <span class="num">${p.stackIndex}</span>
       <span class="name">${escapeHtml(p.title)}</span>
+      <span class="flag-mark${p.flagged ? ' on' : ''}" title="Flagged for review">⚑</span>
       <span class="lang-tag">${(p.languages[0] || 'py').replace('python', 'py').replace('cpp', 'c++')}</span>`;
     item.onclick = () => openProblem(p.id);
     host.appendChild(item);
@@ -153,10 +155,36 @@ async function openProblem(id) {
     (current.languages && current.languages[0]) || 'python';
   sel.value = currentLang;
 
+  renderFlag(current.progress ? current.progress.flagged : false);
+
   loadEditorForLang();
   setupSolutionBlock();
   clearResults();
   highlightActive();
+}
+
+function renderFlag(flagged) {
+  const btn = document.getElementById('flag-btn');
+  btn.classList.toggle('on', !!flagged);
+  btn.title = flagged ? 'Flagged for review — click to unflag' : 'Flag for review later';
+}
+
+async function toggleFlag() {
+  if (!current) return;
+  const res = await fetch('/api/flag', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: current.id }),
+  });
+  if (!res.ok) return;
+  const data = await res.json();
+  if (current.progress) current.progress.flagged = data.flagged;
+  renderFlag(data.flagged);
+  // Keep the sidebar mark and the in-memory list in sync.
+  const p = problems.find((x) => x.id === current.id);
+  if (p) p.flagged = data.flagged;
+  const mark = document.querySelector(`.prob-item[data-id="${current.id}"] .flag-mark`);
+  if (mark) mark.classList.toggle('on', data.flagged);
 }
 
 function renderStatusBadge(status) {

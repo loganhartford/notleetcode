@@ -160,8 +160,19 @@ function setStatus(id, status, lang) {
   p[id] = {
     status,
     lastLanguage: lang || cur.lastLanguage || null,
+    flagged: !!cur.flagged,
     updated: new Date().toISOString(),
   };
+  saveProgress(p);
+  return p[id];
+}
+
+// Toggle (or explicitly set) the "review later" flag for a problem.
+function setFlag(id, flagged) {
+  const p = loadProgress();
+  const cur = p[id] || { status: 'todo' };
+  const next = flagged == null ? !cur.flagged : !!flagged;
+  p[id] = { ...cur, flagged: next, updated: new Date().toISOString() };
   saveProgress(p);
   return p[id];
 }
@@ -363,6 +374,7 @@ const server = http.createServer(async (req, res) => {
         stackIndex: m.stackIndex,
         authored: !!m.authored,
         status: (progress[m.id] && progress[m.id].status) || 'todo',
+        flagged: !!(progress[m.id] && progress[m.id].flagged),
       }));
       return sendJSON(res, 200, { problems });
     }
@@ -410,6 +422,14 @@ const server = http.createServer(async (req, res) => {
       if (!id || !status) return sendJSON(res, 400, { error: 'Missing fields' });
       const st = setStatus(id, status, language);
       return sendJSON(res, 200, { ok: true, status: st });
+    }
+
+    if (url === '/api/flag' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req));
+      const { id, flagged } = body;
+      if (!id) return sendJSON(res, 400, { error: 'Missing id' });
+      const entry = setFlag(id, flagged);
+      return sendJSON(res, 200, { ok: true, flagged: entry.flagged });
     }
 
     // ----- Static -----

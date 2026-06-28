@@ -103,6 +103,19 @@ html, body {
 .badge.solved { color: var(--green); border-color: var(--green); }
 .badge.attempted { color: var(--amber); border-color: var(--amber); }
 
+/* Flag-for-review toggle in the problem header */
+.flag-btn {
+  background: none; border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text-dim); cursor: pointer; font-size: 12px;
+  padding: 2px 9px; line-height: 1; transition: color .12s, border-color .12s;
+}
+.flag-btn:hover { color: var(--amber); border-color: var(--amber); }
+.flag-btn.on { color: var(--amber); border-color: var(--amber); background: rgba(255, 176, 0, 0.12); }
+
+/* Flag marker in the sidebar list */
+.prob-item .flag-mark { color: var(--amber); font-size: 11px; visibility: hidden; }
+.prob-item .flag-mark.on { visibility: visible; }
+
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
 .tags .tag { font-size: 11px; color: var(--text-dim); background: var(--bg-elev); padding: 2px 8px; border-radius: 10px; }
 
