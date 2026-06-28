@@ -1,3 +1,4 @@
+# Time: O(n)  — linear scan of path waypoints for lookahead point
 import math
 
 

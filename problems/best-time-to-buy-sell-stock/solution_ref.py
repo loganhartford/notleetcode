@@ -1,3 +1,4 @@
+# Time: O(n)
 from typing import List
 
 

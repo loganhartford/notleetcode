@@ -1,3 +1,4 @@
+# Time: O(1) per predict / update step
 class KalmanFilter1D:
     def __init__(self, x, P, Q, R):
         self.x = x

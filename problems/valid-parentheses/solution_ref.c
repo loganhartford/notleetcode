@@ -1,3 +1,4 @@
+// Time: O(n)  — single-pass stack
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>

@@ -1,3 +1,4 @@
+# Time: O(max(|dx|, |dy|))  — one step per output pixel
 def bresenham(x0, y0, x1, y1):
     points = []
     dx = abs(x1 - x0)

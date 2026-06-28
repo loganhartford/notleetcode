@@ -1,3 +1,4 @@
+// Time: O(m + n)  — single pass through both lists
 #include <stdlib.h>
 
 struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {

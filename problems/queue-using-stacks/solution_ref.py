@@ -1,3 +1,4 @@
+# Time: O(1) amortized per operation  — lazy transfer between stacks
 class MyQueue:
     def __init__(self):
         self.inbox = []   # newest pushes

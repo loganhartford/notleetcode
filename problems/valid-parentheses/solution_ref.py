@@ -1,3 +1,4 @@
+# Time: O(n)  — single-pass stack
 def isValid(s: str) -> bool:
     pairs = {")": "(", "]": "[", "}": "{"}
     stack = []

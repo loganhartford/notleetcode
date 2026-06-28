@@ -1,3 +1,4 @@
+# Time: O(log n)  — binary search
 from typing import List
 
 

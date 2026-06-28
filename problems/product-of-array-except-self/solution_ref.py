@@ -1,3 +1,4 @@
+# Time: O(n)  — prefix then suffix product pass
 from typing import List
 
 

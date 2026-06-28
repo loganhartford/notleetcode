@@ -1,3 +1,4 @@
+// Time: O(n)  — Kadane's algorithm
 int maxSubArray(int* nums, int numsSize) {
     int best = nums[0], cur = nums[0];
     for (int i = 1; i < numsSize; i++) {

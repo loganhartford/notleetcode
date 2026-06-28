@@ -1,3 +1,4 @@
+# Time: O(V + E)  — Kahn's topological sort
 from typing import List
 from collections import deque
 

@@ -1,3 +1,4 @@
+// Time: O(n)  — two-pointer single pass
 int maxArea(int* height, int heightSize) {
     int i = 0, j = heightSize - 1, best = 0;
     while (i < j) {

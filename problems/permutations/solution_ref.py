@@ -1,3 +1,4 @@
+# Time: O(n · n!)  — generate all n! permutations
 from typing import List
 
 

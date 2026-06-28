@@ -1,3 +1,4 @@
+# Time: O(n)  — character frequency count
 from collections import Counter
 
 

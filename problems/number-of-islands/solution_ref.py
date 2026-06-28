@@ -1,3 +1,4 @@
+# Time: O(m·n)  — DFS sinks each island cell exactly once
 from typing import List
 
 

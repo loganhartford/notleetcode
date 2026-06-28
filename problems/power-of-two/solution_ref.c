@@ -1,3 +1,4 @@
+// Time: O(1)  — single bitwise AND for check; O(1) for round-up (5 OR+shift steps)
 #include <stdbool.h>
 #include <stdint.h>
 

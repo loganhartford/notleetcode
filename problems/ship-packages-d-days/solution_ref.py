@@ -1,3 +1,4 @@
+# Time: O(n · log(sum(weights)))  — binary search on capacity, O(n) feasibility check
 from typing import List
 
 

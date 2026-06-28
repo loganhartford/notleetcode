@@ -1,3 +1,4 @@
+# Time: O(R·C · log(R·C))  — Dijkstra with binary heap
 from typing import List
 import heapq
 

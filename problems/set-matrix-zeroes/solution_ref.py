@@ -1,3 +1,4 @@
+# Time: O(m·n)  — two passes through the matrix
 from typing import List
 
 

@@ -149,6 +149,7 @@ html, body {
 .btn.primary:hover { background: #6bb4ff; }
 .btn.ghost { background: transparent; }
 .btn:disabled { opacity: 0.5; cursor: default; }
+.btn.copied { color: var(--green); border-color: var(--green); }
 
 /* ---------- Results ---------- */
 #results-pane {

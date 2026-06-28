@@ -1,3 +1,4 @@
+// Time: O(n)  — two-pointer on sorted array
 #include <stdlib.h>
 
 int* twoSum(int* numbers, int numbersSize, int target, int* returnSize) {

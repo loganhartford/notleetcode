@@ -1,3 +1,4 @@
+// Time: O(1)  — four byte-extraction shifts
 #include <stdint.h>
 
 uint32_t swap_endianness(uint32_t x) {

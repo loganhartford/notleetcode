@@ -1,3 +1,4 @@
+// Time: O(k)  — one iteration per set bit (Brian Kernighan)
 #include <stdint.h>
 
 int hammingWeight(uint32_t n) {

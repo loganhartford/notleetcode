@@ -1,3 +1,4 @@
+# Time: O(log n)
 from typing import List
 
 

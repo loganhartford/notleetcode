@@ -1,3 +1,4 @@
+# Time: O(m·n)  — DFS, each cell visited at most once
 from typing import List
 
 

@@ -1,3 +1,4 @@
+# Time: O(n · k log k)  — sort each string of average length k as hash key
 from typing import List
 from collections import defaultdict
 

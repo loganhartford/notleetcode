@@ -1,3 +1,4 @@
+# Time: O(m·n)  — reverse DFS from each ocean's border
 from typing import List
 
 

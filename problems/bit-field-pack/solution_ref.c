@@ -1,3 +1,4 @@
+// Time: O(1)  — bit-shift and mask
 #include <stdint.h>
 
 uint8_t pack_nibbles(uint8_t hi, uint8_t lo) {

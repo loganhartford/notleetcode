@@ -1,3 +1,4 @@
+# Time: O(R·C · log(R·C))  — A* with binary heap (Manhattan heuristic)
 from typing import List
 import heapq
 

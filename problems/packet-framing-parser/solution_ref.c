@@ -1,3 +1,4 @@
+// Time: O(1) per byte  — FSM with fixed work per byte
 #include <stdint.h>
 
 #define PKT_START 0xAA

@@ -1,3 +1,4 @@
+# Time: O(n² · log n)  — Dijkstra minimising maximum elevation seen
 from typing import List
 import heapq
 

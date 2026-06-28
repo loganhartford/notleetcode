@@ -1,3 +1,4 @@
+# Time: O(n)  — rolling Fibonacci DP
 def climbStairs(n: int) -> int:
     a, b = 1, 1  # ways(0)=1, ways(1)=1
     for _ in range(n):

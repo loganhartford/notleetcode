@@ -1,3 +1,4 @@
+# Time: O(log n)  — binary search on rotated array
 from typing import List
 
 

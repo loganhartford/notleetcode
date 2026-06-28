@@ -1,3 +1,4 @@
+# Time: O(1) per transform  — fixed trig ops
 import math
 
 

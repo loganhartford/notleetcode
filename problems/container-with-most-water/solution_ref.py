@@ -1,3 +1,4 @@
+# Time: O(n)  — two-pointer single pass
 from typing import List
 
 

@@ -1,3 +1,4 @@
+// Time: O(1) per sample
 typedef struct {
     int stable;
     int candidate;

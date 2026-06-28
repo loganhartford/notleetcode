@@ -1,3 +1,4 @@
+// Time: O(n)  — sliding window with last-seen index
 int lengthOfLongestSubstring(char* s) {
     int last[256];
     for (int i = 0; i < 256; i++) last[i] = -1;

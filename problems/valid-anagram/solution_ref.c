@@ -1,3 +1,4 @@
+// Time: O(n)  — character frequency array
 #include <stdbool.h>
 #include <string.h>
 

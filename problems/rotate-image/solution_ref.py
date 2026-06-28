@@ -1,3 +1,4 @@
+# Time: O(n²)  — transpose then reverse each row in-place
 from typing import List
 
 

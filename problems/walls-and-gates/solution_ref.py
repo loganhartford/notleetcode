@@ -1,3 +1,4 @@
+# Time: O(m·n)  — multi-source BFS from all gates
 from typing import List
 from collections import deque
 

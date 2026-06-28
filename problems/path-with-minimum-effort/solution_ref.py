@@ -1,3 +1,4 @@
+# Time: O(R·C · log(R·C))  — Dijkstra minimising the max edge on path
 from typing import List
 import heapq
 

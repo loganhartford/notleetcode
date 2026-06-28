@@ -1,3 +1,4 @@
+# Time: O(n)  — two-pointer on sorted array
 from typing import List
 
 

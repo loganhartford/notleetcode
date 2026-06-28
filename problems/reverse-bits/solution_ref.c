@@ -1,3 +1,4 @@
+// Time: O(1)  — fixed 32 iterations
 #include <stdint.h>
 
 uint32_t reverseBits(uint32_t n) {

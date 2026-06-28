@@ -1,3 +1,4 @@
+# Time: O(1) per operation  — parallel min stack
 class MinStack:
     def __init__(self):
         self.stack = []

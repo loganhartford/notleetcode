@@ -1,3 +1,4 @@
+# Time: O(k) per MovingAverage step · O(k log k) per MedianFilter step  (k = window)
 from collections import deque
 
 

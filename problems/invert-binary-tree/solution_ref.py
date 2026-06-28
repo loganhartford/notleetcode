@@ -1,3 +1,4 @@
+# Time: O(n)  — post-order DFS visits every node
 from typing import Optional
 
 

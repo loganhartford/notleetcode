@@ -1,3 +1,4 @@
+# Time: O(n)  — hash set; each run traversed exactly once
 from typing import List
 
 

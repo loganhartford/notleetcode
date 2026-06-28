@@ -1,3 +1,4 @@
+# Time: O(m·n)  — visits every cell exactly once
 from typing import List
 
 

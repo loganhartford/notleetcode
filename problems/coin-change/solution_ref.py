@@ -1,3 +1,4 @@
+# Time: O(amount · |coins|)  — bottom-up DP
 from typing import List
 
 

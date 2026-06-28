@@ -1,3 +1,4 @@
+// Time: O(n)  — find mid, reverse second half, interleave
 #include <stddef.h>
 
 void reorderList(struct ListNode* head) {

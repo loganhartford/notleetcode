@@ -1,3 +1,4 @@
+# Time: O(n)  — frequency count then bucket sort by frequency
 from typing import List
 from collections import Counter
 

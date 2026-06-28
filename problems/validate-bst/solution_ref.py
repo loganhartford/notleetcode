@@ -1,3 +1,4 @@
+# Time: O(n)  — DFS with valid-range propagation
 from typing import Optional
 
 

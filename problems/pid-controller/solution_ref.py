@@ -1,3 +1,4 @@
+# Time: O(1) per update step
 class PID:
     def __init__(self, kp, ki, kd, dt, out_min=None, out_max=None):
         self.kp = kp

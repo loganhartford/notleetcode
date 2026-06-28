@@ -1,3 +1,4 @@
+// Time: O(n)  — two-pointer single pass
 #include <stdlib.h>
 
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {

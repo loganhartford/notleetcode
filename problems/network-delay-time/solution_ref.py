@@ -1,3 +1,4 @@
+# Time: O((V + E) log V)  — Dijkstra with binary heap
 from typing import List
 import heapq
 from collections import defaultdict

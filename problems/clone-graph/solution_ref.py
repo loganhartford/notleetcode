@@ -1,3 +1,4 @@
+# Time: O(V + E)  — DFS visits every node and edge once
 from typing import Optional
 
 

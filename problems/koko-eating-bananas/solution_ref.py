@@ -1,3 +1,4 @@
+# Time: O(n · log(max(piles)))  — binary search on speed, O(n) feasibility check
 from typing import List
 import math
 

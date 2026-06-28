@@ -1,3 +1,4 @@
+# Time: O(n)  — BFS visits each node once
 from typing import List, Optional
 from collections import deque
 

@@ -1,3 +1,4 @@
+// Time: O(8n)  — 8 bit iterations per input byte
 #include <stddef.h>
 #include <stdint.h>
 

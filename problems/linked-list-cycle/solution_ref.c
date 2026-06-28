@@ -1,3 +1,4 @@
+// Time: O(n)  — Floyd's slow/fast pointer
 #include <stdbool.h>
 
 bool hasCycle(struct ListNode* head) {

@@ -1,3 +1,4 @@
+// Time: O(n)  — prefix then suffix product pass
 #include <stdlib.h>
 
 int* productExceptSelf(int* nums, int numsSize, int* returnSize) {

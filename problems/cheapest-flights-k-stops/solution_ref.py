@@ -1,3 +1,4 @@
+# Time: O(k · E)  — Bellman-Ford limited to k+1 relaxation rounds
 from typing import List
 
 

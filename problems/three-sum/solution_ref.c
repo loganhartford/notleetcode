@@ -1,3 +1,4 @@
+// Time: O(n²)  — sort then two-pointer scan for each pivot
 #include <stdlib.h>
 
 static int _ts_cmp(const void* a, const void* b) {

@@ -1,3 +1,4 @@
+// Time: O(1)  — single bit-shift or mask per macro
 #include <stdint.h>
 
 #define SET_BIT(reg, n)     ((reg) |= (1u << (n)))

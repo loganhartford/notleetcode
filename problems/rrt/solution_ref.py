@@ -1,3 +1,4 @@
+# Time: O(k · n)  — k iterations, each with O(n) nearest-neighbour scan
 import math
 import random
 

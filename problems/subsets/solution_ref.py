@@ -1,3 +1,4 @@
+# Time: O(n · 2ⁿ)  — enumerate all 2ⁿ subsets
 from typing import List
 
 

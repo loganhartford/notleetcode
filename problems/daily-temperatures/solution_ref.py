@@ -1,3 +1,4 @@
+# Time: O(n)  — monotonic stack, each element pushed/popped once
 from typing import List
 
 

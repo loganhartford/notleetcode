@@ -1,3 +1,4 @@
+// Time: O(n)  — two-pointer single pass
 #include <stdbool.h>
 #include <ctype.h>
 #include <string.h>

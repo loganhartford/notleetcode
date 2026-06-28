@@ -1,3 +1,4 @@
+// Time: O(1) per operation
 #include <stdbool.h>
 #include <stdlib.h>
 

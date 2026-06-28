@@ -1,3 +1,4 @@
+// Time: O(1)  — at most 32 carry-propagation iterations
 #include <stdint.h>
 
 int getSum(int a, int b) {

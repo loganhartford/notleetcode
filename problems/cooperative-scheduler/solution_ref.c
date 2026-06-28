@@ -1,3 +1,4 @@
+// Time: O(1) sched_add · O(T) sched_tick  — iterates all T registered tasks each tick
 #include <stdint.h>
 
 typedef void (*task_fn)(void);

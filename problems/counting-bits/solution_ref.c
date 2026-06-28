@@ -1,3 +1,4 @@
+// Time: O(n)  — each ans[i] derived from ans[i>>1] in O(1)
 #include <stdlib.h>
 
 int* countBits(int n, int* returnSize) {

@@ -1,3 +1,4 @@
+# Time: O(n)  — sliding window, each element enters and leaves at most once
 from typing import List
 
 

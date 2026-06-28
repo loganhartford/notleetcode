@@ -1,3 +1,4 @@
+// Time: O(n)  — single-pass in-place reversal
 struct ListNode* reverseList(struct ListNode* head) {
     struct ListNode* prev = NULL;
     while (head) {

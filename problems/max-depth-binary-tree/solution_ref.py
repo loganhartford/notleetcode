@@ -1,3 +1,4 @@
+# Time: O(n)  — visits every node once
 from typing import Optional
 
 

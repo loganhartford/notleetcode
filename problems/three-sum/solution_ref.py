@@ -1,3 +1,4 @@
+# Time: O(n²)  — sort then two-pointer scan for each pivot
 from typing import List
 
 

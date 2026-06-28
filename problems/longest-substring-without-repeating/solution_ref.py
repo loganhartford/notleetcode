@@ -1,3 +1,4 @@
+# Time: O(n)  — sliding window with last-seen index
 def lengthOfLongestSubstring(s: str) -> int:
     last = {}  # char -> last index seen
     start = 0

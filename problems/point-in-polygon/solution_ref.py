@@ -1,3 +1,4 @@
+# Time: O(n)  — ray-casting across all n polygon edges
 def point_in_polygon(polygon, point) -> bool:
     x, y = point
     n = len(polygon)

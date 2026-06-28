@@ -1,3 +1,4 @@
+# Time: O(m·n)  — DFS visits each cell at most once
 from typing import List
 
 

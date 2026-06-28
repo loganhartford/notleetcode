@@ -70,6 +70,44 @@ function wireButtons() {
   document.getElementById('lang-select').onchange = (e) => switchLang(e.target.value);
   document.getElementById('toggle-solution').onclick = toggleSolution;
   document.getElementById('flag-btn').onclick = toggleFlag;
+  document.getElementById('copy-btn').onclick = copyForLLM;
+}
+
+async function copyForLLM() {
+  if (!current) return;
+  const lang = currentLang || 'python';
+  const code = editor.getValue();
+  const text = [
+    `# ${current.title}`,
+    '',
+    current.description || '',
+    '',
+    '---',
+    '',
+    '```' + (lang === 'python' ? 'python' : 'c'),
+    code,
+    '```',
+  ].join('\n');
+
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    // Fallback for non-secure contexts
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+
+  const btn = document.getElementById('copy-btn');
+  const orig = btn.textContent;
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
 }
 
 // ---------------------------------------------------------------------------

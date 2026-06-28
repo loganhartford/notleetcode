@@ -1,3 +1,4 @@
+# Time: O(n)  — Kadane's algorithm
 from typing import List
 
 
