@@ -4,24 +4,29 @@
     "lastLanguage": "python",
     "updated": "2026-06-22T17:29:28.063558"
   },
-  "two-sum": {
+  "best-time-to-buy-sell-stock": {
     "status": "solved",
     "lastLanguage": "python",
-    "updated": "2026-06-23T01:29:28.865Z"
+    "updated": "2026-06-25T02:07:47.690Z"
   },
   "reverse-string": {
     "status": "solved",
     "lastLanguage": "python",
-    "updated": "2026-06-23T01:36:03.839Z"
+    "updated": "2026-06-25T02:07:47.740Z"
   },
-  "best-time-to-buy-sell-stock": {
+  "two-sum": {
     "status": "solved",
     "lastLanguage": "python",
-    "updated": "2026-06-23T02:13:50.723Z"
+    "updated": "2026-06-25T02:07:47.794Z"
   },
   "valid-parentheses": {
     "status": "solved",
     "lastLanguage": "python",
-    "updated": "2026-06-23T02:20:30.875Z"
+    "updated": "2026-06-25T02:07:47.888Z"
+  },
+  "reverse-linked-list": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "updated": "2026-06-25T02:09:17.285Z"
   }
 }
