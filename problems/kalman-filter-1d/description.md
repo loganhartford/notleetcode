@@ -33,3 +33,5 @@ update(z=2)  -> 1.5     # P shrank to 0.5; K = 0.5/1.5 = 1/3; x = 1 + (1/3)(2-1)
 ### Notes
 - `[author]`-defined robotics practice; small float tolerance allowed.
 - (Stretch, not tested: extend the same predict/update structure to a 2D pose.)
+
+**Optimal complexity:** O(1) per predict / update step

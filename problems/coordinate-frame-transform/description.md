@@ -29,3 +29,5 @@ compose((1,0,pi/2), (1,0,0))                  -> (1.0, 1.0, pi/2)
 - `theta` need not be wrapped; the checker compares angles numerically with a
   small tolerance.
 - `[author]`-defined robotics practice.
+
+**Optimal complexity:** O(1) per transform  — fixed trig ops

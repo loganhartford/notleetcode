@@ -19,3 +19,5 @@ Output: False
 ### Constraints
 - `1 <= len(s), len(t) <= 5 * 10^4`
 - `s` and `t` consist of lowercase English letters.
+
+**Optimal complexity:** O(n)  — character frequency count

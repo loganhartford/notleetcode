@@ -29,3 +29,5 @@ crc8({0x00}, 1)       -> 0x00
 ### Constraints
 - Mask back to 8 bits after the shifts (`crc & 0xFF`).
 - `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(8n)  — 8 bit iterations per input byte

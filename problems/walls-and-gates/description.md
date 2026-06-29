@@ -31,3 +31,5 @@ After:  [
 - `rooms[i][j]` is `-1`, `0`, or `2147483647`.
 
 **Multi-source BFS** from all gates at once gives O(m·n).
+
+**Optimal complexity:** O(m·n)  — multi-source BFS from all gates

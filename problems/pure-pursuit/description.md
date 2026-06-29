@@ -28,3 +28,5 @@ pure_pursuit((0, 0, 0), [(2, 2)], 2.0)          -> 1.0    # target up-left: y_r=
 
 ### Notes
 - `[author]`-defined robotics practice; small float tolerance allowed.
+
+**Optimal complexity:** O(n)  — linear scan of path waypoints for lookahead point

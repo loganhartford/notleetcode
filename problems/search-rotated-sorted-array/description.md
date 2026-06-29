@@ -28,3 +28,5 @@ Output: -1
 - `1 <= len(nums) <= 5000`
 - `-10^4 <= nums[i], target <= 10^4`
 - All values of `nums` are unique; `nums` is a rotated ascending array.
+
+**Optimal complexity:** O(log n)  — binary search on rotated array

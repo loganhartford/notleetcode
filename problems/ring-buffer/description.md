@@ -45,3 +45,5 @@ rb_is_empty()        -> true
 ### Notes
 - `1 <= cap <= 4096`. If the capacity is a power of two you *can* mask instead of
   using `%`, but it isn't required here.
+
+**Optimal complexity:** O(1) per operation

@@ -25,3 +25,5 @@ Output: 3        # "wke" (note "pwke" is a subsequence, not a substring)
 ### Constraints
 - `0 <= len(s) <= 5 * 10^4`
 - `s` consists of English letters, digits, symbols and spaces.
+
+**Optimal complexity:** O(n)  — sliding window with last-seen index

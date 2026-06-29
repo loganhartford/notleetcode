@@ -28,3 +28,5 @@ Output: [[1]]
 - All integers are distinct.
 - Backtracking: pick an unused element for each position. The order **within**
   each permutation matters (do not sort it).
+
+**Optimal complexity:** O(n · n!)  — generate all n! permutations

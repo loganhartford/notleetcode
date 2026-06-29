@@ -21,3 +21,5 @@ Output: [0, 0, 9, 0, 0]
 ### Constraints
 - `2 <= len(nums) <= 10^5`
 - `-30 <= nums[i] <= 30`
+
+**Optimal complexity:** O(n)  — prefix then suffix product pass

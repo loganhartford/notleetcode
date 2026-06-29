@@ -22,3 +22,5 @@ Output: 1011 1111 1111 1111 1111 1111 1111 1111        (3221225471)
 - `0 <= n <= 2^32 - 1`
 - Build the result bit by bit: shift the result left, OR in the lowest bit of `n`,
   then shift `n` right — 32 times.
+
+**Optimal complexity:** O(1)  — fixed 32 iterations

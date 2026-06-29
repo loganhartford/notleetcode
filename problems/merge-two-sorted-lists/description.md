@@ -31,3 +31,5 @@ Output: [0]
 - Each list has `0` to `50` nodes.
 - `-100 <= Node.val <= 100`
 - Both lists are sorted in non-decreasing order.
+
+**Optimal complexity:** O(m + n)  — single pass through both lists

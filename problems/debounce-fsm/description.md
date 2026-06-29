@@ -37,3 +37,5 @@ The lone `1`s and the bounce back to `0` are rejected; only after three steady
 ### Constraints
 - Inputs are `0`/`1`, `threshold >= 1`.
 - `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1) per sample

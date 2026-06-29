@@ -29,3 +29,5 @@ Output: 8
 - `0 <= nums[i] <= n`, all distinct.
 - XOR the indices `0..n` with all the values; everything cancels except the
   missing number. (Or use the sum formula `n(n+1)/2`.)
+
+**Optimal complexity:** O(n)  — XOR cancellation

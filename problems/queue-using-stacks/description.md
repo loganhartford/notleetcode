@@ -29,3 +29,5 @@ empty()       ->  False
 
 The hidden tests drive a sequence of operations and compare the returned values
 (`null` for the void operations).
+
+**Optimal complexity:** O(1) amortized per operation  — lazy transfer between stacks

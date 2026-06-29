@@ -44,3 +44,5 @@ stream: AA 03 10 20 30 00   ->  delivers payload [10 20 30]   (0x10^0x20^0x30 = 
 ### Constraints
 - `LEN` is `0..255`.
 - `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1) per byte  — FSM with fixed work per byte

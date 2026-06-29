@@ -22,3 +22,5 @@ Output: [1]
 - The answer is unique.
 
 The checker is order-independent.
+
+**Optimal complexity:** O(n)  — frequency count then bucket sort by frequency

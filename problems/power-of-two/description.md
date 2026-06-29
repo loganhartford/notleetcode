@@ -32,3 +32,5 @@ round_up_pow2(17) -> 32
 - `is_power_of_two`: `x && !(x & (x - 1))`.
 - `round_up_pow2`: smear the highest set bit down with shifts/ORs, then `+1`.
 - This is `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1)  — single bitwise AND for check; O(1) for round-up (5 OR+shift steps)

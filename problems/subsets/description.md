@@ -25,3 +25,5 @@ Output: [[], [0]]
 - All elements are unique.
 - This is the **backtracking template**: at each index, choose to include the
   element or not.
+
+**Optimal complexity:** O(n · 2ⁿ)  — enumerate all 2ⁿ subsets

@@ -27,3 +27,5 @@ After:  [1, 5, 2, 4, 3]
 - The list has `1` to `5 * 10^4` nodes.
 - `1 <= Node.val <= 1000`
 - Classic approach: find the middle, reverse the second half, then merge the two halves.
+
+**Optimal complexity:** O(n)  — find mid, reverse second half, interleave

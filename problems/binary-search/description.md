@@ -20,3 +20,5 @@ Output: -1
 - `1 <= len(nums) <= 10^4`
 - `-10^4 <= nums[i], target <= 10^4`
 - All integers in `nums` are unique and sorted ascending.
+
+**Optimal complexity:** O(log n)

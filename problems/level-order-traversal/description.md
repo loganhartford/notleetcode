@@ -33,3 +33,5 @@ Output: []
 - `0 <= number of nodes <= 2000`
 - `-1000 <= Node.val <= 1000`
 - This is the BFS template — process the tree one level (queue snapshot) at a time.
+
+**Optimal complexity:** O(n)  — BFS visits each node once

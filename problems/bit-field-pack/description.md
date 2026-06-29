@@ -27,3 +27,5 @@ pack_nibbles(0xFF, 0x3) -> 0xF3   // hi is masked to 0xF
 ### Constraints
 - Work on `uint8_t`.
 - This is `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1)  — bit-shift and mask

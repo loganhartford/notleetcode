@@ -21,3 +21,5 @@ Output: 1
 ### Constraints
 - `2 <= len(height) <= 10^5`
 - `0 <= height[i] <= 10^4`
+
+**Optimal complexity:** O(n)  — two-pointer single pass

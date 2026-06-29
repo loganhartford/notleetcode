@@ -30,3 +30,5 @@ Output: 0
 - `1 <= heights[r][c] <= 10^6`
 
 Dijkstra where the path "cost" is the running maximum edge difference, not a sum.
+
+**Optimal complexity:** O(R·C · log(R·C))  — Dijkstra minimising the max edge on path

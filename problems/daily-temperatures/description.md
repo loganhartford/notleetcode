@@ -23,3 +23,5 @@ Output: [1, 1, 0]
 ### Constraints
 - `1 <= len(temperatures) <= 10^5`
 - `30 <= temperatures[i] <= 100`
+
+**Optimal complexity:** O(n)  — monotonic stack, each element pushed/popped once

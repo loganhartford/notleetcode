@@ -19,3 +19,5 @@ After:  s == ["h","a","n","n","a","H"]
 ### Constraints
 - `1 <= len(s) <= 10^5`
 - `s[i]` is a printable ASCII character.
+
+**Optimal complexity:** O(n)  — two-pointer in-place swap

@@ -25,3 +25,5 @@ Output: [[0, 0, 0]]
 ### Constraints
 - `3 <= len(nums) <= 3000`
 - `-10^5 <= nums[i] <= 10^5`
+
+**Optimal complexity:** O(n²)  — sort then two-pointer scan for each pivot

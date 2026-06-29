@@ -22,3 +22,5 @@ Output: [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
 - `m == len(matrix)`, `n == len(matrix[0])`
 - `1 <= m, n <= 10`
 - `-100 <= matrix[i][j] <= 100`
+
+**Optimal complexity:** O(m·n)  — visits every cell exactly once

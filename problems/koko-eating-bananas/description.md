@@ -28,3 +28,5 @@ Output: 23
 - `1 <= len(piles) <= 10^4`
 - `1 <= piles[i] <= 10^9`
 - `len(piles) <= h <= 10^9`
+
+**Optimal complexity:** O(n · log(max(piles)))  — binary search on speed, O(n) feasibility check

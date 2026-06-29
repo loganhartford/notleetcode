@@ -30,3 +30,5 @@ Output: 3
 - `m == len(grid)`, `n == len(grid[0])`
 - `1 <= m, n <= 300`
 - `grid[i][j]` is `'0'` or `'1'` (strings).
+
+**Optimal complexity:** O(m·n)  — DFS sinks each island cell exactly once

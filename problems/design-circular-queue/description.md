@@ -36,3 +36,5 @@ Rear()      -> 4
 - `1 <= k <= 1000`
 - `0 <= value <= 1000`
 - At most `3000` calls total.
+
+**Optimal complexity:** O(1) per operation

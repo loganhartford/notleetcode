@@ -30,3 +30,5 @@ Output: 1
 - `1 <= len(nums) <= 3 * 10^4`
 - `-3 * 10^4 <= nums[i] <= 3 * 10^4`
 - XOR is its own inverse: `a ^ a == 0`, so XOR-ing everything cancels the pairs.
+
+**Optimal complexity:** O(n)  — XOR cancellation

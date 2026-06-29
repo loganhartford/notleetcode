@@ -30,3 +30,5 @@ Output: 0xDDCCBBAA
 ### Constraints
 - Operate on all 4 bytes with shifts and masks (`0xFF`, `0xFF00`, …).
 - This is `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1)  — four byte-extraction shifts

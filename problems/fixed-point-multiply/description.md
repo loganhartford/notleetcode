@@ -32,3 +32,5 @@ qmul(98304, 131072, 16) -> 196608  (0x00030000 = 3.0)
 - Inputs and the true product fit in the obvious ranges; use `int64_t` for the
   intermediate.
 - `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1)  — single 64-bit multiply and right-shift

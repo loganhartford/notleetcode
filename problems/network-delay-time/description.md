@@ -28,3 +28,5 @@ Output: -1      # node 1 never receives the signal
 - `0 <= w <= 100`
 
 Classic single-source shortest path → **Dijkstra** with a min-heap.
+
+**Optimal complexity:** O((V + E) log V)  — Dijkstra with binary heap

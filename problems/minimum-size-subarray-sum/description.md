@@ -26,3 +26,5 @@ Output: 0
 - `1 <= nums[i] <= 10^4`
 
 > **Note:** signature is `minSubArrayLen(target, nums)` — target first.
+
+**Optimal complexity:** O(n)  — sliding window, each element enters and leaves at most once

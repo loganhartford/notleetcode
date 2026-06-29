@@ -25,3 +25,5 @@ my_memmove(c + 2, c, 4);  // overlapping forward shift -> "ababcd"
 ### Constraints
 - Operate byte-wise (`unsigned char*`); don't call the real `memcpy`/`memmove`.
 - `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(n)  — one copy per byte

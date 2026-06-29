@@ -25,3 +25,5 @@ Output: [[0,0,0],[0,0,0]]      # already that color — no change, no infinite l
 - `0 <= sr < m`, `0 <= sc < n`
 
 Watch the case where the start pixel already equals `color` — don't loop forever.
+
+**Optimal complexity:** O(m·n)  — DFS visits each cell at most once

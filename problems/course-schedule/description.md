@@ -22,3 +22,5 @@ Output: False      # 0 and 1 depend on each other
 - `1 <= numCourses <= 2000`
 - `0 <= len(prerequisites) <= 5000`
 - `prerequisites[i].length == 2`, all pairs distinct.
+
+**Optimal complexity:** O(V + E)  — Kahn's topological sort

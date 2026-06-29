@@ -29,3 +29,5 @@ Output: [1]
 - The list has `sz` nodes, `1 <= sz <= 30`.
 - `1 <= n <= sz`
 - Try to do it in **one pass** (two pointers, n apart).
+
+**Optimal complexity:** O(n)  — two-pointer single pass

@@ -33,3 +33,5 @@ Output: 0       # no fresh oranges at the start
 - `grid[i][j]` is `0`, `1`, or `2`.
 
 This is a **multi-source BFS** — start from every rotten orange at minute 0.
+
+**Optimal complexity:** O(m·n)  — multi-source BFS from all initially rotten cells

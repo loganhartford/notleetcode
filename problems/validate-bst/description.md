@@ -33,3 +33,5 @@ Output: False      # 3 is in the right subtree of 5 but 3 < 5
 - `1 <= number of nodes <= 10^4`
 - The classic bug is comparing only against the parent; carry **min/max bounds**
   down the recursion instead.
+
+**Optimal complexity:** O(n)  — DFS with valid-range propagation

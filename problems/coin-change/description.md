@@ -31,3 +31,5 @@ Output: 0
 - `1 <= coins[i] <= 2^31 - 1`
 - `0 <= amount <= 10^4`
 - Unbounded-knapsack DP: `dp[a] = 1 + min(dp[a - c])` over coins `c <= a`.
+
+**Optimal complexity:** O(amount · |coins|)  — bottom-up DP

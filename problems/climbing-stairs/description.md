@@ -25,3 +25,5 @@ Output: 8
 ### Constraints
 - `1 <= n <= 45`
 - This is the DP intro: `ways(n) = ways(n-1) + ways(n-2)` — it's Fibonacci.
+
+**Optimal complexity:** O(n)  — rolling Fibonacci DP

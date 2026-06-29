@@ -38,3 +38,5 @@ update(setpoint=10, measurement=0)  -> 16.0
 - Use the exact formula above so results are reproducible.
 - `[author]`-defined robotics practice; the checker allows a tiny float
   tolerance.
+
+**Optimal complexity:** O(1) per update step

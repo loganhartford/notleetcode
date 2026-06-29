@@ -30,3 +30,5 @@ getMin()          ->  -2
 
 The hidden tests drive a sequence of operations and compare the returned values
 (`null` for the void operations).
+
+**Optimal complexity:** O(1) per operation  — parallel min stack

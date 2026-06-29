@@ -47,3 +47,5 @@ start = [0, 0], goal = [1, 1]
 - `1 <= rows, cols <= 200`
 - Entry costs are `0..1000`, or `-1` for an obstacle.
 - This is `[author]`-defined: there is no LeetCode equivalent.
+
+**Optimal complexity:** O(R·C · log(R·C))  — Dijkstra with binary heap

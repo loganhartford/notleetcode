@@ -23,3 +23,5 @@ Output: True
 ### Constraints
 - `1 <= len(nums) <= 10^5`
 - `-10^9 <= nums[i] <= 10^9`
+
+**Optimal complexity:** O(n)  — hash set

@@ -31,3 +31,5 @@ Output: False
 - The list has `0` to `10^4` nodes.
 - `-10^5 <= Node.val <= 10^5`
 - Solve it with **O(1)** extra memory (Floyd's tortoise and hare).
+
+**Optimal complexity:** O(n)  — Floyd's slow/fast pointer

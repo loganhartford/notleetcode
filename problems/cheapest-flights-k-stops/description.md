@@ -32,3 +32,5 @@ Output: 500      # only the direct flight is allowed
 - `1 <= price <= 10^4`
 
 Bellman-Ford for exactly `k+1` relaxations is the clean approach.
+
+**Optimal complexity:** O(k · E)  — Bellman-Ford limited to k+1 relaxation rounds

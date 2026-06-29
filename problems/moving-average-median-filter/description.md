@@ -29,3 +29,5 @@ MedianFilter(3):  next(1)=1.0, next(2)=1.5, next(3)=2.0, next(7)=3.0   # median(
 ### Notes
 - While the window isn't full yet, filter over however many samples you have.
 - `[author]`-defined robotics practice; small float tolerance allowed.
+
+**Optimal complexity:** O(k) per MovingAverage step · O(k log k) per MedianFilter step  (k = window)

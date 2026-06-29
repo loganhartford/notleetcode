@@ -28,3 +28,5 @@ Output: [["a"]]
 - `strs[i]` consists of lowercase English letters.
 
 The checker is order-independent: groups and the strings within them may be in any order.
+
+**Optimal complexity:** O(n · k log k)  — sort each string of average length k as hash key

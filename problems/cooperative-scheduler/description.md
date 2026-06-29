@@ -47,3 +47,5 @@ run 6 ticks:
 ### Constraints
 - At most 16 tasks; periods are `>= 1`.
 - `[author]`-defined firmware practice.
+
+**Optimal complexity:** O(1) sched_add · O(T) sched_tick  — iterates all T registered tasks each tick

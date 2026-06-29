@@ -38,3 +38,5 @@ Output: None
 
 The checker verifies the clone has the **same structure** and that **no node is
 shared** with the original (a true deep copy).
+
+**Optimal complexity:** O(V + E)  — DFS visits every node and edge once

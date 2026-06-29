@@ -26,3 +26,5 @@ Output: [0, 1]
 - `2 <= len(nums) <= 10^4`
 - `-10^9 <= nums[i] <= 10^9`
 - Exactly one valid answer exists.
+
+**Optimal complexity:** O(n)  — hash map single pass

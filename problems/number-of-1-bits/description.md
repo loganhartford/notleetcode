@@ -28,3 +28,5 @@ Output: 31
 - `0 <= n <= 2^32 - 1`
 - Bonus: the `n &= n - 1` trick clears the lowest set bit each iteration, so the
   loop runs once per set bit.
+
+**Optimal complexity:** O(k)  — one iteration per set bit (Brian Kernighan)

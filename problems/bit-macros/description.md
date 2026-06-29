@@ -30,3 +30,5 @@ TOGGLE_BIT(r, 5);   // r == 1
 ### Constraints
 - Operate on `uint32_t` registers.
 - This is `[author]`-defined firmware practice — no LeetCode equivalent.
+
+**Optimal complexity:** O(1)  — single bit-shift or mask per macro

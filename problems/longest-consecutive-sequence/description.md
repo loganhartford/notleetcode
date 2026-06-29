@@ -27,3 +27,5 @@ Output: 0
 ### Constraints
 - `0 <= len(nums) <= 10^5`
 - `-10^9 <= nums[i] <= 10^9`
+
+**Optimal complexity:** O(n)  — hash set; each run traversed exactly once

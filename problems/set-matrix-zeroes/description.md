@@ -28,3 +28,5 @@ After:  [[0,0,0,0],
 - `m == len(matrix)`, `n == len(matrix[0])`
 - `1 <= m, n <= 200`
 - `-2^31 <= matrix[i][j] <= 2^31 - 1`
+
+**Optimal complexity:** O(m·n)  — two passes through the matrix

@@ -27,3 +27,5 @@ point_in_polygon(concave, (1, 1)) -> True
 - Query points are **strictly interior or strictly exterior** (the checker avoids
   exact boundary/vertex cases, where the convention is ambiguous).
 - `[author]`-defined robotics practice.
+
+**Optimal complexity:** O(n)  — ray-casting across all n polygon edges

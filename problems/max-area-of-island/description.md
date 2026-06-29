@@ -31,3 +31,5 @@ Output: 0
 - `m == len(grid)`, `n == len(grid[0])`
 - `1 <= m, n <= 50`
 - `grid[i][j]` is `0` or `1`.
+
+**Optimal complexity:** O(m·n)  — DFS, each cell visited at most once

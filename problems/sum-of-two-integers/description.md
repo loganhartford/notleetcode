@@ -29,3 +29,5 @@ Output: 0
 - Use bit operations: `a ^ b` is the sum without carry; `(a & b) << 1` is the
   carry. Repeat until the carry is zero. (Do the carry math on `unsigned` to keep
   the shifts well-defined.)
+
+**Optimal complexity:** O(1)  — at most 32 carry-propagation iterations

@@ -29,3 +29,5 @@ Output: 3
 - `1 <= weights[i] <= 500`
 
 Packages must ship in order; the capacity is at least `max(weights)` and at most `sum(weights)`.
+
+**Optimal complexity:** O(n · log(sum(weights)))  — binary search on capacity, O(n) feasibility check

@@ -25,3 +25,5 @@ Output: 16
 - Each value in `grid` is unique.
 
 Dijkstra/heap where a path's cost is the **maximum elevation** seen along it.
+
+**Optimal complexity:** O(n² · log n)  — Dijkstra minimising maximum elevation seen

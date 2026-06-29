@@ -28,3 +28,5 @@ Output: [1, 2]
 - `2 <= len(numbers) <= 3 * 10^4`
 - `numbers` is sorted non-decreasing.
 - Exactly one solution exists.
+
+**Optimal complexity:** O(n)  — two-pointer on sorted array

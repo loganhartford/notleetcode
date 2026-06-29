@@ -29,3 +29,5 @@ no more than `step` apart. For an unsolvable map it requires `None`.
 
 ### Notes
 - `[author]`-defined robotics practice; this is the stretch problem of the set.
+
+**Optimal complexity:** O(k · n)  — k iterations, each with O(n) nearest-neighbour scan

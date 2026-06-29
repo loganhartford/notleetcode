@@ -23,3 +23,5 @@ Output: 23
 ### Constraints
 - `1 <= len(nums) <= 10^5`
 - `-10^4 <= nums[i] <= 10^4`
+
+**Optimal complexity:** O(n)  — Kadane's algorithm

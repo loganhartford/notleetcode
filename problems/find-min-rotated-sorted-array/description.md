@@ -26,3 +26,5 @@ Output: 11
 - `1 <= len(nums) <= 5000`
 - `-5000 <= nums[i] <= 5000`
 - All integers are unique.
+
+**Optimal complexity:** O(log n)  — binary search

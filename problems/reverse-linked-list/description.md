@@ -29,3 +29,5 @@ Output: []
 - The list has `0` to `5000` nodes.
 - `-5000 <= Node.val <= 5000`
 - Do it in place; aim for O(n) time, O(1) extra space.
+
+**Optimal complexity:** O(n)  — single-pass in-place reversal

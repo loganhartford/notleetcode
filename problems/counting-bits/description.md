@@ -21,3 +21,5 @@ Output: [0, 1, 1, 2, 1, 2]
 ### Constraints
 - `0 <= n <= 10^5`
 - Bonus: `ans[i] = ans[i >> 1] + (i & 1)` gives an O(n) one-pass DP.
+
+**Optimal complexity:** O(n)  — each ans[i] derived from ans[i>>1] in O(1)

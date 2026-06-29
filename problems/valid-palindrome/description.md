@@ -25,3 +25,5 @@ Output: True        # empty string after filtering reads the same both ways
 ### Constraints
 - `1 <= len(s) <= 2 * 10^5`
 - `s` consists of printable ASCII characters.
+
+**Optimal complexity:** O(n)  — two-pointer single pass

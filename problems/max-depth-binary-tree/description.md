@@ -32,3 +32,5 @@ Output: 0
 ### Constraints
 - `0 <= number of nodes <= 10^4`
 - `-100 <= Node.val <= 100`
+
+**Optimal complexity:** O(n)  — visits every node once

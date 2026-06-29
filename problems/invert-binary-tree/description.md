@@ -35,3 +35,5 @@ Output: []
 ### Constraints
 - `0 <= number of nodes <= 100`
 - `-100 <= Node.val <= 100`
+
+**Optimal complexity:** O(n)  — post-order DFS visits every node

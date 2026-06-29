@@ -30,3 +30,5 @@ Output: 5
 - `1 <= len(nums) <= 100`
 - `0 <= nums[i] <= 400`
 - DP: `best(i) = max(best(i-1), best(i-2) + nums[i])`.
+
+**Optimal complexity:** O(n)  — rolling DP

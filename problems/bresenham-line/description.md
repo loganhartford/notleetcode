@@ -30,3 +30,5 @@ line_of_sight(grid, (0,0), (2,0)) -> True
 ### Constraints
 - Coordinates are non-negative integers within the grid.
 - `[author]`-defined robotics practice.
+
+**Optimal complexity:** O(max(|dx|, |dy|))  — one step per output pixel

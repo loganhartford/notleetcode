@@ -19,3 +19,5 @@ Output: 0        # prices only fall — no profitable trade
 ### Constraints
 - `1 <= len(prices) <= 10^5`
 - `0 <= prices[i] <= 10^4`
+
+**Optimal complexity:** O(n)

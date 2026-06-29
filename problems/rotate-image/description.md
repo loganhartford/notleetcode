@@ -30,3 +30,5 @@ After:  [[15,13,2,5],
 - `n == len(matrix) == len(matrix[i])`
 - `1 <= n <= 20`
 - `-1000 <= matrix[i][j] <= 1000`
+
+**Optimal complexity:** O(n²)  — transpose then reverse each row in-place
