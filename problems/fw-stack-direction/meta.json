@@ -1,0 +1,13 @@
+{
+  "id": "fw-stack-direction",
+  "title": "Detect Stack Growth Direction",
+  "phase": 6,
+  "phaseName": "Arrays & DS",
+  "difficulty": "Easy",
+  "tags": ["pointers", "memory"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 38,
+  "authored": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "fw-reverse-cstr",
+  "title": "Reverse a C String In Place",
+  "phase": 1,
+  "phaseName": "Warmup",
+  "difficulty": "Easy",
+  "tags": ["pointers", "strings"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 3,
+  "authored": true
+}

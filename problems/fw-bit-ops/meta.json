@@ -1,0 +1,13 @@
+{
+  "id": "fw-bit-ops",
+  "title": "Set, Clear, Toggle, and Test a Bit",
+  "phase": 1,
+  "phaseName": "Warmup",
+  "difficulty": "Easy",
+  "tags": ["bit-manipulation", "registers"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 1,
+  "authored": true
+}

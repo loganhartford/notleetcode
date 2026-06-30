@@ -1,0 +1,13 @@
+{
+  "id": "fw-pool-alloc",
+  "title": "Static Memory Pool Allocator",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Hard",
+  "tags": ["memory", "alignment"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 12,
+  "authored": true
+}

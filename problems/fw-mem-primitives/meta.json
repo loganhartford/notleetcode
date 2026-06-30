@@ -1,0 +1,13 @@
+{
+  "id": "fw-mem-primitives",
+  "title": "Implement memcpy, memmove, and memset",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Medium",
+  "tags": ["memory", "pointers", "libc"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 8,
+  "authored": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "fw-mmio-rw",
+  "title": "MMIO Read/Write with Validation",
+  "phase": 6,
+  "phaseName": "Arrays & DS",
+  "difficulty": "Medium",
+  "tags": ["registers", "alignment", "memory"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 33,
+  "authored": true
+}

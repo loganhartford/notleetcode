@@ -1,0 +1,13 @@
+{
+  "id": "fw-pow2-check",
+  "title": "Power-of-Two Check",
+  "phase": 1,
+  "phaseName": "Warmup",
+  "difficulty": "Easy",
+  "tags": ["bit-manipulation"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 2,
+  "authored": true
+}

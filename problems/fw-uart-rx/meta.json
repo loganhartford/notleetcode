@@ -1,0 +1,13 @@
+{
+  "id": "fw-uart-rx",
+  "title": "ISR-Safe UART RX Buffer",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Hard",
+  "tags": ["ring-buffer", "isr", "concurrency"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 11,
+  "authored": true
+}

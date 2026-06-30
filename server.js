@@ -373,6 +373,7 @@ const server = http.createServer(async (req, res) => {
         defaultLanguage: m.defaultLanguage || (m.languages && m.languages[0]) || 'python',
         stackIndex: m.stackIndex,
         authored: !!m.authored,
+        tab: m.tab || 'general',
         status: (progress[m.id] && progress[m.id].status) || 'todo',
         flagged: !!(progress[m.id] && progress[m.id].flagged),
       }));

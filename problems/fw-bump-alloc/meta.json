@@ -1,0 +1,13 @@
+{
+  "id": "fw-bump-alloc",
+  "title": "Aligned Bump Allocator",
+  "phase": 4,
+  "phaseName": "Memory & Math",
+  "difficulty": "Hard",
+  "tags": ["memory", "alignment"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 17,
+  "authored": true
+}

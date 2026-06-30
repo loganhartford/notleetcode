@@ -1,0 +1,13 @@
+{
+  "id": "fw-gpio-debounce",
+  "title": "GPIO Debouncer with Timestamps",
+  "phase": 4,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": ["state-machine", "timer"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 21,
+  "authored": true
+}

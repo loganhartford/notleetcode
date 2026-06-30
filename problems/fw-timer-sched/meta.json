@@ -1,0 +1,13 @@
+{
+  "id": "fw-timer-sched",
+  "title": "Wraparound-Safe Software Timer Scheduler",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Hard",
+  "tags": ["timer", "concurrency"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 14,
+  "authored": true
+}

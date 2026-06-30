@@ -1,0 +1,13 @@
+{
+  "id": "fw-event-queue",
+  "title": "Producer/Consumer Event Queue",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Medium",
+  "tags": ["ring-buffer", "concurrency"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 13,
+  "authored": true
+}

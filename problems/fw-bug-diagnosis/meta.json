@@ -1,0 +1,13 @@
+{
+  "id": "fw-bug-diagnosis",
+  "title": "C Bug Snippet Diagnosis",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Medium",
+  "tags": ["registers", "bit-manipulation", "pointers", "memory"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 37,
+  "authored": true
+}

@@ -3,9 +3,31 @@
 // ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
-let problems = [];        // ordered list from /api/problems
+let problems = [];        // all problems from /api/problems (every tab)
 let current = null;       // full problem object
 let currentLang = null;
+let activeTab = localStorage.getItem('nlc-tab') || 'general';
+
+function tabProblems() {
+  // Order by phase, then stackIndex, so the sidebar's phase grouping never
+  // emits a duplicate section header (a problem whose stackIndex puts it out
+  // of phase order would otherwise re-open an already-closed section).
+  return problems
+    .filter((p) => (p.tab || 'general') === activeTab)
+    .sort((a, b) => (a.phase - b.phase) || (a.stackIndex - b.stackIndex));
+}
+
+function setTab(tab) {
+  activeTab = tab;
+  localStorage.setItem('nlc-tab', tab);
+  document.querySelectorAll('.tab-btn').forEach((b) =>
+    b.classList.toggle('active', b.dataset.tab === tab));
+  renderSidebar();
+  renderOverall();
+  const list = tabProblems();
+  const first = list.find((p) => p.status !== 'solved') || list[0];
+  if (first) openProblem(first.id);
+}
 let editor = null;
 let saveTimer = null;
 let lastSavedCode = '';
@@ -55,11 +77,29 @@ async function init() {
   wireButtons();
   await loadProblems();
 
-  // Open last-opened (from hash) or first unsolved.
+  // Restore active tab UI state.
+  document.querySelectorAll('.tab-btn').forEach((b) =>
+    b.classList.toggle('active', b.dataset.tab === activeTab));
+
+  // Open last-opened (from hash) or first unsolved in active tab.
   const fromHash = location.hash.slice(1);
   let target = problems.find((p) => p.id === fromHash);
-  if (!target) target = problems.find((p) => p.status !== 'solved') || problems[0];
+  if (target) {
+    // Switch to the tab that owns this problem.
+    const ownerTab = target.tab || 'general';
+    if (ownerTab !== activeTab) {
+      activeTab = ownerTab;
+      localStorage.setItem('nlc-tab', activeTab);
+      document.querySelectorAll('.tab-btn').forEach((b) =>
+        b.classList.toggle('active', b.dataset.tab === activeTab));
+    }
+  } else {
+    const list = tabProblems();
+    target = list.find((p) => p.status !== 'solved') || list[0];
+  }
   if (target) await openProblem(target.id);
+  renderSidebar();
+  renderOverall();
 }
 
 function wireButtons() {
@@ -71,6 +111,9 @@ function wireButtons() {
   document.getElementById('toggle-solution').onclick = toggleSolution;
   document.getElementById('flag-btn').onclick = toggleFlag;
   document.getElementById('copy-btn').onclick = copyForLLM;
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.onclick = () => setTab(btn.dataset.tab);
+  });
 }
 
 async function copyForLLM() {
@@ -125,7 +168,7 @@ function renderSidebar() {
   const host = document.getElementById('problem-list');
   host.innerHTML = '';
   let lastPhase = null;
-  for (const p of problems) {
+  for (const p of tabProblems()) {
     if (p.phase !== lastPhase) {
       lastPhase = p.phase;
       const label = document.createElement('div');
@@ -148,10 +191,11 @@ function renderSidebar() {
 }
 
 function renderOverall() {
-  const solved = problems.filter((p) => p.status === 'solved').length;
-  const attempted = problems.filter((p) => p.status === 'attempted').length;
+  const list = tabProblems();
+  const solved = list.filter((p) => p.status === 'solved').length;
+  const attempted = list.filter((p) => p.status === 'attempted').length;
   document.getElementById('overall-progress').textContent =
-    `${solved} solved · ${attempted} in progress · ${problems.length} total`;
+    `${solved} solved · ${attempted} in progress · ${list.length} total`;
 }
 
 function highlightActive() {
@@ -425,8 +469,9 @@ function clearResults() {
 // ---------------------------------------------------------------------------
 function navigate(dir) {
   if (!current) return;
-  const idx = problems.findIndex((p) => p.id === current.id);
-  const next = problems[idx + dir];
+  const list = tabProblems();
+  const idx = list.findIndex((p) => p.id === current.id);
+  const next = list[idx + dir];
   if (next) openProblem(next.id);
 }
 

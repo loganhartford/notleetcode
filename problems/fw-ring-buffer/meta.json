@@ -1,0 +1,13 @@
+{
+  "id": "fw-ring-buffer",
+  "title": "Ring Buffer with Full Flag",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Medium",
+  "tags": ["ring-buffer", "memory"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 7,
+  "authored": true
+}

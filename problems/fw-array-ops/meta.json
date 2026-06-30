@@ -1,0 +1,13 @@
+{
+  "id": "fw-array-ops",
+  "title": "Reverse and Rotate an Array",
+  "phase": 6,
+  "phaseName": "Arrays & DS",
+  "difficulty": "Easy",
+  "tags": ["arrays", "pointers"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 30,
+  "authored": true
+}

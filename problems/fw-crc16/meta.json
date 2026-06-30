@@ -1,0 +1,13 @@
+{
+  "id": "fw-crc16",
+  "title": "CRC-16/CCITT-FALSE",
+  "phase": 4,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": ["crc", "protocols"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 20,
+  "authored": true
+}

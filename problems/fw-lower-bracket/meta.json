@@ -1,0 +1,13 @@
+{
+  "id": "fw-lower-bracket",
+  "title": "Binary Search: Lower Bracket Index",
+  "phase": 6,
+  "phaseName": "Arrays & DS",
+  "difficulty": "Easy",
+  "tags": ["arrays", "search", "calibration"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 32,
+  "authored": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "fw-bswap",
+  "title": "Byte Swap 16 and 32",
+  "phase": 1,
+  "phaseName": "Warmup",
+  "difficulty": "Easy",
+  "tags": ["endianness", "bit-manipulation"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 4,
+  "authored": true
+}

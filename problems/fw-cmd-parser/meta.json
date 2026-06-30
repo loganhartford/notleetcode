@@ -1,0 +1,13 @@
+{
+  "id": "fw-cmd-parser",
+  "title": "Command Line Tokenizer",
+  "phase": 4,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": ["strings", "parsing"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 22,
+  "authored": true
+}

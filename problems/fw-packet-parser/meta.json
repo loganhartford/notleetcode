@@ -1,0 +1,13 @@
+{
+  "id": "fw-packet-parser",
+  "title": "Byte-Stream Packet Parser",
+  "phase": 2,
+  "phaseName": "Core Firmware",
+  "difficulty": "Medium",
+  "tags": ["state-machine", "parser", "protocols"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 10,
+  "authored": true
+}

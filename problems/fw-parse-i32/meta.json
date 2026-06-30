@@ -1,0 +1,13 @@
+{
+  "id": "fw-parse-i32",
+  "title": "Parse Integer with Overflow Detection",
+  "phase": 4,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": ["strings", "parsing"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 18,
+  "authored": true
+}

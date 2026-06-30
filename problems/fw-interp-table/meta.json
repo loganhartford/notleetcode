@@ -1,0 +1,13 @@
+{
+  "id": "fw-interp-table",
+  "title": "Piecewise Linear Interpolation",
+  "phase": 4,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": ["fixed-point", "arrays", "calibration"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 24,
+  "authored": true
+}

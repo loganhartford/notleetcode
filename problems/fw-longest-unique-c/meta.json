@@ -1,0 +1,13 @@
+{
+  "id": "fw-longest-unique-c",
+  "title": "Longest Unique Substring (ASCII)",
+  "phase": 6,
+  "phaseName": "Arrays & DS",
+  "difficulty": "Medium",
+  "tags": ["strings", "ds-subset"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 35,
+  "authored": true
+}
