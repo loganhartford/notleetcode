@@ -1,0 +1,13 @@
+{
+  "id": "rob-lane-crossing",
+  "title": "Lane Crossing Simulation",
+  "phase": 3,
+  "phaseName": "AV Simulation",
+  "difficulty": "Hard",
+  "tags": ["bfs", "simulation", "dp"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 4,
+  "authored": true
+}

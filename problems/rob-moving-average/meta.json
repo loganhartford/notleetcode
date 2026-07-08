@@ -1,0 +1,13 @@
+{
+  "id": "rob-moving-average",
+  "title": "Moving Average from Data Stream",
+  "phase": 1,
+  "phaseName": "Warm Up",
+  "difficulty": "Easy",
+  "tags": ["queue", "design"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 1,
+  "authored": true
+}

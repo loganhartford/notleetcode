@@ -3,6 +3,14 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+typedef struct {
+    uint8_t *buf;
+    size_t capacity;
+    size_t head;
+    size_t tail;
+    bool full;
+} ringbuf_t;
+
 void rb_init(ringbuf_t *rb, uint8_t *storage, size_t capacity) {
     rb->buf      = storage;
     rb->capacity = capacity;

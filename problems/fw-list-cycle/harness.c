@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct node { struct node *next; int value; } node_t;
-
 #include "nlc.h"
 #include "solution.c"
 

@@ -1,0 +1,13 @@
+{
+  "id": "rob-merge-intervals",
+  "title": "Merge Intervals",
+  "phase": 1,
+  "phaseName": "Warm Up",
+  "difficulty": "Medium",
+  "tags": ["intervals", "sorting"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 2,
+  "authored": true
+}

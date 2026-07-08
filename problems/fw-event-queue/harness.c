@@ -4,14 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct { uint16_t id; uint32_t arg; } event_t;
-typedef struct {
-    event_t *buf;
-    size_t   capacity;
-    size_t   head;
-    size_t   count;
-} event_queue_t;
-
 #include "nlc.h"
 #include "solution.c"
 

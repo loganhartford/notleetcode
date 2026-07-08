@@ -1,0 +1,13 @@
+{
+  "id": "rob-lca-binary-tree",
+  "title": "Lowest Common Ancestor of Binary Tree",
+  "phase": 5,
+  "phaseName": "Streams & Trees",
+  "difficulty": "Medium",
+  "tags": ["binary tree", "recursion"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 11,
+  "authored": true
+}

@@ -1,6 +1,9 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+
+typedef struct node { struct node *next; int value; } node_t;
+
 void list_push_front(node_t **head, node_t *node) {
     // TODO
 }

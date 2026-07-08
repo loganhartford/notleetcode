@@ -1,0 +1,13 @@
+{
+  "id": "rob-point-in-fov",
+  "title": "Point in Field of View",
+  "phase": 8,
+  "phaseName": "AV Geometry",
+  "difficulty": "Medium",
+  "tags": ["geometry", "sensors"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 20,
+  "authored": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "rob-k-closest-points",
+  "title": "K Closest Points to Origin",
+  "phase": 5,
+  "phaseName": "Streams & Trees",
+  "difficulty": "Medium",
+  "tags": ["heap", "geometry"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 10,
+  "authored": true
+}

@@ -1,6 +1,9 @@
 // Time: O(m+n) — single pass through both lists
 #include <stddef.h>
 
+
+typedef struct node { struct node *next; int value; } node_t;
+
 node_t *list_merge_sorted(node_t *a, node_t *b) {
     node_t dummy = {NULL, 0};
     node_t *tail = &dummy;

@@ -1,0 +1,13 @@
+{
+  "id": "rob-lru-cache",
+  "title": "LRU Cache",
+  "phase": 4,
+  "phaseName": "Classic Design",
+  "difficulty": "Medium",
+  "tags": ["hash map", "linked list", "design"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 5,
+  "authored": true
+}

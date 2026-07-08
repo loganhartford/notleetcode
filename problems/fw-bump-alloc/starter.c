@@ -1,6 +1,13 @@
 #include <stdint.h>
 #include <stddef.h>
 
+
+typedef struct {
+    uint8_t *base;
+    size_t   size;
+    size_t   offset;
+} bump_alloc_t;
+
 void bump_init(bump_alloc_t *a, void *storage, size_t size) {
     // TODO
 }

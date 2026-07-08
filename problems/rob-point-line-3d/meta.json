@@ -1,0 +1,13 @@
+{
+  "id": "rob-point-line-3d",
+  "title": "Point to Line Distance 3D",
+  "phase": 8,
+  "phaseName": "AV Geometry",
+  "difficulty": "Medium",
+  "tags": ["geometry", "linear algebra"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 18,
+  "authored": true
+}

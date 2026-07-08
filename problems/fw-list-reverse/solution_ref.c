@@ -1,6 +1,9 @@
 // Time: O(n) — single pass relinking nodes in place
 #include <stddef.h>
 
+
+typedef struct node { struct node *next; int value; } node_t;
+
 node_t *list_reverse(node_t *head) {
     node_t *prev = NULL;
     node_t *cur  = head;

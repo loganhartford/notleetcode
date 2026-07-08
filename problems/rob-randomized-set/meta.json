@@ -1,0 +1,13 @@
+{
+  "id": "rob-randomized-set",
+  "title": "Randomized Set O(1)",
+  "phase": 4,
+  "phaseName": "Classic Design",
+  "difficulty": "Medium",
+  "tags": ["hash map", "array", "design"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 8,
+  "authored": true
+}

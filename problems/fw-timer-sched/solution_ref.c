@@ -3,6 +3,21 @@
 #include <stdbool.h>
 #include <string.h>
 
+
+#define TS_MAX_TIMERS 8
+typedef void (*timer_cb_t)(void *ctx);
+typedef struct {
+    bool       active;
+    bool       periodic;
+    uint32_t   deadline;
+    uint32_t   period;
+    timer_cb_t cb;
+    void      *ctx;
+} timer_slot_t;
+typedef struct {
+    timer_slot_t slots[TS_MAX_TIMERS];
+} timer_sched_t;
+
 void ts_init(timer_sched_t *ts) {
     memset(ts, 0, sizeof *ts);
 }

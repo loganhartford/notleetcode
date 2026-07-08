@@ -3,6 +3,17 @@
 #include <stddef.h>
 #include <string.h>
 
+
+typedef enum { PARSER_NONE=0, PARSER_PACKET, PARSER_ERROR } parser_result_t;
+#define PARSER_MAX_PAYLOAD 64
+typedef struct {
+    int     state;
+    uint8_t len;
+    uint8_t idx;
+    uint8_t buf[PARSER_MAX_PAYLOAD];
+    uint8_t cksum;
+} parser_t;
+
 #define WAIT_START  0
 #define READ_LEN    1
 #define READ_PAYLOAD 2

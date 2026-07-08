@@ -4,14 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    uint8_t *buf;
-    size_t capacity;
-    size_t head;
-    size_t tail;
-    bool full;
-} ringbuf_t;
-
 #include "nlc.h"
 #include "solution.c"
 

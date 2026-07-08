@@ -1,0 +1,13 @@
+{
+  "id": "rob-swept-aabb",
+  "title": "Swept AABB Collision",
+  "phase": 8,
+  "phaseName": "AV Geometry",
+  "difficulty": "Hard",
+  "tags": ["geometry", "simulation", "collision"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 19,
+  "authored": true
+}

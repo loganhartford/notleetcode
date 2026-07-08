@@ -1,0 +1,13 @@
+{
+  "id": "rob-polygon-area",
+  "title": "Polygon Area (Shoelace)",
+  "phase": 8,
+  "phaseName": "AV Geometry",
+  "difficulty": "Medium",
+  "tags": ["geometry", "math"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 17,
+  "authored": true
+}

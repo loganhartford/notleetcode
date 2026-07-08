@@ -1,0 +1,13 @@
+{
+  "id": "rob-dependency-order",
+  "title": "Module Dependency Order",
+  "phase": 4,
+  "phaseName": "Classic Design",
+  "difficulty": "Medium",
+  "tags": ["graph", "topological sort"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 6,
+  "authored": true
+}

@@ -1,0 +1,13 @@
+{
+  "id": "rob-thread-safe-queue",
+  "title": "Thread-Safe Bounded Queue",
+  "phase": 6,
+  "phaseName": "Systems",
+  "difficulty": "Hard",
+  "tags": ["concurrency", "design", "queue"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 14,
+  "authored": true
+}

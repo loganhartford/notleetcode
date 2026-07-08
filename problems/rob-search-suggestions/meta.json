@@ -1,0 +1,13 @@
+{
+  "id": "rob-search-suggestions",
+  "title": "Search Suggestions System",
+  "phase": 4,
+  "phaseName": "Classic Design",
+  "difficulty": "Medium",
+  "tags": ["trie", "sorting", "string"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 7,
+  "authored": true
+}

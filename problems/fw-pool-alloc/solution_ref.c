@@ -4,6 +4,14 @@
 #include <stdint.h>
 #include <string.h>
 
+
+typedef struct {
+    void  *free_list;
+    size_t block_size;
+    size_t free_count;
+    size_t total;
+} pool_t;
+
 bool pool_init(pool_t *pool, void *storage, size_t storage_size, size_t block_size) {
     if (block_size < sizeof(void *)) return false;
     if (storage_size < block_size)   return false;

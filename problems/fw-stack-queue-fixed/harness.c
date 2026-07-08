@@ -4,10 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct { int32_t *buf; size_t cap; size_t count; } fwstack_t;
-#define FW_QUEUE_CAP 16
-typedef struct { int32_t buf[FW_QUEUE_CAP]; size_t head; size_t count; } queue32_t;
-
 #include "nlc.h"
 #include "solution.c"
 

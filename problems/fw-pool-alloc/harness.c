@@ -4,13 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    void  *free_list;
-    size_t block_size;
-    size_t free_count;
-    size_t total;
-} pool_t;
-
 #include "nlc.h"
 #include "solution.c"
 

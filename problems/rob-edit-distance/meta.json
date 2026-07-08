@@ -1,0 +1,13 @@
+{
+  "id": "rob-edit-distance",
+  "title": "Edit Distance",
+  "phase": 7,
+  "phaseName": "Dynamic Programming",
+  "difficulty": "Hard",
+  "tags": ["dynamic programming"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 16,
+  "authored": true
+}

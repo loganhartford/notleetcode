@@ -1,0 +1,13 @@
+{
+  "id": "rob-sliding-window-max",
+  "title": "Sliding Window Maximum",
+  "phase": 5,
+  "phaseName": "Streams & Trees",
+  "difficulty": "Hard",
+  "tags": ["monotonic deque", "sliding window"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 9,
+  "authored": true
+}

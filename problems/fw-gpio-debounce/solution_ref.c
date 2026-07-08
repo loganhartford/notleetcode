@@ -2,6 +2,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+
+typedef enum { DB_NONE=0, DB_RISING, DB_FALLING } db_event_t;
+typedef struct {
+    bool     stable;
+    bool     pending;
+    uint32_t pending_start;
+    uint32_t debounce_ms;
+} debounce_t;
+
 void db_init(debounce_t *d, bool initial_level, uint32_t debounce_ms) {
     d->stable        = initial_level;
     d->pending       = initial_level;

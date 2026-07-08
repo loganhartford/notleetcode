@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct { int32_t x; int32_t y; } point_t;
-
 #include "nlc.h"
 #include "solution.c"
 

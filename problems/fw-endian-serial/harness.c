@@ -4,14 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    uint32_t device_id;
-    int16_t  temperature_q8_8;
-    uint16_t millivolts;
-    uint8_t  flags;
-} sensor_msg_t;
-#define SENSOR_MSG_WIRE_LEN 9
-
 #include "nlc.h"
 #include "solution.c"
 

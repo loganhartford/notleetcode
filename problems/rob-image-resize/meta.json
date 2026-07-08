@@ -1,0 +1,13 @@
+{
+  "id": "rob-image-resize",
+  "title": "Image Resize — Nearest Neighbor",
+  "phase": 6,
+  "phaseName": "Systems",
+  "difficulty": "Medium",
+  "tags": ["matrix", "image processing"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 13,
+  "authored": true
+}

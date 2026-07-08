@@ -1,0 +1,13 @@
+{
+  "id": "rob-shortest-path-binary-grid",
+  "title": "Shortest Path in Binary Occupancy Grid",
+  "phase": 2,
+  "phaseName": "Grid Planning",
+  "difficulty": "Medium",
+  "tags": ["bfs", "grid"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 3,
+  "authored": true
+}

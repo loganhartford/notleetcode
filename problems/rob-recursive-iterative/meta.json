@@ -1,0 +1,13 @@
+{
+  "id": "rob-recursive-iterative",
+  "title": "Recursive to Iterative",
+  "phase": 9,
+  "phaseName": "Breadth",
+  "difficulty": "Medium",
+  "tags": ["recursion", "stack", "linked list"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 22,
+  "authored": true
+}

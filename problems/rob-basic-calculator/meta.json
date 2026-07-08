@@ -1,0 +1,13 @@
+{
+  "id": "rob-basic-calculator",
+  "title": "Basic Calculator II",
+  "phase": 6,
+  "phaseName": "Systems",
+  "difficulty": "Hard",
+  "tags": ["stack", "parser"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 15,
+  "authored": true
+}

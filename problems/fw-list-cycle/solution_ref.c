@@ -1,6 +1,9 @@
 // Time: O(n) — Floyd's tortoise-and-hare; O(1) space
 #include <stdbool.h>
 
+
+typedef struct node { struct node *next; int value; } node_t;
+
 bool list_has_cycle(const node_t *head) {
     const node_t *slow = head;
     const node_t *fast = head;

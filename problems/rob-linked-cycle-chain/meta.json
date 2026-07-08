@@ -1,0 +1,13 @@
+{
+  "id": "rob-linked-cycle-chain",
+  "title": "Linked Structure Cycle",
+  "phase": 9,
+  "phaseName": "Breadth",
+  "difficulty": "Medium",
+  "tags": ["linked list", "cycle detection"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 23,
+  "authored": true
+}

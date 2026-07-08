@@ -67,5 +67,59 @@
     "lastLanguage": "c",
     "flagged": false,
     "updated": "2026-06-29T16:42:49.223Z"
+  },
+  "fw-bit-ops": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-08T16:52:09.707Z"
+  },
+  "fw-pow2-check": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-08T16:56:21.482Z"
+  },
+  "fw-reverse-cstr": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-08T16:52:16.780Z"
+  },
+  "fw-bswap": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-08T16:52:19.132Z"
+  },
+  "fw-strlen": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-08T16:56:34.865Z"
+  },
+  "fw-reg-bitfield": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-08T16:52:23.682Z"
+  },
+  "fw-ring-buffer": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-08T16:55:58.848Z"
+  },
+  "fw-mem-primitives": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-08T16:56:02.529Z"
+  },
+  "fw-endian-serial": {
+    "status": "attempted",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-08T16:56:53.690Z"
   }
 }

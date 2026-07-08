@@ -1,0 +1,13 @@
+{
+  "id": "rob-top-k-words",
+  "title": "Top K Frequent Words",
+  "phase": 9,
+  "phaseName": "Breadth",
+  "difficulty": "Medium",
+  "tags": ["hash map", "heap", "sorting"],
+  "languages": ["cpp"],
+  "defaultLanguage": "cpp",
+  "tab": "robotics",
+  "stackIndex": 21,
+  "authored": true
+}

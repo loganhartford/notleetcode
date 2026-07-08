@@ -5,12 +5,6 @@
 #include <string.h>
 #include <inttypes.h>
 
-typedef struct {
-    uint8_t *base;
-    size_t   size;
-    size_t   offset;
-} bump_alloc_t;
-
 #include "nlc.h"
 #include "solution.c"
 
