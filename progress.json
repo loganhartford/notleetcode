@@ -117,9 +117,9 @@
     "updated": "2026-07-08T16:56:02.529Z"
   },
   "fw-endian-serial": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-08T16:56:53.690Z"
+    "flagged": true,
+    "updated": "2026-07-08T17:36:58.668Z"
   }
 }
