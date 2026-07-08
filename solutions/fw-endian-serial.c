@@ -76,12 +76,12 @@ bool sensor_msg_decode(sensor_msg_t *msg, const uint8_t *in, size_t in_len) {
         return false;
     }
     
-    msg->device_id = ((in[3] << 24) |
-                      (in[2] << 16) |
-                      (in[1] << 8 ) |
+    msg->device_id = (((uint32_t)in[3] << 24) |
+                      ((uint32_t)in[2] << 16) |
+                      ((uint32_t)in[1] << 8 ) |
                       (in[0]));
-    msg->temperature_q8_8 = ((in[5] << 8) | in[4]);
-    msg->millivolts =       ((in[7] << 8) | in[6]);
+    msg->temperature_q8_8 = ((uint16_t)(in[5] << 8) | in[4]);
+    msg->millivolts =       ((uint16_t)(in[7] << 8) | in[6]);
     msg->flags = in[8];
     
     return true;

@@ -513,3 +513,25 @@ function escapeHtml(s) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
+
+// ---------------------------------------------------------------------------
+// Sidebar collapse / show
+// ---------------------------------------------------------------------------
+(function () {
+  const sidebar = document.getElementById('sidebar');
+  const hideBtn = document.getElementById('sidebar-hide');
+  const showBtn = document.getElementById('sidebar-show');
+
+  function setCollapsed(val) {
+    sidebar.classList.toggle('collapsed', val);
+    localStorage.setItem('nlc-sidebar-collapsed', val ? '1' : '0');
+  }
+
+  hideBtn.addEventListener('click', () => setCollapsed(true));
+  showBtn.addEventListener('click', () => setCollapsed(false));
+
+  // Restore state across reloads
+  if (localStorage.getItem('nlc-sidebar-collapsed') === '1') {
+    sidebar.classList.add('collapsed');
+  }
+}());

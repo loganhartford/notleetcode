@@ -120,6 +120,12 @@
     "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-08T17:36:58.668Z"
+    "updated": "2026-07-08T17:42:30.995Z"
+  },
+  "fw-packet-parser": {
+    "status": "attempted",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-08T17:48:45.423Z"
   }
 }

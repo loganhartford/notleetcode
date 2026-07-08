@@ -14,7 +14,10 @@
     <!-- Sidebar: the stack -->
     <aside id="sidebar">
       <div class="sidebar-head">
-        <h1>notleetcode</h1>
+        <div class="sidebar-title-row">
+          <h1>notleetcode</h1>
+          <button id="sidebar-hide" title="Hide sidebar">‹</button>
+        </div>
         <div class="tab-bar">
           <button class="tab-btn active" data-tab="general">General</button>
           <button class="tab-btn" data-tab="firmware">Firmware</button>
@@ -24,6 +27,8 @@
       </div>
       <div id="problem-list"></div>
     </aside>
+
+    <button id="sidebar-show" title="Show sidebar">›</button>
 
     <!-- Main: problem + editor -->
     <main id="main">
