@@ -252,7 +252,7 @@ function runUserCode(id, lang, code) {
 
     const stdout = r.stdout || '';
     const stderr = r.stderr || '';
-    const parsed = parseResults(stdout);
+    const parsed = parseResults(stderr);
     if (!parsed) {
       return {
         ok: false,
@@ -263,14 +263,14 @@ function runUserCode(id, lang, code) {
         exitCode: r.status,
       };
     }
-    const userStdout = stripResultBlock(stdout);
+    const userStderr = stripResultBlock(stderr);
     const allPassed = parsed.results.length > 0 && parsed.results.every((t) => t.passed);
     return {
       ok: true,
       results: parsed.results,
       allPassed,
-      stdout: userStdout,
-      stderr,
+      stdout: stdout.trim() ? stdout : '',
+      stderr: userStderr,
       exitCode: r.status,
     };
   } finally {

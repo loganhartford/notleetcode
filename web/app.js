@@ -459,7 +459,7 @@ function renderResults(data) {
 
   // Anything the program wrote outside a test (e.g. module-level prints) or to
   // stderr is shown once at the end.
-  if (data.stdout) detail.appendChild(consoleBlock('other output', data.stdout, false));
+  if (data.stdout) detail.appendChild(consoleBlock('stdout', data.stdout, false));
   if (data.stderr) detail.appendChild(consoleBlock('stderr', data.stderr, true));
 }
 

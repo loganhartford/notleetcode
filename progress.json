@@ -125,7 +125,13 @@
   "fw-packet-parser": {
     "status": "solved",
     "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-09T16:12:00.516Z"
+  },
+  "fw-uart-rx": {
+    "status": "solved",
+    "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-09T16:11:11.135Z"
+    "updated": "2026-07-09T16:40:53.215Z"
   }
 }
