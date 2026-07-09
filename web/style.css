@@ -27,7 +27,7 @@ html, body {
 
 /* ---------- Sidebar ---------- */
 #sidebar {
-  width: 280px;
+  width: 260px;
   flex-shrink: 0;
   background: var(--bg-alt);
   border-right: 1px solid var(--border);
@@ -148,13 +148,130 @@ html, body {
 /* ---------- Main ---------- */
 #main { flex: 1; display: flex; overflow: hidden; }
 
-#problem-pane {
-  width: 44%;
-  min-width: 280px;
-  overflow-y: auto;
-  padding: 20px 26px 60px;
-  border-right: 1px solid var(--border);
+/* Drag handle between editor and info pane */
+#divider {
+  width: 4px;
+  flex-shrink: 0;
+  background: var(--border);
+  cursor: col-resize;
+  transition: background 0.1s;
 }
+#divider:hover, #divider.dragging { background: var(--accent); }
+
+/* ---------- Editor pane (LEFT / primary) ---------- */
+#editor-pane {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.editor-toolbar .spacer { flex: 1; }
+#lang-select {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#editor-host { flex: 1; overflow: hidden; position: relative; }
+.CodeMirror { height: 100% !important; font-family: var(--mono); font-size: 14px; line-height: 1.5; }
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.btn:hover { background: #38383b; }
+.btn.ghost { background: transparent; border-color: transparent; }
+.btn.ghost:hover { background: var(--bg-elev); border-color: var(--border); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn.copied { color: var(--green); border-color: var(--green); }
+.btn.run {
+  background: #1c7a32;
+  border-color: #1c7a32;
+  color: #fff;
+  font-weight: 600;
+  padding: 5px 18px;
+  letter-spacing: 0.2px;
+}
+.btn.run:hover { background: #22963d; border-color: #22963d; }
+.btn.run:disabled { background: #1c7a32; opacity: 0.55; }
+
+.editor-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-alt);
+  flex-shrink: 0;
+}
+.save-state { flex: 1; text-align: center; font-size: 12px; color: var(--text-dim); }
+
+/* ---------- Info pane (RIGHT) — Problem + Results tabs ---------- */
+#info-pane {
+  width: 38%;
+  min-width: 280px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.info-tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-alt);
+  flex-shrink: 0;
+}
+.info-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 20px 8px;
+  transition: color .12s, border-color .12s;
+  margin-bottom: -1px;
+}
+.info-tab:hover { color: var(--text); }
+.info-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+.info-panel {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.info-panel.hidden { display: none !important; }
+
+/* Problem panel */
+#panel-problem {
+  padding: 20px 24px 60px;
+}
+
 .pane-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .prob-index { font-size: 12px; color: var(--text-dim); }
 #prob-title { margin: 2px 0 0; font-size: 20px; font-weight: 600; }
@@ -169,7 +286,6 @@ html, body {
 .badge.solved { color: var(--green); border-color: var(--green); }
 .badge.attempted { color: var(--amber); border-color: var(--amber); }
 
-/* Flag-for-review toggle in the problem header */
 .flag-btn {
   background: none; border: 1px solid var(--border); border-radius: 10px;
   color: var(--text-dim); cursor: pointer; font-size: 12px;
@@ -178,7 +294,6 @@ html, body {
 .flag-btn:hover { color: var(--amber); border-color: var(--amber); }
 .flag-btn.on { color: var(--amber); border-color: var(--amber); background: rgba(255, 176, 0, 0.12); }
 
-/* Flag marker in the sidebar list */
 .prob-item .flag-mark { color: var(--amber); font-size: 11px; visibility: hidden; }
 .prob-item .flag-mark.on { visibility: visible; }
 
@@ -192,48 +307,32 @@ html, body {
   font-family: var(--mono); font-size: 12.5px; overflow-x: auto; border: 1px solid var(--border);
 }
 
-/* ---------- Editor pane ---------- */
-#editor-pane { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.editor-toolbar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px; background: var(--bg-alt); border-bottom: 1px solid var(--border);
+/* Results panel */
+#panel-results {
+  padding: 14px 16px;
+  background: var(--bg);
 }
-.editor-toolbar .spacer { flex: 1; }
-#lang-select {
-  background: var(--bg-elev); color: var(--text); border: 1px solid var(--border);
-  padding: 4px 8px; border-radius: 4px; font-size: 13px;
-}
-#editor-host { flex: 1; overflow: hidden; position: relative; }
-.CodeMirror { height: 100% !important; font-family: var(--mono); font-size: 13.5px; }
 
-.btn {
-  border: 1px solid var(--border); background: var(--bg-elev); color: var(--text);
-  padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 13px;
+.results-summary {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 5px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
 }
-.btn:hover { background: #38383b; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #06203b; font-weight: 600; }
-.btn.primary:hover { background: #6bb4ff; }
-.btn.ghost { background: transparent; }
-.btn:disabled { opacity: 0.5; cursor: default; }
-.btn.copied { color: var(--green); border-color: var(--green); }
-
-/* ---------- Results ---------- */
-#results-pane {
-  height: 200px; min-height: 120px; max-height: 45%;
-  overflow-y: auto; border-top: 1px solid var(--border);
-  background: var(--bg-alt); padding: 10px 14px;
-}
-.results-summary { font-size: 13px; margin-bottom: 8px; font-weight: 600; }
-.results-summary.pass { color: var(--green); }
-.results-summary.fail { color: var(--red); }
+.results-summary.pass { color: var(--green); border-color: rgba(76, 175, 80, 0.4); background: rgba(76, 175, 80, 0.06); }
+.results-summary.fail { color: var(--red); border-color: rgba(224, 90, 90, 0.4); background: rgba(224, 90, 90, 0.06); }
 .results-summary.running { color: var(--accent); }
+
 .case {
   border: 1px solid var(--border); border-left: 3px solid var(--border);
-  border-radius: 5px; margin-bottom: 6px;
-  padding: 8px 10px; font-family: var(--mono); font-size: 12px; background: var(--bg);
+  border-radius: 5px; margin-bottom: 8px;
+  padding: 8px 10px; font-family: var(--mono); font-size: 12.5px; background: var(--bg-alt);
 }
 .case.pass { border-left-color: var(--green); }
-.case.fail { border-left-color: var(--red); background: rgba(224, 90, 90, 0.07); }
+.case.fail { border-left-color: var(--red); background: rgba(224, 90, 90, 0.05); }
 .case .case-head { display: flex; gap: 8px; align-items: center; margin-bottom: 2px; }
 .case .verdict { font-weight: 700; }
 .case.pass .verdict { color: var(--green); }
@@ -242,7 +341,7 @@ html, body {
 .case .kv { color: var(--text-dim); white-space: pre-wrap; word-break: break-all; }
 .case .kv b { color: var(--text); font-weight: 600; }
 .case .trace, .case .case-stdout {
-  margin-top: 6px; padding: 6px 8px; background: var(--bg-alt); border-radius: 4px;
+  margin-top: 6px; padding: 6px 8px; background: var(--bg); border-radius: 4px;
   white-space: pre-wrap; word-break: break-all; font-size: 11.5px;
 }
 .case .trace { color: var(--red); }
@@ -251,27 +350,21 @@ html, body {
   text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;
 }
 
-/* Don't paint indentation red — CodeMirror's Python mode flags indentation it
-   considers inconsistent with .cm-error; that's noisy and unlike VSCode. */
+/* Don't paint indentation red */
 .CodeMirror .cm-error { color: inherit !important; background: none !important; }
+
 .console-block {
-  margin-top: 8px; background: var(--bg); border: 1px solid var(--border);
+  margin-top: 8px; background: var(--bg-alt); border: 1px solid var(--border);
   border-radius: 5px; padding: 8px 10px; font-family: var(--mono); font-size: 12px;
   white-space: pre-wrap; word-break: break-all;
 }
 .console-block .label { color: var(--text-dim); display: block; margin-bottom: 4px; }
 .console-block.err .label { color: var(--red); }
 
-.editor-footer {
-  display: flex; align-items: center; gap: 12px;
-  padding: 8px 12px; border-top: 1px solid var(--border); background: var(--bg-alt);
-}
-.editor-footer .save-state { flex: 1; text-align: center; font-size: 12px; color: var(--text-dim); }
-
 .hidden { display: none !important; }
 
 /* ---------- Markdown ---------- */
-.markdown-body { line-height: 1.6; margin-top: 14px; }
+.markdown-body { line-height: 1.65; margin-top: 14px; }
 .markdown-body h1, .markdown-body h2, .markdown-body h3 { margin-top: 20px; }
 .markdown-body code {
   background: var(--bg-elev); padding: 1px 5px; border-radius: 3px;

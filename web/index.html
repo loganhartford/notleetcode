@@ -11,7 +11,7 @@
 </head>
 <body>
   <div id="app">
-    <!-- Sidebar: the stack -->
+    <!-- Sidebar: problem list -->
     <aside id="sidebar">
       <div class="sidebar-head">
         <div class="sidebar-title-row">
@@ -30,49 +30,61 @@
 
     <button id="sidebar-show" title="Show sidebar">›</button>
 
-    <!-- Main: problem + editor -->
+    <!-- Main area -->
     <main id="main">
-      <div id="problem-pane">
-        <div class="pane-head">
-          <div>
-            <span id="prob-index" class="prob-index"></span>
-            <h2 id="prob-title">Loading…</h2>
-          </div>
-          <div class="prob-meta">
-            <span id="prob-diff" class="badge"></span>
-            <span id="prob-status" class="badge"></span>
-            <button id="flag-btn" class="flag-btn" title="Flag for review later">⚑</button>
-          </div>
-        </div>
-        <div id="prob-tags" class="tags"></div>
-        <div id="prob-desc" class="markdown-body"></div>
-        <div id="solution-block" class="solution-block hidden">
-          <button id="toggle-solution" class="link-btn">▸ Show reference solution</button>
-          <pre id="solution-code" class="hidden"></pre>
-        </div>
-      </div>
 
-      <div id="divider"></div>
-
+      <!-- LEFT: Code editor (primary — CoderPad style) -->
       <div id="editor-pane">
         <div class="editor-toolbar">
           <select id="lang-select"></select>
           <div class="spacer"></div>
           <button id="copy-btn" class="btn ghost" title="Copy question + code to clipboard for an LLM">Copy for LLM</button>
           <button id="reset-btn" class="btn ghost" title="Reset to starter code">Reset</button>
-          <button id="run-btn" class="btn primary">▶ Run Tests</button>
+          <button id="run-btn" class="btn run">▶ Run</button>
         </div>
         <div id="editor-host"></div>
-        <div id="results-pane">
-          <div id="results-summary" class="results-summary">Run your code to see test results.</div>
-          <div id="results-detail"></div>
-        </div>
         <div class="editor-footer">
           <button id="prev-btn" class="btn ghost">← Prev</button>
           <span id="save-state" class="save-state"></span>
           <button id="next-btn" class="btn ghost">Next →</button>
         </div>
       </div>
+
+      <div id="divider"></div>
+
+      <!-- RIGHT: Problem description + Results tabs -->
+      <div id="info-pane">
+        <div class="info-tab-bar">
+          <button class="info-tab active" data-panel="problem">Problem</button>
+          <button class="info-tab" data-panel="results">Results</button>
+        </div>
+
+        <div id="panel-problem" class="info-panel">
+          <div class="pane-head">
+            <div>
+              <span id="prob-index" class="prob-index"></span>
+              <h2 id="prob-title">Loading…</h2>
+            </div>
+            <div class="prob-meta">
+              <span id="prob-diff" class="badge"></span>
+              <span id="prob-status" class="badge"></span>
+              <button id="flag-btn" class="flag-btn" title="Flag for review later">⚑</button>
+            </div>
+          </div>
+          <div id="prob-tags" class="tags"></div>
+          <div id="prob-desc" class="markdown-body"></div>
+          <div id="solution-block" class="solution-block hidden">
+            <button id="toggle-solution" class="link-btn">▸ Show reference solution</button>
+            <pre id="solution-code" class="hidden"></pre>
+          </div>
+        </div>
+
+        <div id="panel-results" class="info-panel hidden">
+          <div id="results-summary" class="results-summary">Run your code to see results.</div>
+          <div id="results-detail"></div>
+        </div>
+      </div>
+
     </main>
   </div>
 

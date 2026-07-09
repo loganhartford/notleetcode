@@ -114,6 +114,16 @@ function wireButtons() {
   document.querySelectorAll('.tab-btn').forEach((btn) => {
     btn.onclick = () => setTab(btn.dataset.tab);
   });
+  document.querySelectorAll('.info-tab').forEach((btn) => {
+    btn.onclick = () => switchInfoPanel(btn.dataset.panel);
+  });
+}
+
+function switchInfoPanel(panel) {
+  document.querySelectorAll('.info-tab').forEach((b) =>
+    b.classList.toggle('active', b.dataset.panel === panel));
+  document.querySelectorAll('.info-panel').forEach((p) =>
+    p.classList.toggle('hidden', p.id !== 'panel-' + panel));
 }
 
 async function copyForLLM() {
@@ -242,6 +252,7 @@ async function openProblem(id) {
   loadEditorForLang();
   setupSolutionBlock();
   clearResults();
+  switchInfoPanel('problem');
   highlightActive();
 }
 
@@ -378,6 +389,7 @@ async function runTests() {
     });
     const data = await res.json();
     renderResults(data);
+    switchInfoPanel('results');
     if (data.status) {
       renderStatusBadge(data.status);
       bumpStatus(current.id, data.status);
@@ -385,6 +397,7 @@ async function runTests() {
   } catch (e) {
     summary.className = 'results-summary fail';
     summary.textContent = 'Error: ' + e.message;
+    switchInfoPanel('results');
   } finally {
     runBtn.disabled = false;
     setSaveState('Saved');
@@ -460,7 +473,7 @@ function consoleBlock(label, text, isErr) {
 function clearResults() {
   const summary = document.getElementById('results-summary');
   summary.className = 'results-summary';
-  summary.textContent = 'Run your code to see test results.';
+  summary.textContent = 'Run your code to see results.';
   document.getElementById('results-detail').innerHTML = '';
 }
 
@@ -530,8 +543,40 @@ function escapeHtml(s) {
   hideBtn.addEventListener('click', () => setCollapsed(true));
   showBtn.addEventListener('click', () => setCollapsed(false));
 
-  // Restore state across reloads
   if (localStorage.getItem('nlc-sidebar-collapsed') === '1') {
     sidebar.classList.add('collapsed');
   }
+}());
+
+// ---------------------------------------------------------------------------
+// Divider drag-resize (editor ↔ info pane)
+// ---------------------------------------------------------------------------
+(function () {
+  const divider = document.getElementById('divider');
+  const infoPane = document.getElementById('info-pane');
+  const main = document.getElementById('main');
+
+  divider.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    divider.classList.add('dragging');
+    const startX = e.clientX;
+    const startWidth = infoPane.getBoundingClientRect().width;
+
+    function onMove(ev) {
+      const delta = startX - ev.clientX;
+      const mainW = main.getBoundingClientRect().width;
+      const newWidth = Math.max(260, Math.min(mainW - 320, startWidth + delta));
+      infoPane.style.width = newWidth + 'px';
+    }
+
+    function onUp() {
+      divider.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      if (editor) editor.refresh();
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
 }());
