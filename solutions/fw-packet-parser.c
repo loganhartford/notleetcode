@@ -24,29 +24,43 @@ parser_result_t parser_feed(parser_t *p, uint8_t byte,
                              uint8_t *payload_out, size_t *len_out) {
     switch(p->state) {
         case WAIT_START:
-            fprintf(stderr, "start\n");
-            p->state++;
+            if (byte == 0xAA)
+            {
+                p->state++;
+            }
             break;
         case READ_LEN:
             p->state++;
             p->len = byte;
             
+            if (p->len == 0)
+            {
+                p->state = READ_CKSUM;
+            } else if (p->len > PARSER_MAX_PAYLOAD)
+            {
+                p->state = WAIT_START;
+                return PARSER_ERROR;
+            }
+            
             p->cksum = p->len;
-            fprintf(stderr, "read_len: %x\n", byte);
+            fprintf(stderr, "l: %u\n", byte);
             break;
         case READ_PAYLOAD:
-            if (p->idx < p->len) {
-                p->buf[p->idx++] = byte;
-                p->cksum += byte;
-            } else {
+            p->buf[p->idx++] = byte;
+            p->cksum += byte;
+            if (p->idx >= p->len) {
                 p->state++;
             }
             break;
         case READ_CKSUM:
+            fprintf(stderr, "b: %u, ch: %u\n", byte, p->cksum);
             if (p->cksum != byte) {
                 return PARSER_ERROR;
             }
+            memcpy(payload_out, p->buf, p->len);
+            *len_out = p->len;
             return PARSER_PACKET;
     }
+    
     return PARSER_NONE;
 }

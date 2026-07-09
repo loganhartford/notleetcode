@@ -161,7 +161,7 @@ html, body {
 /* ---------- Editor pane (LEFT / primary) ---------- */
 #editor-pane {
   flex: 1;
-  min-width: 320px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -230,7 +230,6 @@ html, body {
 #info-pane {
   width: 38%;
   min-width: 280px;
-  max-width: 600px;
   display: flex;
   flex-direction: column;
   overflow: hidden;

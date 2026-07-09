@@ -123,9 +123,9 @@
     "updated": "2026-07-08T17:42:30.995Z"
   },
   "fw-packet-parser": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-08T19:03:43.094Z"
+    "updated": "2026-07-09T16:11:11.135Z"
   }
 }

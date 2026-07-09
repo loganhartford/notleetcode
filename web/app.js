@@ -565,7 +565,7 @@ function escapeHtml(s) {
     function onMove(ev) {
       const delta = startX - ev.clientX;
       const mainW = main.getBoundingClientRect().width;
-      const newWidth = Math.max(260, Math.min(mainW - 320, startWidth + delta));
+      const newWidth = Math.max(260, Math.min(mainW - 200, startWidth + delta));
       infoPane.style.width = newWidth + 'px';
     }
 
