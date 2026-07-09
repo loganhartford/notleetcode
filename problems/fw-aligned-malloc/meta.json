@@ -1,0 +1,13 @@
+{
+  "id": "fw-aligned-malloc",
+  "title": "Implement aligned_malloc",
+  "phase": 7,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": ["memory", "alignment", "pointers"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 40,
+  "authored": true
+}
