@@ -145,5 +145,11 @@
     "lastLanguage": "c",
     "flagged": false,
     "updated": "2026-07-10T16:22:20.241Z"
+  },
+  "fw-sizeof-struct": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-10T16:44:05.534Z"
   }
 }
