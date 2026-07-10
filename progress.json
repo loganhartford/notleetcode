@@ -153,9 +153,9 @@
     "updated": "2026-07-10T16:59:56.436Z"
   },
   "fw-aligned-malloc": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-10T17:13:39.204Z"
+    "flagged": true,
+    "updated": "2026-07-10T18:51:15.026Z"
   }
 }
