@@ -16,10 +16,6 @@ void  aligned_free(void *ptr);
 - `aligned_free` must correctly free the block without leaking memory regardless of how much the pointer was adjusted.
 - Return `NULL` if `malloc` fails or if `align` is 0.
 
-## Hint
-
-Allocate `size + align + sizeof(void*)` bytes. Store the original `malloc` pointer just before the aligned region so `aligned_free` can retrieve it.
-
 ## Examples
 
 ```
