@@ -141,9 +141,9 @@
     "updated": "2026-07-10T16:12:03.398Z"
   },
   "fw-sizeof-var": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-10T16:13:12.289Z"
+    "updated": "2026-07-10T16:22:20.241Z"
   }
 }

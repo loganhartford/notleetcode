@@ -22,15 +22,7 @@ MY_SIZEOF_VAR(int)  // invalid — int is a type, not a variable
 
 ## Key distinction from MY_SIZEOF_TYPE
 
-For arrays, `MY_SIZEOF_VAR(arr)` returns the **full array size** because `&arr` has type pointer-to-array, not pointer-to-element. This is one case where the variable form gives you different (and more useful) information than the type form.
-
-## Approach
-
-Take the address of `x` with `&(x)` — this gives a pointer to the object. Advance it by one with `+ 1` to point one object past `x`. Cast both to `char *` and subtract.
-
-```
-(char *)(&(x) + 1) - (char *)&(x)
-```
+For arrays, `MY_SIZEOF_VAR(arr)` should return the **full array size**, not the size of a pointer.
 
 ## Constraints
 
