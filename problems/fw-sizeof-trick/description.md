@@ -1,28 +1,32 @@
-# Implement sizeof Without sizeof
+# Implement MY_SIZEOF_TYPE(T)
 
-Implement a macro `MY_SIZEOF(T)` that returns the size in bytes of any type `T` — **without using the `sizeof` operator** anywhere in your implementation.
-
-## Signature
+Implement a macro that returns the size in bytes of a **type** `T` without using the `sizeof` operator.
 
 ```c
-#define MY_SIZEOF(T)  /* your expression here */
+#define MY_SIZEOF_TYPE(T)  /* your expression */
+```
+
+The macro is called with a type name, not a variable:
+
+```c
+MY_SIZEOF_TYPE(char)      // valid
+MY_SIZEOF_TYPE(int)       // valid
+MY_SIZEOF_TYPE(uint64_t)  // valid
+MY_SIZEOF_TYPE(int *)     // valid
+
+int x;
+MY_SIZEOF_TYPE(x)         // invalid — x is a variable, not a type
 ```
 
 ## Approach
 
-Pointer arithmetic: if you subtract two pointers of type `T*`, the result is the number of `T`-sized elements between them. Use a null pointer cast to force the compiler to compute the byte distance between element 0 and element 1 without allocating anything.
-
-## Examples
+Cast `0` to a `T *`, then advance it by one element with `+ 1`. Cast both addresses to `char *` and subtract — the byte distance is the size of one `T`.
 
 ```
-MY_SIZEOF(char)     → 1
-MY_SIZEOF(int)      → 4
-MY_SIZEOF(double)   → 8
-MY_SIZEOF(uint64_t) → 8
+(char *)((T *)0 + 1) - (char *)((T *)0)
 ```
 
 ## Constraints
 
-- You may not use `sizeof` anywhere in your macro definition.
-- The macro must work for any scalar type passed as `T`.
-- Must evaluate to a compile-time-usable constant expression (no runtime overhead).
+- You may **not** use `sizeof` anywhere in your macro definition.
+- Must work for any scalar type or pointer type passed as `T`.

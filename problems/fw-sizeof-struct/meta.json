@@ -1,13 +1,13 @@
 {
-  "id": "fw-sizeof-trick",
-  "title": "Implement MY_SIZEOF_TYPE(T)",
+  "id": "fw-sizeof-struct",
+  "title": "Find Struct Size Without sizeof",
   "phase": 7,
   "phaseName": "Real Interviews",
   "difficulty": "Easy",
-  "tags": ["pointers", "memory", "tricks"],
+  "tags": ["pointers", "memory", "structs", "tricks"],
   "languages": ["c"],
   "defaultLanguage": "c",
   "tab": "firmware",
-  "stackIndex": 39,
+  "stackIndex": 42,
   "authored": true
 }

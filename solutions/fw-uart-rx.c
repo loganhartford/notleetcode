@@ -11,7 +11,7 @@ typedef struct {
     pthread_mutex_t lock;
 } uart_rx_t;
 
-
+/* Redo because I was being lazy about figuring out how to debug and I looked at the solution. */
 
 void uart_rx_init(uart_rx_t *u, uint8_t *storage, size_t capacity) {
     u->buf = storage;
@@ -37,14 +37,12 @@ void uart_rx_isr_byte(uart_rx_t *u, uint8_t byte) {
 
 size_t uart_rx_read(uart_rx_t *u, uint8_t *out, size_t max_len) {
     size_t n = u->count < max_len ? u->count : max_len;
-    printf("n: %u\n", n);
     for (size_t i = 0; i < n; i++) {
         out[i] = u->buf[u->head];
         u->head  = (u->head + 1) % u->capacity;
         pthread_mutex_lock(&u->lock);
         u->count--;
         pthread_mutex_unlock(&u->lock);
-        printf("h: %u, c: %u\n", u->head, u->count);
     }
     return n;
 }

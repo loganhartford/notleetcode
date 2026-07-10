@@ -131,7 +131,13 @@
   "fw-uart-rx": {
     "status": "solved",
     "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-10T15:46:04.678Z"
+  },
+  "fw-sizeof-trick": {
+    "status": "solved",
+    "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-09T16:46:28.203Z"
+    "updated": "2026-07-10T15:59:52.691Z"
   }
 }

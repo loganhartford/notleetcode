@@ -1,4 +1,4 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define MY_SIZEOF_TYPE(T)  /* TODO */
+#define MY_SIZEOF_VAR(x)  /* TODO */

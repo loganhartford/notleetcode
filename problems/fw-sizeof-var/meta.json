@@ -1,6 +1,6 @@
 {
-  "id": "fw-sizeof-trick",
-  "title": "Implement MY_SIZEOF_TYPE(T)",
+  "id": "fw-sizeof-var",
+  "title": "Implement MY_SIZEOF_VAR(x)",
   "phase": 7,
   "phaseName": "Real Interviews",
   "difficulty": "Easy",
@@ -8,6 +8,6 @@
   "languages": ["c"],
   "defaultLanguage": "c",
   "tab": "firmware",
-  "stackIndex": 39,
+  "stackIndex": 41,
   "authored": true
 }
