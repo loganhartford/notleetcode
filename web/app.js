@@ -74,6 +74,12 @@ async function init() {
   });
   editor.on('change', onEditorChange);
 
+  // Disable macOS autocorrect/autocapitalize on the editor input field.
+  const inp = editor.getInputField();
+  inp.setAttribute('autocorrect', 'off');
+  inp.setAttribute('autocapitalize', 'off');
+  inp.setAttribute('spellcheck', 'false');
+
   wireButtons();
   await loadProblems();
 
