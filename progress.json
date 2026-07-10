@@ -137,7 +137,13 @@
   "fw-sizeof-trick": {
     "status": "solved",
     "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-10T16:12:03.398Z"
+  },
+  "fw-sizeof-var": {
+    "status": "attempted",
+    "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-10T15:59:52.691Z"
+    "updated": "2026-07-10T16:13:12.289Z"
   }
 }
