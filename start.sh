@@ -10,6 +10,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+if [ -z "${NLC_USER:-}" ]; then
+  echo "error: NLC_USER is not set."
+  echo "  Usage: NLC_USER=<your-name> ./start.sh"
+  echo "  Example: NLC_USER=tim ./start.sh"
+  exit 1
+fi
+
 PORT="${PORT:-5151}"
 URL="http://localhost:${PORT}"
 
@@ -32,5 +39,5 @@ if [ "${1:-}" = "--open" ]; then
   ) &
 fi
 
-echo "starting notleetcode on ${URL}  (Ctrl+C to stop)"
-exec env PORT="$PORT" node server.js
+echo "starting notleetcode on ${URL}  (user: ${NLC_USER}, Ctrl+C to stop)"
+exec env PORT="$PORT" NLC_USER="$NLC_USER" node server.js

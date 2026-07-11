@@ -14,8 +14,14 @@ const { spawnSync } = require('child_process');
 const ROOT = __dirname;
 const WEB_DIR = path.join(ROOT, 'web');
 const PROBLEMS_DIR = path.join(ROOT, 'problems');
-const SOLUTIONS_DIR = path.join(ROOT, 'solutions');
-const PROGRESS_FILE = path.join(ROOT, 'progress.json');
+
+const NLC_USER = process.env.NLC_USER;
+if (!NLC_USER) {
+  console.error('\n  error: NLC_USER is not set.\n  Start with: NLC_USER=<your-name> node server.js\n');
+  process.exit(1);
+}
+const SOLUTIONS_DIR = path.join(ROOT, 'solutions', NLC_USER);
+const PROGRESS_FILE = path.join(ROOT, 'progress', `${NLC_USER}.json`);
 
 const PORT = process.env.PORT || 5151;
 const RUN_TIMEOUT_MS = 12000;
@@ -445,5 +451,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`\n  notleetcode running →  http://localhost:${PORT}\n`);
+  console.log(`\n  notleetcode running →  http://localhost:${PORT}  (user: ${NLC_USER})\n`);
 });
