@@ -10,8 +10,17 @@ typedef struct {
 } pool_t;
 
 bool pool_init(pool_t *pool, void *storage, size_t storage_size, size_t block_size) {
+    if (storage == NULL) return false;
+    if (storage_size < block_size) return false;
+    if (block_size < sizeof(void *)) return false;
+    pool->free_list = storage;
+    pool->block_size = block_size;
+    pool->total = storage_size;
+    pool->free_count = pool->total / pool->block_size;
     
-    return false;
+    printf("%d", pool->total / pool->block_size);
+    
+    return true;
 }
 
 void *pool_alloc(pool_t *pool) {
@@ -20,11 +29,10 @@ void *pool_alloc(pool_t *pool) {
 }
 
 bool pool_free(pool_t *pool, void *ptr) {
-    // TODO
+    if (pool->free_count) return true;
     return false;
 }
 
 size_t pool_free_count(const pool_t *pool) {
-    // TODO
-    return 0;
+    return pool->free_count;
 }

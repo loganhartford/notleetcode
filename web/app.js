@@ -6,6 +6,7 @@
 let problems = [];        // all problems from /api/problems (every tab)
 let current = null;       // full problem object
 let currentLang = null;
+let allowedTabs = ['general', 'firmware', 'robotics'];
 let activeTab = localStorage.getItem('nlc-tab') || 'general';
 
 function tabProblems() {
@@ -81,7 +82,19 @@ async function init() {
   inp.setAttribute('spellcheck', 'false');
 
   wireButtons();
-  await loadProblems();
+  const [, cfg] = await Promise.all([loadProblems(), fetch('/api/config').then((r) => r.json())]);
+  allowedTabs = cfg.tabs || allowedTabs;
+
+  // Hide tab buttons the user isn't allowed to see.
+  document.querySelectorAll('.tab-btn').forEach((b) => {
+    if (!allowedTabs.includes(b.dataset.tab)) b.style.display = 'none';
+  });
+
+  // Clamp activeTab to an allowed tab.
+  if (!allowedTabs.includes(activeTab)) {
+    activeTab = allowedTabs[0];
+    localStorage.setItem('nlc-tab', activeTab);
+  }
 
   // Restore active tab UI state.
   document.querySelectorAll('.tab-btn').forEach((b) =>
@@ -91,9 +104,9 @@ async function init() {
   const fromHash = location.hash.slice(1);
   let target = problems.find((p) => p.id === fromHash);
   if (target) {
-    // Switch to the tab that owns this problem.
+    // Switch to the tab that owns this problem, only if allowed.
     const ownerTab = target.tab || 'general';
-    if (ownerTab !== activeTab) {
+    if (ownerTab !== activeTab && allowedTabs.includes(ownerTab)) {
       activeTab = ownerTab;
       localStorage.setItem('nlc-tab', activeTab);
       document.querySelectorAll('.tab-btn').forEach((b) =>

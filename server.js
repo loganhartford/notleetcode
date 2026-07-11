@@ -23,6 +23,12 @@ if (!NLC_USER) {
 const SOLUTIONS_DIR = path.join(ROOT, 'solutions', NLC_USER);
 const PROGRESS_FILE = path.join(ROOT, 'progress', `${NLC_USER}.json`);
 
+const ALL_TABS = ['general', 'firmware', 'robotics'];
+const USER_TABS = {
+  tim: ['firmware'],
+  jalius: ['firmware'],
+};
+
 const PORT = process.env.PORT || 5151;
 const RUN_TIMEOUT_MS = 12000;
 
@@ -366,6 +372,10 @@ const server = http.createServer(async (req, res) => {
 
   try {
     // ----- API -----
+    if (url === '/api/config' && req.method === 'GET') {
+      return sendJSON(res, 200, { tabs: USER_TABS[NLC_USER] || ALL_TABS });
+    }
+
     if (url === '/api/problems' && req.method === 'GET') {
       const progress = loadProgress();
       const problems = allProblemsOrdered().map((m) => ({
