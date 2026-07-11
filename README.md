@@ -17,6 +17,8 @@ Problems are weighted toward firmware and robotics interviews (grids, bit manipu
 
 The editor (CodeMirror) and markdown renderer load from a CDN on first open, so you need internet once. After that the browser caches them.
 
+If you're missing any you can ask Claude Code to install them.
+
 ---
 
 ## Setup
@@ -25,8 +27,6 @@ The editor (CodeMirror) and markdown renderer load from a CDN on first open, so 
 git clone <repo-url>
 cd notleetcode
 ```
-
-That's it — no `npm install`, no config files.
 
 ---
 
