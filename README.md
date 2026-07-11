@@ -46,6 +46,15 @@ To use a different port:
 NLC_USER=tim PORT=8080 ./start.sh
 ```
 
+To keep the server running after you close your terminal, use a `screen` session:
+
+```sh
+screen -S notleetcode
+NLC_USER=tim ./start.sh
+```
+
+Detach with `Ctrl+A D`. Reattach later with `screen -r notleetcode`. To stop the server, reattach and hit `Ctrl+C`.
+
 To also open the browser automatically:
 
 ```sh
