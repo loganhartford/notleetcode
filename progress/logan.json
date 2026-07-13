@@ -169,5 +169,59 @@
     "lastLanguage": "c",
     "flagged": false,
     "updated": "2026-07-13T17:46:11.894Z"
+  },
+  "fw-ptr-write-int": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T17:51:58.799Z"
+  },
+  "fw-ptr-read-void": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T17:52:24.082Z"
+  },
+  "fw-ptr-write-void": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T17:52:42.082Z"
+  },
+  "fw-ptr-byte-offset": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T17:55:38.377Z"
+  },
+  "fw-ptr-store-ptr": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T17:56:04.935Z"
+  },
+  "fw-ptr-load-ptr": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T18:24:19.296Z"
+  },
+  "fw-ptr-link-blocks": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T18:24:59.683Z"
+  },
+  "fw-ptr-link-array": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T18:31:26.670Z"
+  },
+  "fw-ptr-list-pop": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-13T18:39:03.210Z"
   }
 }

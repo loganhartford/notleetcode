@@ -1,0 +1,12 @@
+{
+  "title": "Hamming Distance",
+  "phase": 7,
+  "phaseName": "Real Interviews",
+  "difficulty": "Easy",
+  "tags": ["bit manipulation", "popcount"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 43,
+  "authored": true
+}
