@@ -132,7 +132,7 @@
     "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-10T15:46:04.678Z"
+    "updated": "2026-07-13T17:25:47.779Z"
   },
   "fw-sizeof-trick": {
     "status": "solved",
@@ -159,9 +159,9 @@
     "updated": "2026-07-10T18:51:15.026Z"
   },
   "fw-pool-alloc": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-11T22:50:53.648Z"
+    "flagged": true,
+    "updated": "2026-07-13T17:38:30.213Z"
   }
 }
