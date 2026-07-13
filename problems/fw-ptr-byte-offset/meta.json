@@ -1,0 +1,18 @@
+{
+  "title": "Generic Byte Offset",
+  "phase": 8,
+  "phaseName": "Pointer Mechanics",
+  "difficulty": "Easy",
+  "tags": [
+    "pointers",
+    "pointer arithmetic",
+    "void pointer"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 46,
+  "authored": true
+}

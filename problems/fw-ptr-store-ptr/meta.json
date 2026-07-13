@@ -1,0 +1,19 @@
+{
+  "title": "Store a Pointer in Raw Memory",
+  "phase": 8,
+  "phaseName": "Pointer Mechanics",
+  "difficulty": "Medium",
+  "tags": [
+    "pointers",
+    "void pointer",
+    "double pointer",
+    "memory"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 47,
+  "authored": true
+}

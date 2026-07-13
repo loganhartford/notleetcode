@@ -1,0 +1,19 @@
+{
+  "title": "Generic Byte Swap",
+  "phase": 8,
+  "phaseName": "Pointer Mechanics",
+  "difficulty": "Medium",
+  "tags": [
+    "pointers",
+    "void pointer",
+    "generics",
+    "memory"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 53,
+  "authored": true
+}

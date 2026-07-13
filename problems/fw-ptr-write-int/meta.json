@@ -1,0 +1,17 @@
+{
+  "title": "Write Through a Typed Pointer",
+  "phase": 8,
+  "phaseName": "Pointer Mechanics",
+  "difficulty": "Easy",
+  "tags": [
+    "pointers",
+    "dereferencing"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 43,
+  "authored": true
+}

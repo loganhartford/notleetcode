@@ -1,0 +1,19 @@
+{
+  "title": "Load a Pointer from Raw Memory",
+  "phase": 8,
+  "phaseName": "Pointer Mechanics",
+  "difficulty": "Medium",
+  "tags": [
+    "pointers",
+    "void pointer",
+    "double pointer",
+    "const"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 48,
+  "authored": true
+}

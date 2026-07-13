@@ -1,0 +1,18 @@
+{
+  "title": "Read Through a void *",
+  "phase": 8,
+  "phaseName": "Pointer Mechanics",
+  "difficulty": "Easy",
+  "tags": [
+    "pointers",
+    "void pointer",
+    "casting"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 44,
+  "authored": true
+}
