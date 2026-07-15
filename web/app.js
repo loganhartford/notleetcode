@@ -36,6 +36,62 @@ let lastSavedCode = '';
 const PHASE_NAMES = {};   // filled from problem data
 
 // ---------------------------------------------------------------------------
+// Autocomplete
+// ---------------------------------------------------------------------------
+const C_KEYWORDS = [
+  'auto','break','case','char','const','continue','default','do','double','else',
+  'enum','extern','float','for','goto','if','inline','int','long','register',
+  'restrict','return','short','signed','sizeof','static','struct','switch',
+  'typedef','union','unsigned','void','volatile','while',
+  'NULL','true','false','bool',
+  'malloc','calloc','realloc','free',
+  'printf','fprintf','sprintf','snprintf','scanf','sscanf',
+  'strlen','strcpy','strncpy','strcat','strncat','strcmp','strncmp',
+  'strchr','strrchr','strstr','strtol','strtod','strtok',
+  'memcpy','memmove','memset','memcmp',
+  'fopen','fclose','fread','fwrite','fgets','fputs','fgetc','fputc','puts','putchar','getchar',
+  'exit','abort','assert',
+  'INT_MAX','INT_MIN','UINT_MAX','SIZE_MAX',
+  'size_t','ssize_t',
+  'uint8_t','uint16_t','uint32_t','uint64_t',
+  'int8_t','int16_t','int32_t','int64_t',
+  'EOF',
+];
+
+function editorHint(cm) {
+  const mode = cm.getOption('mode');
+  const cur = cm.getCursor();
+  const lineText = cm.getLine(cur.line);
+  let start = cur.ch;
+  while (start > 0 && /\w/.test(lineText[start - 1])) start--;
+  const prefix = lineText.slice(start, cur.ch);
+  if (!prefix) return null;
+
+  const seen = new Set();
+  const list = [];
+  function add(w) {
+    if (w !== prefix && w.startsWith(prefix) && !seen.has(w)) {
+      seen.add(w);
+      list.push(w);
+    }
+  }
+
+  cm.eachLine((lh) => {
+    for (const m of lh.text.matchAll(/\b[a-zA-Z_]\w*\b/g)) add(m[0]);
+  });
+
+  if (mode === 'python' || mode === 'text/x-python') {
+    try { const ph = CodeMirror.hint.python(cm); if (ph) ph.list.forEach(add); } catch (_) {}
+  } else if (mode === 'text/x-csrc' || mode === 'text/x-c++src') {
+    C_KEYWORDS.forEach(add);
+  }
+
+  if (!list.length) return null;
+  list.sort();
+  return { list, from: { line: cur.line, ch: start }, to: { line: cur.line, ch: cur.ch } };
+}
+
+// ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
 window.addEventListener('DOMContentLoaded', init);
@@ -52,6 +108,7 @@ async function init() {
     smartIndent: true,
     autoCloseBrackets: true,
     matchBrackets: true,
+    styleActiveLine: true,
     extraKeys: {
       'Cmd-Enter': runTests,
       'Ctrl-Enter': runTests,
@@ -59,10 +116,16 @@ async function init() {
       'Ctrl-S': () => { saveNow(); },
       'Cmd-/': (cm) => cm.toggleComment({ indent: true }),
       'Ctrl-/': (cm) => cm.toggleComment({ indent: true }),
-      // Tab inserts spaces (or indents the selection).
+      'Ctrl-Space': (cm) => cm.showHint({ hint: editorHint, completeSingle: false }),
+      // Tab: show completions when cursor is mid-word, otherwise insert spaces.
       Tab: (cm) => {
-        if (cm.somethingSelected()) {
-          cm.indentSelection('add');
+        if (cm.somethingSelected()) { cm.indentSelection('add'); return; }
+        const cur = cm.getCursor();
+        const lineText = cm.getLine(cur.line);
+        let wStart = cur.ch;
+        while (wStart > 0 && /\w/.test(lineText[wStart - 1])) wStart--;
+        if (wStart < cur.ch) {
+          cm.showHint({ hint: editorHint, completeSingle: false });
         } else {
           cm.replaceSelection(' '.repeat(cm.getOption('indentUnit')), 'end', '+input');
         }
@@ -74,6 +137,12 @@ async function init() {
     },
   });
   editor.on('change', onEditorChange);
+  editor.on('inputRead', (cm, event) => {
+    if (!cm.state.completionActive && event.origin === '+input') {
+      const ch = (event.text || [])[0];
+      if (ch && /\w/.test(ch)) cm.showHint({ hint: editorHint, completeSingle: false });
+    }
+  });
 
   // Disable macOS autocorrect/autocapitalize on the editor input field.
   const inp = editor.getInputField();

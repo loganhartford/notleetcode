@@ -165,10 +165,10 @@
     "updated": "2026-07-13T17:38:30.213Z"
   },
   "fw-event-queue": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-13T17:46:11.894Z"
+    "updated": "2026-07-15T17:07:01.328Z"
   },
   "fw-ptr-write-int": {
     "status": "solved",
@@ -223,5 +223,35 @@
     "lastLanguage": "c",
     "flagged": true,
     "updated": "2026-07-13T18:39:03.210Z"
+  },
+  "fw-hamming-distance": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-13T23:41:16.657Z"
+  },
+  "fw-ptr-list-push": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-15T16:43:34.442Z"
+  },
+  "fw-ptr-swap": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-15T16:49:41.031Z"
+  },
+  "fw-ptr-debug": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-15T16:52:55.820Z"
+  },
+  "fw-timer-sched": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-15T20:52:25.406Z"
   }
 }
