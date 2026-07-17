@@ -1,11 +1,15 @@
 {
   "id": "fw-stack-queue-fixed",
   "title": "Fixed-Size Stack and Queue",
-  "phase": 5,
+  "phase": 6,
   "phaseName": "Data Structures",
   "difficulty": "Easy",
-  "tags": ["arrays"],
-  "languages": ["c"],
+  "tags": [
+    "arrays"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 29,

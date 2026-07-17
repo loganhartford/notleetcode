@@ -1,11 +1,17 @@
 {
   "id": "fw-spi-driver",
   "title": "Fake SPI Register Driver",
-  "phase": 3,
+  "phase": 4,
   "phaseName": "Bits & Drivers",
   "difficulty": "Hard",
-  "tags": ["driver", "registers", "bit-manipulation"],
-  "languages": ["c"],
+  "tags": [
+    "driver",
+    "registers",
+    "bit-manipulation"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 16,

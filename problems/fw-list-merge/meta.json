@@ -1,11 +1,16 @@
 {
   "id": "fw-list-merge",
   "title": "Merge Two Sorted Linked Lists",
-  "phase": 5,
+  "phase": 6,
   "phaseName": "Data Structures",
   "difficulty": "Medium",
-  "tags": ["linked-list", "pointers"],
-  "languages": ["c"],
+  "tags": [
+    "linked-list",
+    "pointers"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 28,

@@ -123,6 +123,12 @@ html, body {
   color: var(--text-dim);
   font-weight: 600;
 }
+.phase-label.phase-label-featured {
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 2px;
+}
 .prob-item {
   display: flex;
   align-items: center;
@@ -284,6 +290,7 @@ html, body {
 .badge.Hard { color: var(--red); border-color: var(--red); }
 .badge.solved { color: var(--green); border-color: var(--green); }
 .badge.attempted { color: var(--amber); border-color: var(--amber); }
+.badge.company { color: #a78bfa; border-color: #a78bfa; font-style: italic; }
 
 .flag-btn {
   background: none; border: 1px solid var(--border); border-radius: 10px;

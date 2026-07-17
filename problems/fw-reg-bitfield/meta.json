@@ -1,11 +1,16 @@
 {
   "id": "fw-reg-bitfield",
   "title": "Register Bitfield Helpers",
-  "phase": 2,
+  "phase": 3,
   "phaseName": "Core Firmware",
   "difficulty": "Medium",
-  "tags": ["bit-manipulation", "registers"],
-  "languages": ["c"],
+  "tags": [
+    "bit-manipulation",
+    "registers"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 6,

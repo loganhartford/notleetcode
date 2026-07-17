@@ -1,11 +1,16 @@
 {
   "id": "fw-two-stack-queue",
   "title": "Queue from Two Stacks",
-  "phase": 6,
+  "phase": 7,
   "phaseName": "Arrays & DS",
   "difficulty": "Medium",
-  "tags": ["arrays", "ds-subset"],
-  "languages": ["c"],
+  "tags": [
+    "arrays",
+    "ds-subset"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 36,

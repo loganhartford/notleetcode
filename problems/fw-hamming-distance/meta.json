@@ -1,12 +1,18 @@
 {
   "title": "Hamming Distance",
-  "phase": 7,
+  "phase": 0,
   "phaseName": "Real Interviews",
   "difficulty": "Easy",
-  "tags": ["bit manipulation", "popcount"],
-  "languages": ["c"],
+  "tags": [
+    "bit manipulation",
+    "popcount"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 43,
-  "authored": true
+  "authored": true,
+  "company": "Pivotal"
 }

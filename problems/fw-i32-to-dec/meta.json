@@ -1,11 +1,16 @@
 {
   "id": "fw-i32-to-dec",
   "title": "Integer to Decimal String",
-  "phase": 4,
+  "phase": 5,
   "phaseName": "Memory & Math",
   "difficulty": "Medium",
-  "tags": ["strings", "formatting"],
-  "languages": ["c"],
+  "tags": [
+    "strings",
+    "formatting"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 19,

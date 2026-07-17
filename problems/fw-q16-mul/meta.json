@@ -1,11 +1,16 @@
 {
   "id": "fw-q16-mul",
   "title": "Q16.16 Fixed-Point Multiply",
-  "phase": 4,
+  "phase": 5,
   "phaseName": "Memory & Math",
   "difficulty": "Medium",
-  "tags": ["fixed-point", "math"],
-  "languages": ["c"],
+  "tags": [
+    "fixed-point",
+    "math"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 23,

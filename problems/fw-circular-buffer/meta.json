@@ -1,12 +1,20 @@
 {
   "title": "Implement a Circular Buffer",
-  "phase": 7,
+  "phase": 0,
   "phaseName": "Real Interviews",
   "difficulty": "Medium",
-  "tags": ["data structures", "ring buffer", "queue", "pointers"],
-  "languages": ["c"],
+  "tags": [
+    "data structures",
+    "ring buffer",
+    "queue",
+    "pointers"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 44,
-  "authored": true
+  "authored": true,
+  "company": "Tesla"
 }

@@ -1,11 +1,15 @@
 {
   "id": "fw-bit-suite",
   "title": "Popcount, Bit Reverse, and Rotate",
-  "phase": 3,
+  "phase": 4,
   "phaseName": "Bits & Drivers",
   "difficulty": "Medium",
-  "tags": ["bit-manipulation"],
-  "languages": ["c"],
+  "tags": [
+    "bit-manipulation"
+  ],
+  "languages": [
+    "c"
+  ],
   "defaultLanguage": "c",
   "tab": "firmware",
   "stackIndex": 15,

@@ -1,6 +1,6 @@
 {
   "title": "Push onto an Embedded Free List",
-  "phase": 8,
+  "phase": 2,
   "phaseName": "Pointer Mechanics",
   "difficulty": "Medium",
   "tags": [

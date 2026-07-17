@@ -270,8 +270,13 @@ function renderSidebar() {
     if (p.phase !== lastPhase) {
       lastPhase = p.phase;
       const label = document.createElement('div');
-      label.className = 'phase-label';
-      label.textContent = `Phase ${p.phase} — ${p.phaseName || ''}`;
+      if (p.phase === 0) {
+        label.className = 'phase-label phase-label-featured';
+        label.textContent = p.phaseName || '';
+      } else {
+        label.className = 'phase-label';
+        label.textContent = `Phase ${p.phase} — ${p.phaseName || ''}`;
+      }
       host.appendChild(label);
     }
     const item = document.createElement('div');
@@ -314,11 +319,20 @@ async function openProblem(id) {
   current = await res.json();
   location.hash = id;
 
-  document.getElementById('prob-index').textContent = `#${current.stackIndex} · Phase ${current.phase}`;
+  document.getElementById('prob-index').textContent = current.phase === 0
+    ? `#${current.stackIndex} · ${current.phaseName}`
+    : `#${current.stackIndex} · Phase ${current.phase}`;
   document.getElementById('prob-title').textContent = current.title;
   const diff = document.getElementById('prob-diff');
   diff.textContent = current.difficulty || '';
   diff.className = 'badge ' + (current.difficulty || '');
+  const co = document.getElementById('prob-company');
+  if (current.company) {
+    co.textContent = current.company;
+    co.classList.remove('hidden');
+  } else {
+    co.classList.add('hidden');
+  }
   renderStatusBadge(current.progress ? current.progress.status : 'todo');
 
   const tagHost = document.getElementById('prob-tags');
