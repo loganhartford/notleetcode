@@ -49,38 +49,39 @@ void balanceCurrent(int n, const bool *car_present, const bool *online,
 
 ### The safe fallback (offline chargers)
 
-When a charger loses the leader it falls back to a fixed **safe minimum** — the current
-it would get if *every* charger were online and sharing the site equally:
+When a charger loses the leader it falls back to a fixed **safe limit** — the current it
+would get if *every* charger were online and sharing the site equally:
 
 ```
-safe_min = site_limit / n          (whole amps, and never above max_charger)
+safe_limit = site_limit / n        (whole amps; <= max_charger for a sane site)
 ```
 
 The leader can't talk to an offline charger, and because the status read failed it can't
 tell whether a car is plugged into it — `car_present` is just the default `false`, which
 proves nothing. So the leader is **forced to assume the charger is charging**, but it also
-knows the offline charger's follower has fallen back to `safe_min`, so it will draw *at
-most* `safe_min`. For each offline charger, reserve `safe_min` from the site budget (and
-report `safe_min` as that charger's draw). Whatever budget is left over is shared among
-the chargers the leader *can* reach that have a car.
+knows the offline charger's follower has fallen back to `safe_limit`, so it will draw *at
+most* `safe_limit`. For each offline charger, reserve `safe_limit` from the site budget
+(and report `safe_limit` as that charger's draw). Whatever budget is left over is split
+equally among the chargers the leader *can* reach that have a car.
 
 ### Rules
 
-- `safe_min = site_limit / n`, capped at `max_charger`.
-- Every **offline** charger is assigned `safe_min` — regardless of `car_present`, since
+- `safe_limit = site_limit / n` (whole amps).
+- Every **offline** charger is assigned `safe_limit` — regardless of `car_present`, since
   that field is unreliable when offline. We assume it is charging at the safe limit.
 - An **online** charger with **no car** is assigned `0`.
-- The remaining budget, `site_limit − (number offline) × safe_min`, is split among the
-  **online chargers that have a car**, as evenly as possible, no charger above
-  `max_charger`. When it doesn't divide evenly, the leftover amps go one at a time to the
-  **lowest-indexed** eligible chargers.
+- The remaining budget, `site_limit − (number offline) × safe_limit`, is split **equally**
+  among the online chargers that have a car — each gets
+  `budget / (number of those chargers)` (integer division), capped at `max_charger`. Any
+  amp lost to the integer division is simply left unused (no need to hand out the
+  remainder).
 - The sum of all assigned currents must never exceed `site_limit`.
 
 ### Example 1 — all reachable
 ```
 n=10, site_limit=400, max_charger=50
 car_present = all true,  online = all true
-safe_min = 40, nothing offline -> full 400 A split 10 ways
+safe_limit = 40, nothing offline -> full 400 A split 10 ways
 Output: [40,40,40,40,40,40,40,40,40,40]
 ```
 
@@ -89,19 +90,22 @@ Output: [40,40,40,40,40,40,40,40,40,40]
 n=4, site_limit=120, max_charger=50
 online      = [true, true, true, false]
 car_present = [true, true, false, false]   (C3 offline -> car_present forced to false)
-safe_min = 120/4 = 30
-C3 is offline -> assume it's charging at safe_min, reserve 30 for it.
+safe_limit = 120/4 = 30
+C3 is offline -> assume it's charging at safe_limit, reserve 30 for it.
 C2 is online with no car -> 0.
 Remaining budget 120-30 = 90 split between C0 and C1 -> 45 each.
 Output: [45, 45, 0, 30]     (sum 120, breaker exactly met, never exceeded)
 ```
 
-### Example 3 — uneven split
+### Example 3 — two offline chargers reserved
 ```
-n=4, site_limit=10, max_charger=50
-car_present = all true,  online = all true
-safe_min = 2, budget 10 split 4 ways -> the 2 leftover amps go to C0 and C1
-Output: [3, 3, 2, 2]
+n=6, site_limit=180, max_charger=50
+online      = [true, true, false, false, true, true]
+car_present = [true, true, false, false, true, false]
+safe_limit = 180/6 = 30
+C2, C3 offline -> reserve 30 each (60 total). C5 online, no car -> 0.
+Remaining budget 180-60 = 120 split among C0, C1, C4 -> 40 each.
+Output: [40, 40, 30, 30, 40, 0]
 ```
 
 ### Constraints
@@ -111,6 +115,5 @@ Output: [3, 3, 2, 2]
   default) — so you can never observe an offline charger reporting a car.
 - If `n == 0`, there is nothing to do.
 
-**Optimal complexity:** O(n) — compute `safe_min`, reserve for offline chargers, then
-hand out the remaining budget to the eligible chargers with the remainder spread one amp
-at a time.
+**Optimal complexity:** O(n) — count offline and car-present chargers, compute
+`safe_limit` and the per-charger `charge_limit`, then fill in the array.

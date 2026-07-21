@@ -6,36 +6,24 @@ void balanceCurrent(int n, const bool *car_present, const bool *online,
     for (int i = 0; i < n; i++) limits[i] = 0;
     if (n <= 0) return;
 
-    /* Fallback a charger self-applies when it loses the leader: the fair share
-     * assuming every charger were online, never above its own ceiling. */
-    int safe_min = site_limit / n;
-    if (safe_min > max_charger) safe_min = max_charger;
-
-    /* We can't see or command an offline charger, and someone may have plugged
-     * in, so reserve its fallback out of the budget and record it as its draw. */
-    int reserved = 0;
+    int num_present = 0;   /* chargers reporting a car (offline -> car_present is false) */
+    int num_offline = 0;
     for (int i = 0; i < n; i++) {
-        if (!online[i]) {
-            limits[i] = safe_min;
-            reserved += safe_min;
-        }
+        if (car_present[i]) num_present++;
+        if (!online[i])     num_offline++;
     }
 
-    int budget = site_limit - reserved;   /* >= 0 when site_limit <= n*max_charger */
+    /* Fallback each offline charger self-applies; we reserve it out of the budget. */
+    int safe_limit = site_limit / n;
+    int budget = site_limit - num_offline * safe_limit;
 
-    int k = 0;
-    for (int i = 0; i < n; i++)
-        if (online[i] && car_present[i]) k++;
-    if (k == 0) return;
-
-    int total = budget < k * max_charger ? budget : k * max_charger;
-    int base = total / k;
-    int rem  = total % k;
+    /* Split the remaining budget equally among the reachable chargers with a car. */
+    int charge_limit = num_present > 0 ? budget / num_present : 0;
+    if (charge_limit > max_charger) charge_limit = max_charger;
 
     for (int i = 0; i < n; i++) {
-        if (online[i] && car_present[i]) {
-            limits[i] = base;
-            if (rem > 0) { limits[i]++; rem--; }
-        }
+        if (!online[i])          limits[i] = safe_limit;    /* assumed charging at fallback */
+        else if (car_present[i]) limits[i] = charge_limit;
+        else                     limits[i] = 0;             /* reachable, no car */
     }
 }
