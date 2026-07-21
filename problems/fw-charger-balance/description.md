@@ -36,8 +36,11 @@ void balanceCurrent(int n, const bool *car_present, const bool *online,
 ```
 
 - `n` — number of chargers
-- `car_present[i]` — true if a car is plugged in at charger `i`
-- `online[i]` — true if the leader can currently reach charger `i`
+- `online[i]` — true if the leader could reach charger `i` this round
+- `car_present[i]` — true if a car is plugged in at charger `i`. This comes from the
+  charger's status reply, so it is only meaningful when `online[i]` is true. **When a
+  charger is offline the status read failed and `car_present[i]` is left at its default
+  `false` — it tells you nothing about whether a car is actually plugged in.**
 - `site_limit` — total current the breaker allows, in whole amps
 - `max_charger` — max current any single charger may draw, in whole amps
 - `limits` — **output**: the current attributed to charger `i`. For a charger the leader
@@ -53,16 +56,19 @@ it would get if *every* charger were online and sharing the site equally:
 safe_min = site_limit / n          (whole amps, and never above max_charger)
 ```
 
-The leader can neither talk to an offline charger nor tell whether a car is plugged into
-it. To stay under the breaker it must **assume the worst**: every offline charger may be
-drawing up to `safe_min`. So for each offline charger, reserve `safe_min` from the site
-budget (and report `safe_min` as that charger's draw). Whatever budget is left over is
-shared among the chargers the leader *can* reach that have a car.
+The leader can't talk to an offline charger, and because the status read failed it can't
+tell whether a car is plugged into it — `car_present` is just the default `false`, which
+proves nothing. So the leader is **forced to assume the charger is charging**, but it also
+knows the offline charger's follower has fallen back to `safe_min`, so it will draw *at
+most* `safe_min`. For each offline charger, reserve `safe_min` from the site budget (and
+report `safe_min` as that charger's draw). Whatever budget is left over is shared among
+the chargers the leader *can* reach that have a car.
 
 ### Rules
 
 - `safe_min = site_limit / n`, capped at `max_charger`.
-- Every **offline** charger is assigned `safe_min` (its assumed fallback draw).
+- Every **offline** charger is assigned `safe_min` — regardless of `car_present`, since
+  that field is unreliable when offline. We assume it is charging at the safe limit.
 - An **online** charger with **no car** is assigned `0`.
 - The remaining budget, `site_limit − (number offline) × safe_min`, is split among the
   **online chargers that have a car**, as evenly as possible, no charger above
@@ -81,9 +87,11 @@ Output: [40,40,40,40,40,40,40,40,40,40]
 ### Example 2 — one offline charger reserved
 ```
 n=4, site_limit=120, max_charger=50
-car_present = [true, true, false, true],  online = [true, true, true, false]
+online      = [true, true, true, false]
+car_present = [true, true, false, false]   (C3 offline -> car_present forced to false)
 safe_min = 120/4 = 30
-C3 is offline -> reserve 30 for it. C2 is online with no car -> 0.
+C3 is offline -> assume it's charging at safe_min, reserve 30 for it.
+C2 is online with no car -> 0.
 Remaining budget 120-30 = 90 split between C0 and C1 -> 45 each.
 Output: [45, 45, 0, 30]     (sum 120, breaker exactly met, never exceeded)
 ```
@@ -99,6 +107,8 @@ Output: [3, 3, 2, 2]
 ### Constraints
 - `0 <= n <= 64`; a sanely-provisioned site has `site_limit <= n * max_charger`.
 - All currents are non-negative whole amps.
+- If `online[i]` is false then `car_present[i]` is false (a failed status read leaves the
+  default) — so you can never observe an offline charger reporting a car.
 - If `n == 0`, there is nothing to do.
 
 **Optimal complexity:** O(n) — compute `safe_min`, reserve for offline chargers, then

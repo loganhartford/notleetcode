@@ -282,6 +282,12 @@
     "status": "attempted",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-21T17:06:32.892Z"
+    "updated": "2026-07-21T17:22:13.858Z"
+  },
+  "fw-uart-word-stream": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-21T17:32:23.409Z"
   }
 }

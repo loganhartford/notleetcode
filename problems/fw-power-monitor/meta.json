@@ -1,0 +1,21 @@
+{
+  "title": "Power Monitor: 5-Second Moving Average",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": [
+    "rtos",
+    "moving average",
+    "ring buffer",
+    "sensor fusion",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 49,
+  "authored": true,
+  "company": "Tesla"
+}

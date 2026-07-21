@@ -1,0 +1,20 @@
+{
+  "title": "SENT Angle Sensor Decode",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": [
+    "bit manipulation",
+    "protocol",
+    "sensor",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 48,
+  "authored": true,
+  "company": "Tesla"
+}
