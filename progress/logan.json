@@ -253,5 +253,17 @@
     "lastLanguage": "c",
     "flagged": false,
     "updated": "2026-07-15T20:52:25.406Z"
+  },
+  "fw-bug-diagnosis": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-07-17T17:42:54.944Z"
+  },
+  "fw-bit-suite": {
+    "status": "attempted",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-07-17T18:22:39.714Z"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "title": "MIPI RAW10 → PLAIN16 Unpacking",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": ["bit manipulation", "image processing", "embedded"],
+  "languages": ["c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 45,
+  "authored": true,
+  "company": "Deepnight"
+}
