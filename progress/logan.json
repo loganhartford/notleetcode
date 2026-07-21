@@ -261,10 +261,10 @@
     "updated": "2026-07-17T17:42:54.944Z"
   },
   "fw-bit-suite": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-17T18:22:39.714Z"
+    "updated": "2026-07-21T17:18:36.260Z"
   },
   "fw-circular-buffer": {
     "status": "solved",
@@ -275,8 +275,8 @@
   "fw-mipi-raw10": {
     "status": "solved",
     "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-21T16:57:16.880Z"
+    "flagged": true,
+    "updated": "2026-07-21T17:14:07.606Z"
   },
   "fw-charger-balance": {
     "status": "attempted",

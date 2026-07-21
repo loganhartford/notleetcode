@@ -28,7 +28,7 @@ uint32_t rotl32(uint32_t x, unsigned n) {
 
 uint32_t rotr32(uint32_t x, unsigned n) {
     uint64_t temp = (uint64_t)x << 32;
-    temp >> n;
+    temp = temp >> n;
     x = (uint32_t)(temp & 0xFFFFFFFF) | ((temp & 0xFFFFFFFF00000000) >> 32);
     return x;
 }

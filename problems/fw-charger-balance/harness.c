@@ -5,8 +5,9 @@
 #include "solution.c"
 
 /* Run one case: build inputs, call balanceCurrent, compare limits[] to expected.
- * Also independently verifies the safety invariant (sum <= site_limit, each in
- * [0, max_charger], ineligible chargers == 0) so a wrong-but-lucky array fails. */
+ * Also independently verifies the safety invariants (sum <= site_limit, each in
+ * [0, max_charger], offline chargers == safe_min, online-but-no-car == 0) so a
+ * wrong-but-lucky array still fails. */
 static void run(const char *name, int n, const bool *car, const bool *online,
                 int site_limit, int max_charger, const int *expected) {
     int limits[64];
@@ -14,12 +15,16 @@ static void run(const char *name, int n, const bool *car, const bool *online,
 
     balanceCurrent(n, car, online, site_limit, max_charger, limits);
 
+    int safe_min = n > 0 ? site_limit / n : 0;
+    if (safe_min > max_charger) safe_min = max_charger;
+
     int ok = 1, sum = 0;
     for (int i = 0; i < n; i++) {
         if (limits[i] != expected[i]) ok = 0;
         sum += limits[i];
         if (limits[i] < 0 || limits[i] > max_charger) ok = 0;
-        if (!(online[i] && car[i]) && limits[i] != 0) ok = 0;
+        if (!online[i] && limits[i] != safe_min) ok = 0;        /* offline -> safe_min */
+        if (online[i] && !car[i] && limits[i] != 0) ok = 0;     /* online, no car -> 0 */
     }
     if (sum > site_limit) ok = 0;
 
@@ -34,7 +39,7 @@ static void run(const char *name, int n, const bool *car, const bool *online,
 int main(void) {
     nlc_begin();
 
-    /* Example 1: 10 chargers, all eligible, splits evenly. */
+    /* Example 1: all reachable, splits evenly, no reservation. */
     {
         bool car[10], on[10];
         int exp[10];
@@ -42,12 +47,13 @@ int main(void) {
         run("example 1: 400 A split 10 ways", 10, car, on, 400, 50, exp);
     }
 
-    /* Example 2: offline chargers excluded, breaker never hit. */
+    /* Example 2: one offline charger reserved at safe_min, one online idle. */
     {
-        bool car[4] = {true, true, true, true};
-        bool on[4]  = {true, false, true, false};
-        int  exp[4] = {50, 0, 50, 0};
-        run("example 2: offline chargers get 0", 4, car, on, 200, 50, exp);
+        bool car[4] = {true, true, false, true};
+        bool on[4]  = {true, true, true, false};
+        /* safe_min=30, reserve 30 for C3, budget 90 -> C0,C1 get 45; C2 no car -> 0 */
+        int  exp[4] = {45, 45, 0, 30};
+        run("example 2: offline reserved at safe_min", 4, car, on, 120, 50, exp);
     }
 
     /* Example 3: remainder amps go to lowest-indexed eligible chargers. */
@@ -58,6 +64,16 @@ int main(void) {
         run("example 3: leftover amps to low index", 4, car, on, 10, 50, exp);
     }
 
+    /* Offline reservation frees less for eligible: safe_min=30, budget shared. */
+    {
+        bool car[6] = {true, true, false, false, true, false};
+        bool on[6]  = {true, true, false, false, true, true};
+        /* offline C2,C3 -> reserve 30 each (60). budget=120. eligible C0,C1,C4 -> 40.
+         * C5 online no car -> 0. */
+        int  exp[6] = {40, 40, 30, 30, 40, 0};
+        run("offline reservation shrinks budget", 6, car, on, 180, 50, exp);
+    }
+
     /* Per-charger cap: 3 chargers, big budget -> each capped at max_charger. */
     {
         bool car[3] = {true, true, true};
@@ -66,7 +82,7 @@ int main(void) {
         run("per-charger cap: each limited to 50", 3, car, on, 400, 50, exp);
     }
 
-    /* No cars: everything zero. */
+    /* No cars, all online: everything zero (safe_min never applied). */
     {
         bool car[5] = {false, false, false, false, false};
         bool on[5]  = {true, true, true, true, true};
@@ -74,16 +90,24 @@ int main(void) {
         run("no cars: all zero", 5, car, on, 400, 50, exp);
     }
 
-    /* Mixed car + online: eligible = online AND car. */
+    /* All offline: every charger falls back to safe_min, breaker not exceeded. */
+    {
+        bool car[4] = {false, false, false, false};
+        bool on[4]  = {false, false, false, false};
+        int  exp[4] = {40, 40, 40, 40};   /* safe_min = 160/4 = 40 */
+        run("all offline: each at safe_min", 4, car, on, 160, 50, exp);
+    }
+
+    /* Mixed car + online: eligibility is online AND car; offline still reserved. */
     {
         bool car[6] = {true, false, true, true, false, true};
         bool on[6]  = {true, true,  true, false, true, true};
-        /* eligible: 0, 2, 5 -> k=3, total=min(90,150)=90, base=30, rem=0 */
-        int  exp[6] = {30, 0, 30, 0, 0, 30};
+        /* safe_min=15, offline C3 -> 15, budget=75, eligible C0,C2,C5 -> 25 each */
+        int  exp[6] = {25, 0, 25, 15, 0, 25};
         run("mixed car/online eligibility", 6, car, on, 90, 50, exp);
     }
 
-    /* Single eligible charger: gets min(site_limit, max_charger). */
+    /* Single eligible charger, all online: gets min(site_limit, max_charger). */
     {
         bool car[3] = {false, true, false};
         bool on[3]  = {true, true, true};
@@ -91,10 +115,10 @@ int main(void) {
         run("single eligible: min(site,max)", 3, car, on, 400, 50, exp);
     }
 
-    /* site_limit smaller than eligible count: everyone rounds down, some 0. */
+    /* Tiny budget: safe_min=0, remainder amps only. */
     {
         bool car[5], on[5];
-        int  exp[5] = {1, 1, 0, 0, 0};  /* total=2, base=0, rem=2 -> C0,C1 get 1 */
+        int  exp[5] = {1, 1, 0, 0, 0};  /* budget=2, base=0, rem=2 -> C0,C1 get 1 */
         for (int i = 0; i < 5; i++) { car[i] = true; on[i] = true; }
         run("tiny budget: remainder only", 5, car, on, 2, 50, exp);
     }
@@ -113,14 +137,15 @@ int main(void) {
         run("empty site (n=0)", 0, NULL, NULL, 400, 50, exp);
     }
 
-    /* Uneven split with cars and offline mixed. */
+    /* Uneven split with two offline chargers reserved at safe_min. */
     {
         bool car[8], on[8];
         for (int i = 0; i < 8; i++) { car[i] = true; on[i] = true; }
-        on[3] = false; on[6] = false;   /* eligible: 6 chargers */
-        /* total=min(100,300)=100, base=16, rem=4 -> C0,C1,C2,C4 get 17 */
-        int exp[8] = {17, 17, 17, 0, 17, 16, 0, 16};
-        run("uneven split, two offline", 8, car, on, 100, 50, exp);
+        on[3] = false; on[6] = false;
+        /* safe_min=12, offline C3,C6 -> 12 each (24), budget=76, eligible=6 chargers.
+         * base=12, rem=4 -> C0,C1,C2,C4 get 13; C5,C7 get 12. */
+        int exp[8] = {13, 13, 13, 12, 13, 12, 12, 12};
+        run("uneven split, two offline reserved", 8, car, on, 100, 50, exp);
     }
 
     nlc_end();
