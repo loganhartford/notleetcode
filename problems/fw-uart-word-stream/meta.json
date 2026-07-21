@@ -1,0 +1,21 @@
+{
+  "title": "UART ISR: Stream Words to the Console",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": [
+    "isr",
+    "ring buffer",
+    "producer consumer",
+    "embedded",
+    "volatile"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 47,
+  "authored": true,
+  "company": "Tesla"
+}
