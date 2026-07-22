@@ -27,6 +27,7 @@ const ALL_TABS = ['general', 'firmware', 'robotics'];
 const USER_TABS = {
   tim: ['firmware'],
   jalius: ['firmware'],
+  kendall: ['firmware'],
 };
 
 const PORT = process.env.PORT || 5151;
