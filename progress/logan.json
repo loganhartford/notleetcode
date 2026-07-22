@@ -279,10 +279,10 @@
     "updated": "2026-07-21T17:14:07.606Z"
   },
   "fw-charger-balance": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-07-21T17:32:44.002Z"
+    "updated": "2026-07-21T17:41:32.904Z"
   },
   "fw-uart-word-stream": {
     "status": "solved",
