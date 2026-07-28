@@ -1,0 +1,21 @@
+{
+  "title": "Endianness Flip Macro",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Easy",
+  "tags": [
+    "bit manipulation",
+    "endianness",
+    "preprocessor",
+    "macro hygiene",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 51,
+  "authored": true,
+  "company": "Tesla"
+}

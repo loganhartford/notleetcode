@@ -1,0 +1,21 @@
+{
+  "title": "ADC 10-Sample Moving Average Filter",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Easy",
+  "tags": [
+    "moving average",
+    "ring buffer",
+    "adc",
+    "filtering",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 50,
+  "authored": true,
+  "company": "Tesla"
+}
