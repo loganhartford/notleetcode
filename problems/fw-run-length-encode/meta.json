@@ -1,0 +1,20 @@
+{
+  "title": "Run-Length Encoding",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Easy",
+  "tags": [
+    "string",
+    "encoding",
+    "pointers",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 52,
+  "authored": true,
+  "company": "Tesla"
+}
