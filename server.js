@@ -28,6 +28,7 @@ const USER_TABS = {
   tim: ['firmware'],
   jalius: ['firmware'],
   kendall: ['firmware'],
+  suhaib: ['firmware'],
 };
 
 const PORT = process.env.PORT || 5151;
