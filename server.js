@@ -280,19 +280,42 @@ function runUserCode(id, lang, code) {
       return { ok: false, error: `Runtime not found: ${cfg.run[0]}. Install it and retry.` };
     }
     if (r.error && r.error.code === 'ETIMEDOUT') {
-      return { ok: false, stage: 'run', timeout: true, stdout: r.stdout || '', stderr: r.stderr || '' };
+      const partial = parsePartialResults(r.stderr || '');
+      return {
+        ok: false,
+        stage: 'run',
+        timeout: true,
+        error: `Timed out after ${RUN_TIMEOUT_MS / 1000} s`,
+        crash: {
+          explanation: 'The program never finished. Usually a loop whose condition never becomes false, ' +
+            'e.g. a pointer or counter that is not advanced, or a value that never reaches the exit condition.',
+        },
+        results: partial.results,
+        stdout: r.stdout || '',
+        stderr: partial.rest,
+      };
     }
 
     const stdout = r.stdout || '';
     const stderr = r.stderr || '';
     const parsed = parseResults(stderr);
     if (!parsed) {
+      // The program died before finishing its result block: report how, where,
+      // and which tests completed first.
+      const partial = parsePartialResults(stderr);
+      const crash = describeCrash(r);
+      if (r.signal && cfg.compile) {
+        const where = locateCrash(cfg, tmp);
+        if (where) Object.assign(crash, where);
+      }
       return {
         ok: false,
         stage: 'run',
-        error: 'Could not read test results from program output.',
+        error: crash.headline,
+        crash,
+        results: partial.results,
         stdout,
-        stderr,
+        stderr: partial.rest,
         exitCode: r.status,
       };
     }
@@ -327,6 +350,99 @@ function parseResults(stdout) {
   } catch (err) {
     return null;
   }
+}
+
+// Recover the tests that finished before the program died. The C harness
+// streams one result object at a time, so cut the block back to each closing
+// brace in turn until the prefix parses.
+function parsePartialResults(stderr) {
+  const b = stderr.indexOf(RESULT_BEGIN);
+  if (b === -1) return { results: [], rest: stderr.trim() };
+  const block = stderr.slice(b + RESULT_BEGIN.length);
+  const end = block.indexOf(RESULT_END);
+  const text = end === -1 ? block : block.slice(0, end);
+  for (let i = text.lastIndexOf('}'); i !== -1; i = text.lastIndexOf('}', i - 1)) {
+    try {
+      const obj = JSON.parse(text.slice(0, i + 1) + ']}');
+      if (obj && Array.isArray(obj.results)) {
+        const after = text.slice(i + 1).replace(/^\s*,/, '');
+        return { results: obj.results, rest: (stderr.slice(0, b) + after).trim() };
+      }
+    } catch (e) {
+      /* keep cutting */
+    }
+  }
+  const afterOpen = text.replace(/^\s*\{\s*"results"\s*:\s*\[/, '');
+  return { results: [], rest: (stderr.slice(0, b) + afterOpen).trim() };
+}
+
+const SIGNAL_HELP = {
+  SIGSEGV: ['segmentation fault',
+    'Your code read or wrote memory it does not own: an uninitialized or NULL pointer, ' +
+    'an index past the end of an array, or memory used after free().'],
+  SIGBUS: ['bus error',
+    'Your code accessed an invalid address. On macOS this usually means an uninitialized ' +
+    'or garbage pointer; it can also be a misaligned access.'],
+  SIGABRT: ['abort',
+    'The C library stopped the program: usually free() of a pointer that did not come from malloc(), ' +
+    'a double free, heap corruption from writing past an allocation, or a failed assert().'],
+  SIGFPE: ['arithmetic error', 'Usually integer division or modulo by zero.'],
+  SIGILL: ['illegal instruction', 'Usually undefined behavior that the compiler turned into a trap.'],
+  SIGTRAP: ['trap', 'Usually undefined behavior that the compiler turned into a trap.'],
+};
+
+function describeCrash(r) {
+  if (r.signal) {
+    const [name, explanation] = SIGNAL_HELP[r.signal] ||
+      [r.signal, 'The operating system killed the program.'];
+    return { headline: `Crashed: ${name} (${r.signal})`, signal: r.signal, explanation };
+  }
+  return {
+    headline: `Program exited${r.status != null ? ` with code ${r.status}` : ''} before reporting all results`,
+    explanation: 'Something ended the program before the tests finished: in C, a call to exit() or abort(); ' +
+      'in Python, an error outside a test (check stderr below).',
+  };
+}
+
+// Rebuild a crashed C/C++ program with AddressSanitizer and run it again to
+// find the line in solution.c. Returns null if the sanitizer reports nothing.
+function locateCrash(cfg, tmp) {
+  const args = cfg.compile.slice(1).map((a) => (a === 'prog' ? 'prog_asan' : a));
+  const c = spawnSync(cfg.compile[0], ['-fsanitize=address', '-fno-omit-frame-pointer', ...args], {
+    cwd: tmp,
+    encoding: 'utf8',
+    timeout: RUN_TIMEOUT_MS,
+  });
+  if (c.status !== 0) return null;
+  const r = spawnSync('./prog_asan', [], {
+    cwd: tmp,
+    encoding: 'utf8',
+    timeout: RUN_TIMEOUT_MS,
+    maxBuffer: 16 * 1024 * 1024,
+    env: { ...process.env, ASAN_OPTIONS: 'detect_leaks=0' },
+  });
+  const out = r.stderr || '';
+  const start = out.indexOf('ERROR: AddressSanitizer');
+  if (start === -1) return null;
+  const report = out.slice(start);
+  const kind = (report.match(/AddressSanitizer: ([\w-]+)/) || [])[1];
+  const access = (report.match(/caused by a (READ|WRITE) memory access/) ||
+                  report.match(/^(READ|WRITE) of size \d+/m) || [])[1];
+  const frame = report.match(/#\d+ 0x[0-9a-f]+ in (\S+) solution\.c(?:pp)?:(\d+)/);
+  const where = {
+    report: report
+      .split('\n')
+      .map((l) => l.replace(/^==\d+==/, ''))
+      .filter((l) => /ERROR: AddressSanitizer|caused by a|^(READ|WRITE) of size|is located|Hint:|#\d+ .*(solution|main)\.c/.test(l))
+      .join('\n'),
+  };
+  if (frame) {
+    where.line = Number(frame[2]);
+    where.location = `line ${frame[2]}, in ${frame[1]}()` +
+      (access ? ` (a ${access.toLowerCase()})` : '') +
+      (kind && kind !== 'SEGV' && kind !== 'BUS' ? ` [${kind}]` : '');
+  }
+  return where;
 }
 
 function stripResultBlock(stdout) {

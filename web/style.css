@@ -347,6 +347,7 @@ html, body {
 .case .case-name { color: var(--text-dim); }
 .case .kv { color: var(--text-dim); white-space: pre-wrap; word-break: break-all; }
 .case .kv b { color: var(--text); font-weight: 600; }
+.case.crash-info .kv { word-break: normal; overflow-wrap: anywhere; }
 .case .trace, .case .case-stdout {
   margin-top: 6px; padding: 6px 8px; background: var(--bg); border-radius: 4px;
   white-space: pre-wrap; word-break: break-all; font-size: 11.5px;

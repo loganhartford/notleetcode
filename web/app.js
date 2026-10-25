@@ -549,6 +549,19 @@ function renderResults(data) {
   const detail = document.getElementById('results-detail');
   detail.innerHTML = '';
 
+  // Crash or timeout: say what happened and where, then show the tests that
+  // finished before it.
+  if (data.crash) {
+    summary.className = 'results-summary fail';
+    summary.textContent = '✗ ' + data.error;
+    detail.appendChild(crashInfo(data));
+    for (const r of data.results || []) detail.appendChild(caseBlock(r));
+    if (data.crash.report) detail.appendChild(consoleBlock('sanitizer report', data.crash.report, true));
+    if (data.stdout) detail.appendChild(consoleBlock('stdout', data.stdout, false));
+    if (data.stderr) detail.appendChild(consoleBlock('stderr', data.stderr, true));
+    return;
+  }
+
   if (data.error && !data.results) {
     summary.className = 'results-summary fail';
     summary.textContent = data.timeout ? 'Timed out.' : data.error;
@@ -575,32 +588,49 @@ function renderResults(data) {
     summary.textContent = `✗ ${passed}/${total} tests passed`;
   }
 
-  for (const r of results) {
-    const div = document.createElement('div');
-    div.className = 'case ' + (r.passed ? 'pass' : 'fail');
-    let html = `<div class="case-head"><span class="verdict">${r.passed ? '✓ PASS' : '✗ FAIL'}</span>`;
-    html += `<span class="case-name">${escapeHtml(r.name || '')}</span></div>`;
-    if (r.input != null) html += `<div class="kv"><b>input:</b> ${escapeHtml(String(r.input))}</div>`;
-    if (!r.passed) {
-      html += `<div class="kv"><b>expected:</b> ${escapeHtml(String(r.expected))}</div>`;
-      html += `<div class="kv"><b>got:</b> ${escapeHtml(String(r.got))}</div>`;
-    }
-    // Full traceback for a runtime error, kept with its own test.
-    if (r.trace) {
-      html += `<div class="trace"><span class="label">traceback</span>${escapeHtml(r.trace.replace(/\s+$/, ''))}</div>`;
-    }
-    // This test's own stdout, kept with its own test.
-    if (r.stdout) {
-      html += `<div class="case-stdout"><span class="label">stdout</span>${escapeHtml(r.stdout.replace(/\s+$/, ''))}</div>`;
-    }
-    div.innerHTML = html;
-    detail.appendChild(div);
-  }
+  for (const r of results) detail.appendChild(caseBlock(r));
 
   // Anything the program wrote outside a test (e.g. module-level prints) or to
   // stderr is shown once at the end.
   if (data.stdout) detail.appendChild(consoleBlock('stdout', data.stdout, false));
   if (data.stderr) detail.appendChild(consoleBlock('stderr', data.stderr, true));
+}
+
+function crashInfo(data) {
+  const c = data.crash;
+  const done = (data.results || []).length;
+  const verb = data.timeout ? 'got stuck' : 'died';
+  const div = document.createElement('div');
+  div.className = 'case fail crash-info';
+  let html = `<div class="kv">${escapeHtml(c.explanation || '')}</div>`;
+  if (c.location) html += `<div class="kv"><b>where:</b> ${escapeHtml(c.location)}</div>`;
+  html += `<div class="kv"><b>progress:</b> ${done
+    ? `${done} test${done === 1 ? '' : 's'} finished first (below); it ${verb} during the next one`
+    : `it ${verb} during the first test`}</div>`;
+  div.innerHTML = html;
+  return div;
+}
+
+function caseBlock(r) {
+  const div = document.createElement('div');
+  div.className = 'case ' + (r.passed ? 'pass' : 'fail');
+  let html = `<div class="case-head"><span class="verdict">${r.passed ? '✓ PASS' : '✗ FAIL'}</span>`;
+  html += `<span class="case-name">${escapeHtml(r.name || '')}</span></div>`;
+  if (r.input != null) html += `<div class="kv"><b>input:</b> ${escapeHtml(String(r.input))}</div>`;
+  if (!r.passed) {
+    html += `<div class="kv"><b>expected:</b> ${escapeHtml(String(r.expected))}</div>`;
+    html += `<div class="kv"><b>got:</b> ${escapeHtml(String(r.got))}</div>`;
+  }
+  // Full traceback for a runtime error, kept with its own test.
+  if (r.trace) {
+    html += `<div class="trace"><span class="label">traceback</span>${escapeHtml(r.trace.replace(/\s+$/, ''))}</div>`;
+  }
+  // This test's own stdout, kept with its own test.
+  if (r.stdout) {
+    html += `<div class="case-stdout"><span class="label">stdout</span>${escapeHtml(r.stdout.replace(/\s+$/, ''))}</div>`;
+  }
+  div.innerHTML = html;
+  return div;
 }
 
 function consoleBlock(label, text, isErr) {
