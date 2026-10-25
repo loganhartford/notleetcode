@@ -1,0 +1,21 @@
+{
+  "title": "Declarations and Function-Pointer Jump Table",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": [
+    "pointers",
+    "function pointers",
+    "declarations",
+    "jump table",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 58,
+  "authored": true,
+  "company": "Nigel Jones C Test"
+}

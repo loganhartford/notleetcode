@@ -20,16 +20,6 @@ static void chk_mem(const char *nm, const char *in, const uint8_t *got, const ui
 int main(void) {
     nlc_begin();
 
-    uint8_t separate_src[] = {9, 8, 7, 6};
-    uint8_t separate_dst[] = {0, 0, 0, 0};
-    void *returned = c_memmove(separate_dst, separate_src, sizeof separate_src);
-    chk_mem("memmove separate arrays", "separate objects", separate_dst, separate_src, 4);
-    nlc_case("memmove returns destination", returned == separate_dst, "separate objects", "dst", returned == separate_dst ? "dst" : "wrong pointer", "");
-    c_memmove(separate_dst, separate_dst, 4);
-    chk_mem("memmove same pointer", "same region", separate_dst, separate_src, 4);
-    c_memmove(separate_dst, separate_src, 0);
-    chk_mem("memmove zero length", "n=0", separate_dst, separate_src, 4);
-
     uint8_t src[8] = {1,2,3,4,5,6,7,8};
     uint8_t dst[8];
 

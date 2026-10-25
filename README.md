@@ -73,9 +73,13 @@ The left sidebar is the problem list, grouped by phase. Click a problem or use *
 | amber | in progress |
 | green | solved (all tests passed) |
 
-Pick a language from the dropdown, write your solution, and click **Run Tests**. The status reflects your latest work: passing tests marks it solved; editing or a failed run puts it back in progress.
+Pick a language from the dropdown, write your solution, and click **Run Tests**. Once all tests pass the problem is marked solved — and stays solved even if a later experimental run fails.
 
 A **Show reference solution** toggle reveals a worked answer when you want to compare. Your code autosaves as you type.
+
+### Curated tabs
+
+A file in `tabs/` defines an extra sidebar tab: an ordered list of existing problem ids grouped into sections, visible only to the users it names. The problems are the same ones as in their home tab, so saved code and solved status are shared. See `tabs/prep.json`.
 
 ### Keyboard shortcuts
 
@@ -86,40 +90,6 @@ A **Show reference solution** toggle reveals a worked answer when you want to co
 | `Cmd/Ctrl + /` | Toggle comment |
 | `Tab` | Indent |
 | `Shift + Tab` | Dedent |
-
-### Thursday interview prep
-
-Open **Thursday prep · plan & recall tracker** in the sidebar, or visit
-**http://localhost:5151/study.html**. The October 25–29 plan includes a prioritized
-firmware route, daily timeboxes, shorter weekday routes, oral drills, and extensions.
-The string-copy exercise adapts 42 Piscine C02 exercise 10 using the OpenBSD
-`strlcpy` contract; links are in the question. Event handoff is labeled as an optional
-custom simulation, and the core concurrency card uses an avr-libc shared-counter
-example. The plan distinguishes practice references from interview reports.
-
-Use **Open question** to see your latest code. **Start over** replaces it with the
-starter for a fresh attempt. All edits autosave to `solutions/<your-name>/`; running
-tests saves there too. There is one current solution per question and language.
-**Saved to project** confirms the server accepted your code. Older browser-only
-attempts are imported on opening the updated app only when there is no saved project
-solution; conflicting drafts stay in the browser and do not replace your current work.
-Git commits provide history when you want it.
-
-Log **Stuck**, **Used help**, or **Independent**, plus minutes and a short mistake note.
-Two consecutive independent attempts on different Los Angeles calendar days count as
-**Retained**. Your ratings update **Due for recall**; the daily route stays fixed until
-edited. **Undo last log** corrects a mistaken rating. Reviews are stored in
-`progress/<your-name>.study.json` (the internal `cold` rating means Independent).
-
-The app works standalone. It runs tests and schedules recall from your self-ratings;
-it does not grade explanations, record speech, or automatically ask an AI to review
-work. Ask Codex to review your saved code and mistake notes when you want coaching
-and a revised plan. The latest code is available without keeping a special tab open.
-
-Run `node scripts/test-study.js` to check the study plan, review persistence,
-retention rules, and saving/running the latest solution. Run
-`node scripts/test-editor.js` for save failures, language switching, queued edits,
-and browser-draft recovery.
 
 ---
 

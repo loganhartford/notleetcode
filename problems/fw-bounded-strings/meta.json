@@ -9,8 +9,8 @@
     "null termination"
   ],
   "languages": [
-    "python",
-    "c"
+    "c",
+    "python"
   ],
   "defaultLanguage": "c",
   "tab": "firmware",

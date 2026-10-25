@@ -1,31 +1,36 @@
 # Implement strlcpy
 
-Implement a size-bounded C string copy without calling library functions.
+Implement `strlcpy`, the size-bounded string copy from BSD, without calling any library functions.
 
 ```c
 size_t c_strlcpy(char *dst, const char *src, size_t dstsize);
 ```
 
-- Copy at most `dstsize - 1` characters from `src`. If `dstsize > 0`, write a terminating `\0` after the copied characters.
-- Always return the full length of `src`, excluding its terminator, even when the copy is truncated.
-- If `dstsize == 0`, write nothing and still return the source length.
+`dstsize` is the total size of the `dst` buffer in bytes, including room for the terminator. Copy as much of `src` as fits (at most `dstsize - 1` characters), then write `'\0'` after the copied characters. If `dstsize` is 0, write nothing.
 
-`src` is a valid NUL-terminated string. `dst` is a valid buffer with at least `dstsize` bytes. The buffers do not overlap. The destination need not already contain a string. Bytes after the result's terminator within the capacity are unspecified.
+Return the length of `src` — its full length, even when the copy was truncated. That lets the caller detect truncation with `if (ret >= dstsize)`.
 
-### Examples
+### Example 1
+```
+Input:  src = "cat", dstsize = 4
+Output: dst = "cat", returns 3
+```
 
-Each row starts with a separate writable destination buffer.
+### Example 2
+```
+Input:  src = "hello", dstsize = 4
+Output: dst = "hel", returns 5      (5 >= 4, so the caller knows it was truncated)
+```
 
-| Call | Result in destination | Return |
-| --- | --- | --- |
-| `c_strlcpy(dst, "cat", 4)` | `"cat\0"` | `3` |
-| `c_strlcpy(dst, "hello", 4)` | `"hel\0"` | `5` |
-| `c_strlcpy(dst, "hello", 0)` | No writes | `5` |
+### Example 3
+```
+Input:  src = "hello", dstsize = 0
+Output: dst untouched, returns 5
+```
 
-Python uses `c_strlcpy(dst: bytearray, src: bytes, dstsize: int) -> int`, with NUL-terminated source bytes and the same contract.
+### Constraints
+- `src` is a valid NUL-terminated string; `dst` has at least `dstsize` bytes; the buffers do not overlap
+- Never write past `dst[dstsize - 1]`
+- Python: `dst` is a `bytearray`, `src` is NUL-terminated `bytes`
 
-### Source
-
-[42 Piscine C02, exercise 10](https://raw.githubusercontent.com/kuvarti/42k-Piscine/main/PDFs/EN_C02.pdf) asks for a `strlcpy` implementation. This version uses a `c_` prefix, `size_t`, and `const` source parameter; behavior follows the [OpenBSD strlcpy manual](https://man.openbsd.org/strlcpy).
-
-**Complexity:** O(source length) time, O(1) extra space.
+**Optimal complexity:** O(n) time, O(1) space — one pass over `src`

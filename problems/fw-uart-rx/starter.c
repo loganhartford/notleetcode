@@ -3,11 +3,11 @@
 
 
 typedef struct {
-    uint8_t *buf;
-    size_t   capacity;
-    size_t   head;
-    size_t   count;
-    size_t   dropped;
+    volatile uint8_t *buf;
+    size_t            capacity;
+    volatile size_t   head;
+    volatile size_t   tail;
+    volatile size_t   dropped;
 } uart_rx_t;
 
 void uart_rx_init(uart_rx_t *u, uint8_t *storage, size_t capacity) {

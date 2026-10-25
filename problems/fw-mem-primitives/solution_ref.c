@@ -3,29 +3,27 @@
 #include <stdint.h>
 
 void *c_memcpy(void *dst, const void *src, size_t n) {
-    unsigned char       *d = dst;
-    const unsigned char *s = src;
+    uint8_t       *d = (uint8_t *)dst;
+    const uint8_t *s = (const uint8_t *)src;
     while (n--) *d++ = *s++;
     return dst;
 }
 
 void *c_memmove(void *dst, const void *src, size_t n) {
-    unsigned char       *d = dst;
-    const unsigned char *s = src;
-    if (n == 0 || d == s) return dst;
-    size_t offset = 1;
-    while (offset < n && d != s + offset) ++offset;
-    if (offset < n) {
-        while (n > 0) { --n; d[n] = s[n]; }
-    } else {
-        for (size_t i = 0; i < n; ++i) d[i] = s[i];
+    uint8_t       *d = (uint8_t *)dst;
+    const uint8_t *s = (const uint8_t *)src;
+    if (d < s) {
+        while (n--) *d++ = *s++;
+    } else if (d > s) {
+        d += n; s += n;
+        while (n--) *--d = *--s;
     }
     return dst;
 }
 
 void *c_memset(void *dst, int value, size_t n) {
-    unsigned char *d = dst;
-    unsigned char v = (unsigned char)value;
+    uint8_t *d = (uint8_t *)dst;
+    uint8_t  v = (uint8_t)(value & 0xFF);
     while (n--) *d++ = v;
     return dst;
 }

@@ -4,38 +4,39 @@
 
 
 typedef struct {
-    uint8_t *buf;
-    size_t   capacity;
-    size_t   head;
-    size_t   count;
-    size_t   dropped;
+    volatile uint8_t *buf;
+    size_t            capacity;
+    volatile size_t   head;
+    volatile size_t   tail;
+    volatile size_t   dropped;
 } uart_rx_t;
 
 void uart_rx_init(uart_rx_t *u, uint8_t *storage, size_t capacity) {
     u->buf      = storage;
     u->capacity = capacity;
     u->head     = 0;
-    u->count    = 0;
+    u->tail     = 0;
     u->dropped  = 0;
 }
 
 void uart_rx_isr_byte(uart_rx_t *u, uint8_t byte) {
-    if (u->count >= u->capacity) {
+    size_t head = u->head;
+    if (head - u->tail == u->capacity) {
         u->dropped++;
         return;
     }
-    size_t write_idx = (u->head + u->count) % u->capacity;
-    u->buf[write_idx] = byte;
-    u->count++;
+    u->buf[head % u->capacity] = byte;
+    u->head = head + 1;
 }
 
 size_t uart_rx_read(uart_rx_t *u, uint8_t *out, size_t max_len) {
-    size_t n = u->count < max_len ? u->count : max_len;
+    size_t tail  = u->tail;
+    size_t avail = u->head - tail;
+    size_t n     = avail < max_len ? avail : max_len;
     for (size_t i = 0; i < n; i++) {
-        out[i] = u->buf[(u->head + i) % u->capacity];
+        out[i] = u->buf[(tail + i) % u->capacity];
     }
-    u->head  = (u->head + n) % u->capacity;
-    u->count -= n;
+    u->tail = tail + n;
     return n;
 }
 

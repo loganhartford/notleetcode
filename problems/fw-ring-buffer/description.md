@@ -1,6 +1,6 @@
 # Ring Buffer with Full Flag
 
-Implement a classic ring (circular) buffer for bytes. The buffer uses an explicit `full` flag to disambiguate between the full and empty states — both of which have `head == tail` for any positive capacity. The harness exercises sequential operations, not concurrency.
+Implement a classic ring (circular) buffer for bytes. The buffer uses an explicit `full` flag to disambiguate between the full and empty states — both of which have `head == tail` for any positive capacity.
 
 The `ringbuf_t` struct is provided; implement the five functions below.
 

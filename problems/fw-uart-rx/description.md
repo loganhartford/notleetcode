@@ -1,8 +1,20 @@
 # ISR-Safe UART RX Buffer
 
-Implement a UART receive buffer designed for use in interrupt-driven systems. The `uart_rx_isr_byte` function is called from an interrupt service routine (ISR), while `uart_rx_read` is called from the main loop.
+Implement a UART receive buffer shared between an interrupt service routine and the main loop on a single-core MCU. `uart_rx_isr_byte` runs in the ISR; `uart_rx_read` and `uart_rx_dropped` run in the main loop. The ISR can fire between any two instructions of `uart_rx_read`, so the buffer must stay consistent without a lock.
 
-The `uart_rx_t` struct is provided. Implement:
+The `uart_rx_t` struct is provided:
+
+```c
+typedef struct {
+    volatile uint8_t *buf;
+    size_t            capacity;
+    volatile size_t   head;     // total bytes ever written  (only the ISR writes this)
+    volatile size_t   tail;     // total bytes ever read     (only the main loop writes this)
+    volatile size_t   dropped;  // bytes dropped while full  (only the ISR writes this)
+} uart_rx_t;
+```
+
+Implement:
 
 ```c
 void   uart_rx_init(uart_rx_t *u, uint8_t *storage, size_t capacity);
@@ -11,15 +23,13 @@ size_t uart_rx_read(uart_rx_t *u, uint8_t *out, size_t max_len);
 size_t uart_rx_dropped(const uart_rx_t *u);
 ```
 
-**Drop policy:** when the buffer is full, drop the newest incoming byte and increment `u->dropped`.
+`head` and `tail` are free-running counters: the number of stored bytes is `head - tail`, and a byte lives at index `counter % capacity`. Every shared variable has exactly one writer, which is what makes this safe without disabling interrupts.
 
-`uart_rx_read` copies up to `max_len` bytes from the buffer into `out`, removes them from the buffer, and returns the number of bytes copied.
+**Drop policy:** when the buffer is full, drop the newest incoming byte and increment `dropped`.
 
-The struct layout uses `head` as the read pointer and `count` as the number of bytes stored. Write index = `(head + count) % capacity`.
+`uart_rx_read` copies up to `max_len` bytes into `out`, removes them from the buffer, and returns the number of bytes copied.
 
-### Concurrency scope
-
-The harness calls these functions sequentially: it checks buffer behavior, not interrupt safety. Both paths modify `count`, so the provided layout and reference solution require platform synchronization before use with a real ISR. Protect the complete shared-state transaction with an appropriate bounded critical section, or redesign with single-producer/single-consumer indices and the target's required atomic access and ordering. A blocking mutex must not be used in the ISR; `volatile` alone does not prevent races. **Interrupt-Safe Pending Event Handoff** practices a concrete single-core critical section.
+The harness calls the functions sequentially, so it cannot catch a race. Be ready to explain why a layout with a shared `count` (ISR does `count++`, main loop does `count--`) loses updates, and why a mutex cannot be used inside an ISR.
 
 ## Examples
 
@@ -48,9 +58,10 @@ uart_rx_init(&u, buf, 4);
 
 ## Constraints
 
-- `head` is the index of the oldest byte; `count` is how many bytes are stored
-- Write index: `(head + count) % capacity`
-- On overflow: drop the new byte, increment `u->dropped`
+- Only the ISR writes `head` and `dropped`; only the main loop writes `tail`
+- Store the byte before advancing `head`; copy bytes out before advancing `tail`
+- On overflow: drop the new byte, increment `dropped`
 - `uart_rx_read` from an empty buffer returns 0
+- In real firmware, make `capacity` a power of two so `counter % capacity` stays consistent when the counters wrap
 
 **Optimal complexity:** O(n) read, O(1) isr_byte

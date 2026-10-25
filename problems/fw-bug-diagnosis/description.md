@@ -67,7 +67,7 @@ void copy_input(char *dst) {
     strcpy(dst, user_input);   // BUG: no length limit
 }
 ```
-Fix: pass the destination capacity and enforce room for the terminator. Decide whether to reject or truncate oversized input. `strncpy` can leave the destination unterminated when the source is too long; it is not a drop-in safe replacement. `strlcpy` is not part of ISO C. Practice the documented truncation contract in **Implement strlcpy**.
+Fix: pass the destination capacity and leave room for the terminator. Note that `strncpy` does not terminate the destination when the source is too long, so it is not a drop-in fix on its own.
 
 **Bug 7 — Signed left shift / overflow UB**
 ```c

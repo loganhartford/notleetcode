@@ -1,0 +1,56 @@
+{
+  "id": "prep",
+  "label": "Prep",
+  "after": "firmware",
+  "users": ["logan"],
+  "sections": [
+    {
+      "name": "Sunday — strings, then raw bytes",
+      "note": "~3.5 h. Stuck 10 min? Look up only the missing idea, close it, finish it yourself. Running late: move Parse integer to Thursday.",
+      "items": [
+        "fw-strlen",
+        "fw-reverse-cstr",
+        "fw-bounded-strings",
+        "fw-strcmp-strstr",
+        "fw-i32-to-dec",
+        "fw-run-length-encode",
+        "fw-cmd-parser",
+        "fw-parse-i32",
+        "fw-ptr-byte-offset",
+        "fw-ptr-swap",
+        "fw-mem-primitives"
+      ]
+    },
+    {
+      "name": "Monday — bits into bytes",
+      "note": "~90 min. Warm up: redo the tokenizer from a blank file (Reset).",
+      "items": [
+        "fw-bit-ops",
+        "fw-bswap",
+        "fw-endian-detect",
+        "fw-reg-bitfield",
+        "fw-endian-serial",
+        "fw-sizeof-struct"
+      ]
+    },
+    {
+      "name": "Tuesday — buffers, interrupts, an unseen problem",
+      "note": "~90 min. Warm up: redo memmove and reg_write_field from blank files.",
+      "items": [
+        "fw-ring-buffer",
+        "fw-uart-rx",
+        "fw-find-bit-pattern"
+      ]
+    },
+    {
+      "name": "Wednesday — the C test, then a mock",
+      "note": "~90 min. Do the packet parser last: timed, talking out loud. Thursday: 20 min of strlen, strlcpy, a register field, one ring-buffer wrap. Nothing new.",
+      "items": [
+        "fw-int-promotion",
+        "fw-macro-pitfalls",
+        "fw-func-ptr-decl",
+        "fw-packet-parser"
+      ]
+    }
+  ]
+}

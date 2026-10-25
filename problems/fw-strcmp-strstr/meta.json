@@ -1,0 +1,19 @@
+{
+  "title": "Implement strcmp and strstr",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Easy",
+  "tags": [
+    "string",
+    "pointers",
+    "libc"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 61,
+  "authored": true,
+  "company": "Qualcomm / ReliSource"
+}

@@ -9,7 +9,7 @@ void *c_memset(void *dst, int value, size_t n);
 ```
 
 - **`c_memcpy`** — copy `n` bytes from `src` to `dst`; behavior is undefined if the regions overlap (you may assume they don't)
-- **`c_memmove`** — copy `n` bytes from `src` to `dst`, correctly handling overlapping regions
+- **`c_memmove`** — copy `n` bytes from `src` to `dst`, correctly handling overlapping regions by choosing copy direction based on pointer order
 - **`c_memset`** — fill `n` bytes of `dst` with the low 8 bits of `value`
 - All three return `dst`
 
@@ -36,7 +36,7 @@ c_memset(dst, 0,    4) → dst = {0x00, 0x00, 0x00, 0x00}
 ## Constraints
 
 - `n` may be 0 (do nothing, return `dst`)
-- `c_memmove`: when the destination starts inside the source region at a positive offset, copy back-to-front; otherwise front-to-back. Relational comparisons of pointers to unrelated objects are not portable C. Pointer equality can detect whether the destination equals any byte address inside the source region without ordering unrelated pointers.
+- `c_memmove`: if `dst > src` and regions overlap, copy back-to-front; otherwise front-to-back
 - `c_memset`: write `(uint8_t)(value & 0xFF)` to each byte
 
 **Optimal complexity:** O(n)
