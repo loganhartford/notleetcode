@@ -68,77 +68,17 @@
     "flagged": false,
     "updated": "2026-06-29T16:42:49.223Z"
   },
-  "fw-bit-ops": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-08T16:52:09.707Z"
-  },
   "fw-pow2-check": {
     "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-08T16:56:21.482Z"
-  },
-  "fw-reverse-cstr": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-08T16:52:16.780Z"
-  },
-  "fw-bswap": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-08T16:52:19.132Z"
-  },
-  "fw-strlen": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": true,
-    "updated": "2026-07-08T16:56:34.865Z"
-  },
-  "fw-reg-bitfield": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-08T16:52:23.682Z"
-  },
-  "fw-ring-buffer": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": true,
-    "updated": "2026-07-08T16:55:58.848Z"
-  },
-  "fw-mem-primitives": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": true,
-    "updated": "2026-07-08T16:56:02.529Z"
-  },
-  "fw-endian-serial": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": true,
-    "updated": "2026-07-08T17:42:30.995Z"
-  },
-  "fw-packet-parser": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": true,
-    "updated": "2026-07-09T16:12:00.516Z"
-  },
-  "fw-uart-rx": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": true,
-    "updated": "2026-07-13T17:25:47.779Z"
+    "updated": "2026-10-25T17:06:09.848Z"
   },
   "fw-sizeof-trick": {
     "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-10T16:12:03.398Z"
+    "updated": "2026-10-25T17:31:57.071Z"
   },
   "fw-sizeof-var": {
     "status": "solved",
@@ -146,17 +86,11 @@
     "flagged": false,
     "updated": "2026-07-10T16:22:20.241Z"
   },
-  "fw-sizeof-struct": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-10T16:59:56.436Z"
-  },
   "fw-aligned-malloc": {
     "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-10T18:51:15.026Z"
+    "updated": "2026-10-25T17:32:17.729Z"
   },
   "fw-pool-alloc": {
     "status": "solved",
@@ -188,12 +122,6 @@
     "flagged": false,
     "updated": "2026-07-13T17:52:42.082Z"
   },
-  "fw-ptr-byte-offset": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-13T17:55:38.377Z"
-  },
   "fw-ptr-store-ptr": {
     "status": "solved",
     "lastLanguage": "c",
@@ -222,7 +150,7 @@
     "status": "solved",
     "lastLanguage": "c",
     "flagged": true,
-    "updated": "2026-07-13T18:39:03.210Z"
+    "updated": "2026-10-25T17:37:16.846Z"
   },
   "fw-hamming-distance": {
     "status": "solved",
@@ -235,12 +163,6 @@
     "lastLanguage": "c",
     "flagged": false,
     "updated": "2026-07-15T16:43:34.442Z"
-  },
-  "fw-ptr-swap": {
-    "status": "solved",
-    "lastLanguage": "c",
-    "flagged": false,
-    "updated": "2026-07-15T16:49:41.031Z"
   },
   "fw-ptr-debug": {
     "status": "solved",

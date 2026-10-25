@@ -1,9 +1,11 @@
 #include <stdint.h>
 
 void *free_list_pop(void **head) {
-    if (head == NULL || *head == NULL) return NULL;
+    if (!*head) return NULL;
     
-    void * current = *head;
-    *head = *(void **)current;
-    return current;
+    uint8_t *a = *head;
+    
+    *head = *(void **)a;
+    
+    return a;
 }
