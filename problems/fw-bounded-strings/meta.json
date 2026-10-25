@@ -1,0 +1,19 @@
+{
+  "title": "Implement strlcpy",
+  "phase": 1,
+  "phaseName": "Warmup",
+  "difficulty": "Easy",
+  "tags": [
+    "strings",
+    "buffers",
+    "null termination"
+  ],
+  "languages": [
+    "python",
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 6,
+  "authored": true
+}

@@ -22,6 +22,8 @@ if (!NLC_USER) {
 }
 const SOLUTIONS_DIR = path.join(ROOT, 'solutions', NLC_USER);
 const PROGRESS_FILE = path.join(ROOT, 'progress', `${NLC_USER}.json`);
+const STUDY_PROGRESS_FILE = path.join(ROOT, 'progress', `${NLC_USER}.study.json`);
+const STUDY_PLAN_FILE = path.join(WEB_DIR, 'study-plan.json');
 
 const ALL_TABS = ['general', 'firmware', 'robotics'];
 const USER_TABS = {
@@ -161,16 +163,13 @@ function loadProgress() {
 }
 
 function saveProgress(p) {
+  fs.mkdirSync(path.dirname(PROGRESS_FILE), { recursive:true });
   fs.writeFileSync(PROGRESS_FILE, JSON.stringify(p, null, 2) + '\n');
 }
 
 function setStatus(id, status, lang) {
   const p = loadProgress();
   const cur = p[id] || {};
-  // Never downgrade a solved problem to attempted automatically.
-  if (cur.status === 'solved' && status === 'attempted') {
-    status = 'solved';
-  }
   p[id] = {
     status,
     lastLanguage: lang || cur.lastLanguage || null,
@@ -207,6 +206,13 @@ function saveSolution(id, lang, code) {
 
 function loadSolution(id, lang) {
   return readIfExists(solutionPath(id, lang));
+}
+
+function validSolutionRequest(id, language, code) {
+  if (typeof id !== 'string' || !/^[a-z0-9-]+$/.test(id) || typeof code !== 'string' ||
+      !Object.hasOwn(LANGS, language)) return false;
+  const meta = loadProblemMeta(id);
+  return !!meta && (meta.languages || ['python']).includes(language);
 }
 
 // ---------------------------------------------------------------------------
@@ -375,7 +381,39 @@ const server = http.createServer(async (req, res) => {
   try {
     // ----- API -----
     if (url === '/api/config' && req.method === 'GET') {
-      return sendJSON(res, 200, { tabs: USER_TABS[NLC_USER] || ALL_TABS });
+      return sendJSON(res, 200, { user: NLC_USER, tabs: USER_TABS[NLC_USER] || ALL_TABS });
+    }
+
+    if (url === '/api/study' && req.method === 'GET') {
+      const plan = JSON.parse(fs.readFileSync(STUDY_PLAN_FILE, 'utf8'));
+      const reviews = JSON.parse(readIfExists(STUDY_PROGRESS_FILE) || '{}');
+      return sendJSON(res, 200, { plan, reviews, user: NLC_USER });
+    }
+
+    if (url === '/api/study/review' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req));
+      const plan = JSON.parse(fs.readFileSync(STUDY_PLAN_FILE, 'utf8'));
+      if (!plan.items.some((item) => item.id === body.id)) {
+        return sendJSON(res, 400, { error: 'Unknown study item' });
+      }
+      const reviews = JSON.parse(readIfExists(STUDY_PROGRESS_FILE) || '{}');
+      const history = reviews[body.id] || [];
+      if (body.action === 'undo') {
+        history.pop();
+      } else {
+        if (body.action !== 'record' || !['stuck', 'assisted', 'cold'].includes(body.rating) ||
+            !Number.isInteger(body.minutes) || body.minutes < 0 || body.minutes > 600 ||
+            typeof body.note !== 'string' || body.note.length > 2000) {
+          return sendJSON(res, 400, { error: 'Invalid review: provide a rating, 0–600 minutes, and a note up to 2000 characters' });
+        }
+        history.push({ rating: body.rating, minutes: body.minutes, note: body.note, at: new Date().toISOString() });
+      }
+      reviews[body.id] = history;
+      fs.mkdirSync(path.dirname(STUDY_PROGRESS_FILE), { recursive: true });
+      const temporary = STUDY_PROGRESS_FILE + '.tmp';
+      fs.writeFileSync(temporary, JSON.stringify(reviews, null, 2) + '\n');
+      fs.renameSync(temporary, STUDY_PROGRESS_FILE);
+      return sendJSON(res, 200, { reviews });
     }
 
     if (url === '/api/problems' && req.method === 'GET') {
@@ -413,10 +451,11 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, prob);
     }
 
-    if (url === '/api/run' && req.method === 'POST') {
+    // Old open tabs use the same save-and-run path until refreshed.
+    if ((url === '/api/run' || url === '/api/practice/run') && req.method === 'POST') {
       const body = JSON.parse(await readBody(req));
       const { id, language, code } = body;
-      if (!id || !language || code == null) return sendJSON(res, 400, { error: 'Missing fields' });
+      if (!validSolutionRequest(id, language, code)) return sendJSON(res, 400, { error:'Unknown problem, unsupported language, or invalid code' });
       saveSolution(id, language, code);
       const result = runUserCode(id, language, code);
       if (result.ok && result.allPassed) setStatus(id, 'solved', language);
@@ -429,7 +468,14 @@ const server = http.createServer(async (req, res) => {
     if (url === '/api/save' && req.method === 'POST') {
       const body = JSON.parse(await readBody(req));
       const { id, language, code } = body;
-      if (!id || !language || code == null) return sendJSON(res, 400, { error: 'Missing fields' });
+      if (!validSolutionRequest(id, language, code)) return sendJSON(res, 400, { error:'Unknown problem, unsupported language, or invalid code' });
+      if (body.recover === true) {
+        const saved = loadSolution(id, language);
+        if (saved != null) {
+          if (saved !== code) return sendJSON(res, 409, { error:'Project solution already exists; browser draft retained' });
+          return sendJSON(res, 200, { ok:true });
+        }
+      }
       saveSolution(id, language, code);
       setStatus(id, 'attempted', language);
       return sendJSON(res, 200, { ok: true });

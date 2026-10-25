@@ -8,6 +8,11 @@ let current = null;       // full problem object
 let currentLang = null;
 let allowedTabs = ['general', 'firmware', 'robotics'];
 let activeTab = localStorage.getItem('nlc-tab') || 'general';
+let activeUser = '';
+let saveQueue = Promise.resolve(true);
+let pendingSaves = 0;
+let loadingEditor = false;
+let changingProblem = false;
 
 function tabProblems() {
   // Order by phase, then stackIndex, so the sidebar's phase grouping never
@@ -31,7 +36,6 @@ function setTab(tab) {
 }
 let editor = null;
 let saveTimer = null;
-let lastSavedCode = '';
 
 const PHASE_NAMES = {};   // filled from problem data
 
@@ -153,6 +157,20 @@ async function init() {
   wireButtons();
   const [, cfg] = await Promise.all([loadProblems(), fetch('/api/config').then((r) => r.json())]);
   allowedTabs = cfg.tabs || allowedTabs;
+  activeUser = cfg.user || '';
+  await recoverBrowserAttempts();
+  const cleanURL = new URL(location.href);
+  cleanURL.searchParams.delete('practice');
+  cleanURL.searchParams.delete('attempt');
+  history.replaceState(null, '', cleanURL);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) saveNow(); });
+  window.addEventListener('beforeunload', (event) => {
+    if (pendingSaves || (current && editor.getValue() !== current.saved[currentLang])) {
+      saveNow();
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  });
 
   // Hide tab buttons the user isn't allowed to see.
   document.querySelectorAll('.tab-btn').forEach((b) => {
@@ -287,7 +305,7 @@ function renderSidebar() {
       <span class="num">${p.stackIndex}</span>
       <span class="name">${escapeHtml(p.title)}</span>
       <span class="flag-mark${p.flagged ? ' on' : ''}" title="Flagged for review">⚑</span>
-      <span class="lang-tag">${(p.languages[0] || 'py').replace('python', 'py').replace('cpp', 'c++')}</span>`;
+      <span class="lang-tag">${(p.defaultLanguage || p.languages[0] || 'py').replace('python', 'py').replace('cpp', 'c++')}</span>`;
     item.onclick = () => openProblem(p.id);
     host.appendChild(item);
   }
@@ -311,51 +329,57 @@ function highlightActive() {
 // Open / render a problem
 // ---------------------------------------------------------------------------
 async function openProblem(id) {
-  // Flush pending save for the previous problem.
-  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; await saveNow(); }
+  if (changingProblem) return;
+  changingProblem = true;
+  editor.setOption('readOnly', true);
+  try {
+    if (!await saveNow()) return;
+    const res = await fetch('/api/problem/' + id);
+    if (!res.ok) return;
+    current = await res.json();
+    location.hash = id;
 
-  const res = await fetch('/api/problem/' + id);
-  if (!res.ok) return;
-  current = await res.json();
-  location.hash = id;
+    document.getElementById('prob-index').textContent = current.phase === 0
+      ? `#${current.stackIndex} · ${current.phaseName}`
+      : `#${current.stackIndex} · Phase ${current.phase}`;
+    document.getElementById('prob-title').textContent = current.title;
+    const diff = document.getElementById('prob-diff');
+    diff.textContent = current.difficulty || '';
+    diff.className = 'badge ' + (current.difficulty || '');
+    const co = document.getElementById('prob-company');
+    if (current.company) {
+      co.textContent = current.company;
+      co.classList.remove('hidden');
+    } else {
+      co.classList.add('hidden');
+    }
+    renderStatusBadge(current.progress ? current.progress.status : 'todo');
 
-  document.getElementById('prob-index').textContent = current.phase === 0
-    ? `#${current.stackIndex} · ${current.phaseName}`
-    : `#${current.stackIndex} · Phase ${current.phase}`;
-  document.getElementById('prob-title').textContent = current.title;
-  const diff = document.getElementById('prob-diff');
-  diff.textContent = current.difficulty || '';
-  diff.className = 'badge ' + (current.difficulty || '');
-  const co = document.getElementById('prob-company');
-  if (current.company) {
-    co.textContent = current.company;
-    co.classList.remove('hidden');
-  } else {
-    co.classList.add('hidden');
+    const tagHost = document.getElementById('prob-tags');
+    tagHost.innerHTML = (current.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+
+    document.getElementById('prob-desc').innerHTML = marked.parse(current.description || '');
+
+    // Language selector
+    const sel = document.getElementById('lang-select');
+    sel.innerHTML = (current.languages || ['python'])
+      .map((l) => `<option value="${l}">${langLabel(l)}</option>`)
+      .join('');
+    currentLang = (current.languages.includes(current.progress?.lastLanguage) && current.progress.lastLanguage) || current.defaultLanguage ||
+      (current.languages && current.languages[0]) || 'python';
+    sel.value = currentLang;
+
+    renderFlag(current.progress ? current.progress.flagged : false);
+
+    loadEditorForLang();
+    setupSolutionBlock();
+    clearResults();
+    switchInfoPanel('problem');
+    highlightActive();
+  } finally {
+    changingProblem = false;
+    editor.setOption('readOnly', false);
   }
-  renderStatusBadge(current.progress ? current.progress.status : 'todo');
-
-  const tagHost = document.getElementById('prob-tags');
-  tagHost.innerHTML = (current.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('');
-
-  document.getElementById('prob-desc').innerHTML = marked.parse(current.description || '');
-
-  // Language selector
-  const sel = document.getElementById('lang-select');
-  sel.innerHTML = (current.languages || ['python'])
-    .map((l) => `<option value="${l}">${langLabel(l)}</option>`)
-    .join('');
-  currentLang = current.defaultLanguage ||
-    (current.languages && current.languages[0]) || 'python';
-  sel.value = currentLang;
-
-  renderFlag(current.progress ? current.progress.flagged : false);
-
-  loadEditorForLang();
-  setupSolutionBlock();
-  clearResults();
-  switchInfoPanel('problem');
-  highlightActive();
 }
 
 function renderFlag(flagged) {
@@ -389,28 +413,45 @@ function renderStatusBadge(status) {
   else { el.textContent = 'Not started'; el.className = 'badge'; }
 }
 
-function switchLang(lang) {
-  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; saveNow(); }
-  currentLang = lang;
-  loadEditorForLang();
-  clearResults();
+async function switchLang(lang) {
+  if (changingProblem) return;
+  changingProblem = true;
+  editor.setOption('readOnly', true);
+  try {
+    if (!await saveNow()) {
+      document.getElementById('lang-select').value = currentLang;
+      return;
+    }
+    currentLang = lang;
+    loadEditorForLang();
+    setupSolutionBlock();
+    clearResults();
+  } finally {
+    changingProblem = false;
+    editor.setOption('readOnly', false);
+  }
 }
 
 function loadEditorForLang() {
   const mode = (current.editorModes && current.editorModes[currentLang]) || 'python';
   editor.setOption('mode', mode);
-  const saved = current.saved && current.saved[currentLang];
-  const starter = current.starter && current.starter[currentLang];
-  const code = saved != null ? saved : (starter || '');
+  const saved = current.saved[currentLang];
+  const code = saved ?? current.starter?.[currentLang] ?? '';
+  // The starter is the effective baseline until the first edit is saved.
+  current.saved[currentLang] = code;
+  loadingEditor = true;
   editor.setValue(code);
-  lastSavedCode = code;
-  setSaveState(saved != null ? 'Saved' : '');
+  loadingEditor = false;
+  setSaveState(saved != null ? 'Saved to project' : 'Autosave ready');
+  const extension = { python:'py', c:'c', cpp:'cpp' }[currentLang];
+  document.getElementById('save-state').title = `solutions/${activeUser}/${current.id}.${extension}`;
 }
 
 function resetToStarter() {
-  const starter = (current.starter && current.starter[currentLang]) || '';
-  editor.setValue(starter);
-  saveNow();
+  if (!current) return;
+  editor.setValue(current.starter?.[currentLang] || '');
+  clearResults();
+  saveNow(true);
 }
 
 function setupSolutionBlock() {
@@ -439,34 +480,101 @@ function toggleSolution() {
 // Saving
 // ---------------------------------------------------------------------------
 function onEditorChange() {
-  const code = editor.getValue();
-  if (code === lastSavedCode) return;
+  if (loadingEditor || !current) return;
   setSaveState('Editing…');
+  renderStatusBadge('attempted');
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(saveNow, 800);
 }
 
-async function saveNow() {
-  if (!current) return;
-  const code = editor.getValue();
-  if (code === lastSavedCode) return;
-  const id = current.id, lang = currentLang;
-  try {
-    await fetch('/api/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, language: lang, code }),
-    });
-    lastSavedCode = code;
-    setSaveState('Saved');
-    bumpStatus(id, 'attempted');
-  } catch (e) {
-    setSaveState('Save failed');
+// Serialize saves and runs so a slower response cannot overwrite a newer edit.
+function enqueueSave(task) {
+  pendingSaves++;
+  const job = saveQueue.then(task).finally(() => { pendingSaves--; });
+  saveQueue = job.catch(() => false);
+  return saveQueue;
+}
+
+function rememberSaved(problem, lang, code, status) {
+  problem.saved[lang] = code;
+  problem.progress = { ...problem.progress, status, lastLanguage:lang };
+  bumpStatus(problem.id, status);
+  if (current === problem && currentLang === lang) {
+    const unchanged = editor.getValue() === code;
+    setSaveState(unchanged ? 'Saved to project' : 'Editing…');
+    renderStatusBadge(unchanged ? status : 'attempted');
   }
+}
+
+function saveNow(force = false) {
+  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+  if (!current) return Promise.resolve(true);
+  const problem = current, lang = currentLang, code = editor.getValue();
+  return enqueueSave(async () => {
+    if (!force && code === problem.saved[lang]) {
+      if (current === problem && currentLang === lang && editor.getValue() === code) {
+        setSaveState('No unsaved changes');
+        renderStatusBadge(problem.progress?.status || 'todo');
+      }
+      return true;
+    }
+    try {
+      if (current === problem) setSaveState('Saving…');
+      const res = await fetch('/api/save', {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
+        body:JSON.stringify({ id:problem.id, language:lang, code }),
+      });
+      if (!res.ok) throw new Error('Save failed');
+      rememberSaved(problem, lang, code, 'attempted');
+      return true;
+    } catch (error) {
+      if (current === problem) setSaveState('Not saved — retry with ⌘/Ctrl+S');
+      return false;
+    }
+  });
 }
 
 function setSaveState(txt) {
   document.getElementById('save-state').textContent = txt;
+}
+
+// One-time recovery of the old browser-only mode. Keep only the newest draft
+// for each question/language; remove old keys only after the file is saved.
+async function recoverBrowserAttempts() {
+  const latest = new Map(), prefix = `nlc-practice:${activeUser}:`;
+  let recovered = 0, conflicts = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key.startsWith(prefix)) continue;
+      const [attempt, id, language] = key.slice(prefix.length).split(':');
+      if (!problems.some((p) => p.id === id && p.languages.includes(language))) continue;
+      const group = `${id}:${language}`, previous = latest.get(group);
+      const draft = { id, language, code:localStorage.getItem(key), at:Number(attempt) || 0, keys:[] };
+      if (!previous || draft.at >= previous.at) {
+        draft.keys = [...(previous?.keys || []), key];
+        latest.set(group, draft);
+      } else previous.keys.push(key);
+    }
+    for (const draft of latest.values()) {
+      const res = await fetch('/api/save', {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
+        body:JSON.stringify({ ...draft, recover:true }),
+      });
+      if (res.status === 409) { conflicts++; continue; }
+      if (!res.ok) throw new Error('Recovery failed');
+      draft.keys.forEach((key) => localStorage.removeItem(key));
+      recovered++;
+    }
+    if (latest.size) {
+      if (recovered) await loadProblems();
+      document.getElementById('recovery-message').textContent =
+        (recovered ? `Recovered ${recovered} browser attempt${recovered === 1 ? '' : 's'} into your project. ` : '') +
+        (conflicts ? 'Existing project code kept; conflicting old browser drafts retained. ' : '');
+    }
+  } catch (error) {
+    document.getElementById('recovery-message').textContent = 'Could not recover browser attempts. They are still in this browser; reload to retry. ';
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -474,36 +582,45 @@ function setSaveState(txt) {
 // ---------------------------------------------------------------------------
 async function runTests() {
   if (!current) return;
+  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+  const problem = current, lang = currentLang, code = editor.getValue();
   const runBtn = document.getElementById('run-btn');
+  if (runBtn.disabled) return;
   runBtn.disabled = true;
   const summary = document.getElementById('results-summary');
   summary.className = 'results-summary running';
   summary.textContent = 'Running…';
   document.getElementById('results-detail').innerHTML = '';
-
-  const code = editor.getValue();
-  lastSavedCode = code; // /api/run saves it server-side
-  try {
-    const res = await fetch('/api/run', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: current.id, language: currentLang, code }),
-    });
-    const data = await res.json();
-    renderResults(data);
-    switchInfoPanel('results');
-    if (data.status) {
-      renderStatusBadge(data.status);
-      bumpStatus(current.id, data.status);
+  await enqueueSave(async () => {
+    try {
+      const res = await fetch('/api/run', {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
+        body:JSON.stringify({ id:problem.id, language:lang, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Run failed');
+      rememberSaved(problem, lang, code, data.status);
+      if (current === problem && currentLang === lang) {
+        if (editor.getValue() === code) renderResults(data);
+        else {
+          summary.className = 'results-summary';
+          summary.textContent = 'Code changed during the run. Run again to test your latest work.';
+        }
+        switchInfoPanel('results');
+      }
+      return true;
+    } catch (error) {
+      if (current === problem && currentLang === lang) {
+        summary.className = 'results-summary fail';
+        summary.textContent = 'Error: ' + error.message;
+        setSaveState('Save not confirmed — retry with ⌘/Ctrl+S');
+        switchInfoPanel('results');
+      }
+      return false;
+    } finally {
+      runBtn.disabled = false;
     }
-  } catch (e) {
-    summary.className = 'results-summary fail';
-    summary.textContent = 'Error: ' + e.message;
-    switchInfoPanel('results');
-  } finally {
-    runBtn.disabled = false;
-    setSaveState('Saved');
-  }
+  });
 }
 
 function renderResults(data) {
@@ -596,8 +713,6 @@ function navigate(dir) {
 function bumpStatus(id, status) {
   const p = problems.find((x) => x.id === id);
   if (!p) return;
-  // don't downgrade solved → attempted in the UI
-  if (p.status === 'solved' && status === 'attempted') return;
   p.status = status;
   const dot = document.querySelector(`.prob-item[data-id="${id}"] .status-dot`);
   if (dot) dot.className = 'status-dot ' + status;

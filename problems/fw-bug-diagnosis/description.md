@@ -67,7 +67,7 @@ void copy_input(char *dst) {
     strcpy(dst, user_input);   // BUG: no length limit
 }
 ```
-Fix: use `strncpy` or `strlcpy` with an explicit size.
+Fix: pass the destination capacity and enforce room for the terminator. Decide whether to reject or truncate oversized input. `strncpy` can leave the destination unterminated when the source is too long; it is not a drop-in safe replacement. `strlcpy` is not part of ISO C. Practice the documented truncation contract in **Implement strlcpy**.
 
 **Bug 7 — Signed left shift / overflow UB**
 ```c
@@ -75,7 +75,7 @@ int32_t set_high_bit(void) {
     return 1 << 31;   // BUG: UB — signed overflow
 }
 ```
-Fix: `(int32_t)(1u << 31)` or `INT32_MIN`.
+Fix: use `INT32_MIN` for the signed value, or `UINT32_C(1) << 31` for an unsigned mask. Converting an out-of-range unsigned value to a signed type is implementation-defined in C11.
 
 **Bug 8 — Missing bounds check before register access**
 ```c

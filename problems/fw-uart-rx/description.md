@@ -17,6 +17,10 @@ size_t uart_rx_dropped(const uart_rx_t *u);
 
 The struct layout uses `head` as the read pointer and `count` as the number of bytes stored. Write index = `(head + count) % capacity`.
 
+### Concurrency scope
+
+The harness calls these functions sequentially: it checks buffer behavior, not interrupt safety. Both paths modify `count`, so the provided layout and reference solution require platform synchronization before use with a real ISR. Protect the complete shared-state transaction with an appropriate bounded critical section, or redesign with single-producer/single-consumer indices and the target's required atomic access and ordering. A blocking mutex must not be used in the ISR; `volatile` alone does not prevent races. **Interrupt-Safe Pending Event Handoff** practices a concrete single-core critical section.
+
 ## Examples
 
 **Example 1** — basic receive and read

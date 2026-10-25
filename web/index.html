@@ -26,6 +26,7 @@
           <button class="tab-btn" data-tab="robotics">Robotics</button>
         </div>
         <div id="overall-progress" class="overall-progress"></div>
+        <a class="study-link" href="study.html" target="_blank" rel="noopener">Thursday prep · plan & recall tracker ↗</a>
       </div>
       <div id="problem-list"></div>
     </aside>
@@ -41,13 +42,14 @@
           <select id="lang-select"></select>
           <div class="spacer"></div>
           <button id="copy-btn" class="btn ghost" title="Copy question + code to clipboard for an LLM">Copy for LLM</button>
-          <button id="reset-btn" class="btn ghost" title="Reset to starter code">Reset</button>
+          <button id="reset-btn" class="btn ghost" title="Replace your latest solution with the starter code">Start over</button>
           <button id="run-btn" class="btn run">▶ Run</button>
         </div>
         <div id="editor-host"></div>
         <div class="editor-footer">
           <button id="prev-btn" class="btn ghost">← Prev</button>
-          <span id="save-state" class="save-state"></span>
+          <span id="save-state" class="save-state" role="status"></span>
+          <span id="recovery-message" class="save-state" role="status"></span>
           <button id="next-btn" class="btn ghost">Next →</button>
         </div>
       </div>

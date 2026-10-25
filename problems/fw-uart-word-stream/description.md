@@ -46,8 +46,12 @@ void main_loop(void);          /* runs from the super-loop: print what has arriv
 
 The ISR (producer) and `main_loop` (consumer) touch the same buffer but run at different
 times. With a single-producer / single-consumer ring buffer where the ISR only advances
-`head` and `main_loop` only advances `tail`, the two never write the same variable, so no
-locking is required. Size the buffer so that up to 3 pending bytes always fit.
+`head` and `main_loop` only advances `tail`, the indices have separate writers. A real
+lock-free implementation still requires target-appropriate atomic index accesses and
+ordering: publish data before the producer index, and finish reading before publishing
+the consumer index. `volatile` alone does not supply that synchronization. The sequential
+harness does not test preemption or memory ordering. Size the buffer so that up to 3
+pending bytes always fit.
 
 ### Example
 ```

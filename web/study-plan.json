@@ -1,0 +1,978 @@
+{
+  "title": "Thursday prep",
+  "interviewDate": "2026-10-29",
+  "timezone": "America/Los_Angeles",
+  "intro": "Rebuild C fluency, then apply it to buffers, state machines, and unfamiliar problems. About 5 focused hours Sunday and 60–90 minutes Monday–Wednesday; Thursday is an optional 25-minute warm-up.",
+  "scope": "Based on your 65 firmware problems and saved work as reviewed October 25: 37 marked solved, mostly from July. The current strlen file was a stub, reverse-string notes mention string rust, and UART RX used a blocking mutex. These are starting signals, not a score of your ability. Orion's exact company, job description, and interview format are unconfirmed; priorities target general embedded C interviews, not claimed Orion question frequencies.",
+  "strategy": "Prioritize prerequisites and transfer: strings → byte buffers → pointers → lists; masks → serialization; rings → interrupt safety → parsers and timing. Reuse one representative of each pattern. Historic solved status does not imply fresh recall. If you cannot write a basic string walk, take time from new material to repair it.",
+  "rules": [
+    "Open question shows your latest code. Use Start over to replace it with the starter when practicing from memory. Every edit saves to the project; return to the same question to review your latest attempt.",
+    "Before typing: restate the contract; identify length vs capacity, ownership and mutation; draw a tiny example; state the loop or state invariant; name three edge cases. Then code, test, and explain time/space cost.",
+    "Use C throughout. Independent means no old solution, reference solution, AI, or algorithm hints, with working tests plus a clear explanation. Compiler diagnostics are allowed. Existing prompts sometimes reveal the method: hide that section for recall attempts.",
+    "If stuck for 8–10 minutes, identify the missing concept, inspect only what you need, close it, and reimplement. Mark Used help even if tests now pass. Write one sentence naming the mistake and the prevention rule.",
+    "Stop at the timebox. Spend spare time repeating a weak core exercise before starting an extension. After two stuck attempts at the same fundamental, spend 10 minutes on its smaller prerequisite and retry; do not accumulate half-finished problems.",
+    "Retained requires two consecutive independent attempts on different Los Angeles calendar days. Red/amber items remain due; an independent attempt is due the next day. These are self-assessments, separate from harness pass/fail.",
+    "Sunday's five blocks are 300 focused minutes. Add 10-minute breaks between blocks and a meal break (roughly 6–7 hours elapsed). The optional sixth hour is a repair buffer, not more new questions.",
+    "If Sunday overruns, defer binary search and integer parsing until fundamentals work. If you only have 60 minutes on a weekday, use that day's short route. Keep Wednesday's mock and sleep; Thursday is not a catch-up marathon."
+  ],
+  "sessions": [
+    {
+      "id": "sun",
+      "label": "Sun · Oct 25",
+      "title": "Rebuild the foundation",
+      "minutes": 300,
+      "goal": "Be able to walk a C string, reason about a buffer, manipulate pointers, and explain a ring without looking at old code.",
+      "blocks": [
+        {
+          "minutes": 60,
+          "title": "Strings from first principles",
+          "detail": "15m C mental model → 10m strlen → 15m reverse → 15m strlcpy → 5m trace its return value. Draw the terminator and writable capacity before every function.",
+          "items": [
+            "oral-c-model",
+            "fw-strlen",
+            "fw-reverse-cstr",
+            "fw-bounded-strings"
+          ]
+        },
+        {
+          "minutes": 60,
+          "title": "Make the string model useful",
+          "detail": "10m repair your weakest string exercise → 20m tokenizer → 10m pointer expressions → 20m memory primitives. For tokenizer, show where each returned pointer points and how long it stays valid.",
+          "items": [
+            "fw-bounded-strings",
+            "fw-cmd-parser",
+            "fw-ptr-debug",
+            "fw-mem-primitives"
+          ]
+        },
+        {
+          "minutes": 60,
+          "title": "Pointers and interval reasoning",
+          "detail": "15m finish memory primitives → 25m linked-list reverse → 20m binary search. Draw links before updating them. For binary search, state exactly what remains in the interval.",
+          "items": [
+            "fw-mem-primitives",
+            "fw-list-reverse",
+            "fw-lower-bracket"
+          ]
+        },
+        {
+          "minutes": 60,
+          "title": "Bits into bytes into buffers",
+          "detail": "5m bit operations → 5m power of two → 10m register fields → 15m serialization → 25m ring buffer. Say which bits/bytes each operation may change.",
+          "items": [
+            "fw-bit-ops",
+            "fw-pow2-check",
+            "fw-reg-bitfield",
+            "fw-endian-serial",
+            "fw-ring-buffer"
+          ]
+        },
+        {
+          "minutes": 60,
+          "title": "Interrupts and recall",
+          "detail": "10m finish ring → 15m concurrency oral drill → 20m repair a weak core exercise → 15m close everything and redo strlen, reverse, and one bit mask. Record the weakest two items for Monday.",
+          "items": [
+            "fw-ring-buffer",
+            "oral-concurrency",
+            "fw-mem-primitives",
+            "fw-strlen",
+            "fw-reverse-cstr",
+            "fw-reg-bitfield"
+          ]
+        }
+      ],
+      "shortRoute": "If fatigue sets in: protect strings, memory primitives, ring, and interrupt reasoning. Move binary search to Monday's extension slot. Use up to one additional hour only for repairing those fundamentals."
+    },
+    {
+      "id": "mon",
+      "label": "Mon · Oct 26",
+      "title": "Retrieve, then generalize",
+      "minutes": 90,
+      "goal": "Prove yesterday's work survives a night's sleep. Connect strings to validation and sliding windows.",
+      "blocks": [
+        {
+          "minutes": 20,
+          "title": "Cold recall",
+          "detail": "10m strlen/reverse → 10m strlcpy contract and implementation. If either fails, repair it before moving on.",
+          "items": [
+            "fw-strlen",
+            "fw-reverse-cstr",
+            "fw-bounded-strings"
+          ]
+        },
+        {
+          "minutes": 15,
+          "title": "Ring recall",
+          "detail": "Rebuild push/pop from the invariant, then trace full → pop → wrap → push. Explain why a sequential ring is not automatically interrupt-safe.",
+          "items": [
+            "fw-ring-buffer"
+          ]
+        },
+        {
+          "minutes": 30,
+          "title": "Parse without overflow",
+          "detail": "Use a string walk with explicit validation. Check the boundary before arithmetic; cover INT32_MIN separately.",
+          "items": [
+            "fw-parse-i32"
+          ]
+        },
+        {
+          "minutes": 25,
+          "title": "One sliding-window pattern",
+          "detail": "Try longest unique substring without reading the algorithm paragraph. State the window invariant, then test abba and dvdf. If binary search was deferred Sunday, use this slot for it instead.",
+          "items": [
+            "fw-longest-unique-c",
+            "fw-lower-bracket"
+          ]
+        }
+      ],
+      "shortRoute": "60m: 20m string recall, 15m ring recall, 25m one weak/new algorithm. Choose binary search if deferred; otherwise longest unique substring. Defer integer parsing. At 120m, use the extra 30m for your weakest due item or the deferred algorithm."
+    },
+    {
+      "id": "tue",
+      "label": "Tue · Oct 27",
+      "title": "Firmware under changing inputs",
+      "minutes": 90,
+      "goal": "Reason in states and invariants; explain failures, recovery, and interrupt boundaries.",
+      "blocks": [
+        {
+          "minutes": 15,
+          "title": "Retrieve pointer and bit mechanics",
+          "detail": "5m list reversal → 5m register mask → 5m shared-counter trace from the concurrency oral card. Explain why volatile does not make a multi-byte read atomic.",
+          "items": [
+            "fw-list-reverse",
+            "fw-reg-bitfield",
+            "oral-concurrency"
+          ]
+        },
+        {
+          "minutes": 40,
+          "title": "Streaming parser",
+          "detail": "Draw state transitions before coding. Test noise, zero-length payload, oversized length, bad checksum, and two consecutive packets.",
+          "items": [
+            "fw-packet-parser"
+          ]
+        },
+        {
+          "minutes": 20,
+          "title": "Time and wraparound",
+          "detail": "Implement the timer due check and trace wraparound before finishing the scheduler. Explain the half-range assumption and a late periodic timer.",
+          "items": [
+            "fw-timer-sched"
+          ]
+        },
+        {
+          "minutes": 15,
+          "title": "Talk through a real device",
+          "detail": "5m RTOS primitives → 5m peripheral debugging → 5m sensor-controller design. Use the oral cards and speak aloud.",
+          "items": [
+            "oral-rtos",
+            "oral-debug",
+            "oral-design"
+          ]
+        }
+      ],
+      "shortRoute": "60m: 10m recall, 30m parser, 10m wraparound reasoning, 10m systems oral. Defer completing the timer scheduler. At 120m, add GPIO debounce or ADC moving average only after core repairs."
+    },
+    {
+      "id": "wed",
+      "label": "Wed · Oct 28",
+      "title": "Rehearse the interview",
+      "minutes": 90,
+      "goal": "Solve while explaining, recover from uncertainty, and test without waiting for prompts.",
+      "blocks": [
+        {
+          "minutes": 45,
+          "title": "Timed mock — no references",
+          "detail": "Choose one route below. Spend 5m clarifying, 30m coding while narrating, and 10m testing and discussing tradeoffs. The original harness checks the base task; manually trace any changed contract.",
+          "items": [
+            "oral-mock"
+          ]
+        },
+        {
+          "minutes": 15,
+          "title": "Debrief and repair",
+          "detail": "Identify one conceptual miss and one implementation miss. Redo the failing part from scratch and log the prevention rule. Do not mark a coached repair cold.",
+          "items": [
+            "fw-bounded-strings",
+            "fw-ring-buffer",
+            "fw-packet-parser"
+          ]
+        },
+        {
+          "minutes": 20,
+          "title": "Oral sweep",
+          "detail": "4m each: C lifetime/qualifiers; ISR/volatile; RTOS; peripheral debug; system design. Cover two real project stories: a hard bug and a design tradeoff, including evidence and your contribution.",
+          "items": [
+            "oral-c-model",
+            "oral-concurrency",
+            "oral-rtos",
+            "oral-debug",
+            "oral-design"
+          ]
+        },
+        {
+          "minutes": 10,
+          "title": "Last weak fundamental",
+          "detail": "Reimplement your weakest short item. Finish with a one-page mental checklist, then stop. No new hard problems tonight.",
+          "items": [
+            "fw-strlen",
+            "fw-reg-bitfield",
+            "fw-ptr-debug"
+          ]
+        }
+      ],
+      "shortRoute": "60m: preserve the 45m mock and use 15m for the biggest repair plus a short oral sweep. With 120m, use the extra time for a second cold attempt at a weak core item, not more topics."
+    },
+    {
+      "id": "thu",
+      "label": "Thu · Oct 29",
+      "title": "Warm up, then arrive fresh",
+      "minutes": 25,
+      "goal": "Activate familiar mechanics without creating new uncertainty. Fit this around your actual interview and travel time.",
+      "blocks": [
+        {
+          "minutes": 10,
+          "title": "Small wins",
+          "detail": "Write strlen, strlcpy, and a register mask without help.",
+          "items": [
+            "fw-strlen",
+            "fw-bounded-strings",
+            "fw-reg-bitfield"
+          ]
+        },
+        {
+          "minutes": 10,
+          "title": "Trace, don't cram",
+          "detail": "Trace one ring wrap and the shared-counter example; explain volatile vs atomicity. Rehearse clarify → invariant → code → test → complexity.",
+          "items": [
+            "fw-ring-buffer",
+            "oral-concurrency"
+          ]
+        },
+        {
+          "minutes": 5,
+          "title": "Settle",
+          "detail": "Review your two project stories and questions for the team. Leave time for food and logistics. If the interview is early, skip this session.",
+          "items": []
+        }
+      ],
+      "shortRoute": "Optional. If you have a later onsite and feel calm, allow one extra 20-minute repair of a known weak fundamental. Do not begin an unfamiliar topic."
+    }
+  ],
+  "items": [
+    {
+      "id": "oral-c-model",
+      "title": "C mental model: objects, strings, and lifetime",
+      "kind": "oral",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 15,
+      "why": "Remove the language friction that prevents solving otherwise familiar problems.",
+      "questions": [
+        {
+          "title": "Arrays and string literals",
+          "prompt": "What does each declaration create, and which characters can you change? Draw the bytes in `a`.",
+          "answer": [
+            "`a` is a writable array containing four bytes: a, b, c, and the terminating zero byte.",
+            "`p` is a pointer to a string literal. The literal must not be modified; `p` itself can be reassigned.",
+            "For example, `a[0] = 'x';` is valid. Writing through `p` is disallowed by its type; casting away `const` does not make the literal writable."
+          ],
+          "code": "char a[] = \"abc\";\nconst char *p = \"abc\";"
+        },
+        {
+          "title": "Length versus storage size",
+          "prompt": "Using the declarations above, what do `strlen(a)`, `sizeof(a)`, and `sizeof(p)` measure?",
+          "answer": [
+            "`strlen(a)` is 3: it counts characters before the terminating zero byte.",
+            "`sizeof(a)` is 4: it measures the whole array in bytes, including the terminator in this example.",
+            "`sizeof(p)` is the size of a pointer on the target, not the string length. Do not assume it is always 4 or 8."
+          ]
+        },
+        {
+          "title": "Terminator, null pointer, empty string",
+          "prompt": "How are `'\\0'`, `NULL`, and `\"\"` different?",
+          "answer": [
+            "`'\\0'` is a character constant with value zero. A zero byte marks the end of a C string.",
+            "`NULL` is a macro representing a null pointer constant. A null pointer points to no object; it is not an empty string.",
+            "`\"\"` is an empty string literal containing one zero byte. It has length 0 but still needs one byte of storage."
+          ]
+        },
+        {
+          "title": "What const protects",
+          "prompt": "What can you change through each of these pointer declarations?",
+          "answer": [
+            "`const char *p`: you can change where `p` points, but cannot change a character through `p`.",
+            "`char *const q`: you cannot reassign `q`, but can change the character if it points to writable storage.",
+            "`const char *const p` prevents both operations through this declaration."
+          ],
+          "code": "const char *p = source;\nchar *const q = buffer;"
+        },
+        {
+          "title": "Pointer versus pointee increment",
+          "prompt": "What changes in `*p++` versus `(*p)++`? Assume `p` points into a writable character array.",
+          "answer": [
+            "`*p++` is parsed as `*(p++)`: the expression uses the old pointed-to character, then the pointer advances. It does not change that character.",
+            "`(*p)++` increments the character stored at the current location. The pointer stays in place.",
+            "Draw a two-byte buffer and the pointer before and after each expression."
+          ]
+        },
+        {
+          "title": "Arrays passed to functions",
+          "prompt": "Inside this function, what is `sizeof(buf)`? Why must the caller pass the capacity separately?",
+          "answer": [
+            "An array parameter such as `char buf[]` is adjusted to a pointer parameter. Here, `sizeof(buf)` measures a pointer.",
+            "The pointer does not carry the allocation size. `cap` tells the function how many bytes it may access.",
+            "Capacity includes space for the terminator. String length alone does not tell you how much unused writable space remains."
+          ],
+          "code": "void fill(char buf[], size_t cap);"
+        },
+        {
+          "title": "Object lifetime",
+          "prompt": "When do automatic local objects, static objects, and allocated objects stop being usable?",
+          "answer": [
+            "An ordinary automatic local object lives during execution of its enclosing block. Returning its address does not extend that lifetime.",
+            "An object with static storage duration exists for the whole program execution.",
+            "Dynamically allocated storage remains allocated until it is freed or successfully reallocated. Define who owns it and who releases it."
+          ]
+        },
+        {
+          "title": "Casting does not validate memory",
+          "prompt": "Does casting a byte pointer to `int *` make an integer read safe? What else must be true?",
+          "answer": [
+            "The address must be correctly aligned, the object must be alive and large enough, and access must obey the effective-type/aliasing rules.",
+            "A cast changes the pointer type; it does not create storage or fix its alignment.",
+            "Use `unsigned char` to inspect object bytes. For representation transfer, `memcpy` into a properly declared object avoids an unaligned typed load, but the bytes still need to represent a valid value."
+          ]
+        },
+        {
+          "title": "Compare string contents",
+          "prompt": "How do you test whether two C strings contain the same text? What does `strcmp` return?",
+          "answer": [
+            "`strcmp(a, b) == 0` tests whether two valid, terminated strings have equal contents.",
+            "A negative result means the first differing byte in `a` sorts before the one in `b`; a positive result means it sorts after. Bytes are compared as unsigned characters.",
+            "Do not require exactly -1 or +1. Comparing the pointers themselves compares addresses, not string contents."
+          ]
+        }
+      ],
+      "instructions": "Answer one question out loud, then reveal its answer to check yourself. Log one rating for the whole card when you finish."
+    },
+    {
+      "id": "fw-strlen",
+      "title": "Implement strlen",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 10,
+      "why": "The smallest diagnostic of string traversal and terminator handling; your saved file was a stub despite its badge.",
+      "checks": [
+        "Empty string, one character, and an embedded zero.",
+        "Explain why the length excludes the terminator and why NULL is outside this contract."
+      ],
+      "variation": "Describe a bounded strnlen-style scan that never reads beyond max_len."
+    },
+    {
+      "id": "fw-reverse-cstr",
+      "title": "Reverse a C string",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 15,
+      "why": "Rebuild two-pointer reasoning using the exact C string model that recently caught you.",
+      "checks": [
+        "Empty and one-character strings do not form a pointer before the array.",
+        "The terminator stays at the end; input is writable, not a string literal."
+      ],
+      "variation": "Reverse only the first n bytes of a binary buffer containing zero bytes."
+    },
+    {
+      "id": "fw-bounded-strings",
+      "title": "Implement strlcpy",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 15,
+      "new": true,
+      "why": "Practice capacity and termination with an existing exercise: 42 Piscine C02 exercise 10, using the OpenBSD strlcpy contract.",
+      "checks": [
+        "dstsize=0, dstsize=1, exact fit, truncation, and an empty source.",
+        "Return the full source length even when truncated; terminate whenever dstsize > 0."
+      ],
+      "variation": "Explain how strlcpy differs from strncpy: return value, termination, and padding."
+    },
+    {
+      "id": "fw-cmd-parser",
+      "title": "Command line tokenizer",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 20,
+      "why": "Combines string mutation, scanning, char ** output, and ownership without needing a new algorithm.",
+      "checks": [
+        "Leading/repeated/trailing separators and max_args=0.",
+        "Returned pointers refer into the caller's buffer; explain their lifetime."
+      ],
+      "variation": "Add commas as separators, or explain how a non-mutating span-based API would differ."
+    },
+    {
+      "id": "fw-ptr-debug",
+      "title": "Debug pointer expressions",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 10,
+      "why": "One diagnostic covers the cluster of 12 pointer mechanics exercises.",
+      "checks": [
+        "Explain pointer vs pointee vs pointer-to-pointer.",
+        "Typed access needs valid alignment and compatible storage, not just a cast."
+      ],
+      "variation": "If this stalls, use Write Through a Typed Pointer and Generic Byte Offset for five minutes, then retry."
+    },
+    {
+      "id": "fw-mem-primitives",
+      "title": "memcpy, memmove, and memset",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 35,
+      "why": "Transfer string skills to raw bytes, sizes, overlap, and representation.",
+      "checks": [
+        "Zero length, same pointer, overlap in both directions, separate arrays.",
+        "Return the original destination. Explain memcpy's non-overlap precondition."
+      ],
+      "variation": "Reason about moving a slice inside a packet buffer. For portable C, do not relationally compare unrelated pointers; the reference uses equality to detect overlap."
+    },
+    {
+      "id": "fw-list-reverse",
+      "title": "Reverse a singly linked list",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 25,
+      "why": "A compact exercise in pointer lifetimes and preserving information before overwriting a link.",
+      "checks": [
+        "Empty, one node, and two nodes; new tail points to NULL.",
+        "Explain what prev/current/next mean after each iteration."
+      ],
+      "variation": "Describe how a Node ** output parameter can replace the returned head."
+    },
+    {
+      "id": "fw-lower-bracket",
+      "title": "Binary search: lower bracket",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 20,
+      "why": "Adds an important general search pattern with little embedded-specific machinery.",
+      "checks": [
+        "Empty, below first, equal to last, beyond last, and repeated values.",
+        "State an interval invariant and show that each step shrinks it."
+      ],
+      "variation": "Return the first value >= target instead; explain which comparison changes."
+    },
+    {
+      "id": "fw-bit-ops",
+      "title": "Set, clear, toggle, test",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 5,
+      "why": "Fast retrieval drill; already attempted today, so avoid spending another hour on it.",
+      "checks": [
+        "Bit 0, bit 31, and n>=32.",
+        "Use an unsigned mask and distinguish bitwise from logical operators."
+      ],
+      "variation": "Clear one field and preserve all unrelated bits."
+    },
+    {
+      "id": "fw-pow2-check",
+      "title": "Power-of-two check",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 5,
+      "why": "Practice explaining a bit identity instead of memorizing it.",
+      "checks": [
+        "Zero, one, and the high bit.",
+        "Show why x & (x-1) removes the lowest set bit."
+      ],
+      "variation": "Count set bits with the same identity."
+    },
+    {
+      "id": "fw-reg-bitfield",
+      "title": "Register bitfield helpers",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 10,
+      "why": "Applies masks to the read/modify/write pattern used in driver code.",
+      "checks": [
+        "Preserve every bit outside the mask; limit inserted value to its field.",
+        "Discuss why real write-one-to-clear registers cannot use arbitrary read/modify/write."
+      ],
+      "variation": "A status register clears bits written as 1. To acknowledge only bit 3, write that mask directly according to the device spec; explain why reg |= mask can clear other pending bits."
+    },
+    {
+      "id": "fw-endian-serial",
+      "title": "Endian-safe message serialization",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 15,
+      "why": "Combine bounded buffers with shifts and representation; more transferable than memorizing a device-specific packing format.",
+      "checks": [
+        "Short buffer, negative signed field, round trip, known byte order.",
+        "Explain why memcpy of a struct is not a portable wire format."
+      ],
+      "variation": "Decode an unaligned byte sequence without casting it to uint32_t *."
+    },
+    {
+      "id": "fw-ring-buffer",
+      "title": "Ring buffer with full flag",
+      "kind": "code",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 35,
+      "why": "One implementation teaches FIFO state, capacity, wraparound, and overflow policy.",
+      "checks": [
+        "Capacity 1, non-power-of-two capacity, full/empty, repeated wrap, failed pop preserves output.",
+        "Name which index reads and which writes; distinguish sequential correctness from concurrency."
+      ],
+      "variation": "Compare full-flag, count, and one-unused-slot designs. Which fields have multiple writers?"
+    },
+    {
+      "id": "fw-event-handoff",
+      "title": "Interrupt-safe pending event handoff",
+      "kind": "code",
+      "tier": "extension",
+      "day": "sun",
+      "minutes": 20,
+      "new": true,
+      "why": "Optional custom simulation of interrupt masking and shared state, based on concepts in the avr-libc atomic-block documentation. This exact API and exercise are not from an interview report; prioritize the concurrency oral card first.",
+      "checks": [
+        "An interrupt arrives just before masking or immediately after restore.",
+        "Already-disabled interrupts stay disabled; duplicate events intentionally coalesce."
+      ],
+      "variation": "If every event matters, choose a counter or queue. Explain why this single-core masking solution is insufficient on a second core."
+    },
+    {
+      "id": "fw-parse-i32",
+      "title": "Parse integer with overflow detection",
+      "kind": "code",
+      "tier": "core",
+      "day": "mon",
+      "minutes": 30,
+      "why": "Combines string fluency with signedness, validation, and arithmetic bounds.",
+      "checks": [
+        "Empty/sign-only, trailing junk, INT32_MIN/MAX, and overflow by one.",
+        "Check before multiply/add; avoid negating INT32_MIN in int32_t."
+      ],
+      "variation": "Support leading whitespace only after defining the accepted grammar. Defer this item on the 60-minute Monday route."
+    },
+    {
+      "id": "fw-longest-unique-c",
+      "title": "Longest unique substring",
+      "kind": "code",
+      "tier": "core",
+      "day": "mon",
+      "minutes": 25,
+      "why": "Adds sliding windows and fixed-size lookup tables to your general problem-solving toolkit.",
+      "checks": [
+        "Empty, all equal, abba, and dvdf; left boundary never moves backward.",
+        "Index a byte table with unsigned char; separate ASCII from arbitrary bytes."
+      ],
+      "variation": "Explain when a frequency-count window is simpler than last-seen positions."
+    },
+    {
+      "id": "fw-packet-parser",
+      "title": "Byte-stream packet parser",
+      "kind": "code",
+      "tier": "core",
+      "day": "tue",
+      "minutes": 40,
+      "why": "High transfer to protocol handling: incremental state, bounded writes, validation, and recovery.",
+      "checks": [
+        "Noise, zero-length, maximum/oversized payload, bad checksum, back-to-back frames.",
+        "Define what each state has already validated; outputs become valid only on a complete packet."
+      ],
+      "variation": "Explain timeout/reset policy for a truncated packet and how to resume after an error."
+    },
+    {
+      "id": "fw-timer-sched",
+      "title": "Wraparound-safe timers",
+      "kind": "code",
+      "tier": "core",
+      "day": "tue",
+      "minutes": 20,
+      "why": "Practice unsigned modular arithmetic, callbacks, and explicit timing assumptions.",
+      "checks": [
+        "Just before/at deadline, tick rollover, cancel, and late polling.",
+        "Deadline ordering assumes less than half the counter range; state periodic catch-up behavior."
+      ],
+      "variation": "For a small warm-up, implement only elapsed(now,start,duration) with a documented maximum interval."
+    },
+    {
+      "id": "oral-concurrency",
+      "title": "ISR, volatile, and race conditions",
+      "kind": "oral",
+      "tier": "core",
+      "day": "sun",
+      "minutes": 15,
+      "why": "Your UART saved solution and the sequential harness can give false confidence about interrupt safety.",
+      "questions": [
+        {
+          "title": "A mutex inside an ISR",
+          "prompt": "The foreground owns a mutex and is interrupted. The ISR tries to acquire it. What can happen?",
+          "answer": [
+            "The ISR can wait for code that cannot resume until the ISR returns: a deadlock.",
+            "An ISR must use primitives permitted by the platform/RTOS and must not block. Keep its work bounded."
+          ]
+        },
+        {
+          "title": "Protect the entire transaction",
+          "prompt": "Why is locking only `count++` insufficient for a shared ring buffer?",
+          "answer": [
+            "Checking capacity, choosing a slot, writing its contents, and publishing the updated state are one logical transaction.",
+            "Another context can invalidate earlier observations if only the final increment is protected.",
+            "List every shared field and its writers, then choose a bounded critical section or a design with explicit atomic access and ordering."
+          ]
+        },
+        {
+          "title": "What volatile does",
+          "prompt": "Does `volatile` make a shared operation atomic or safely publish other data?",
+          "answer": [
+            "Volatile accesses follow the implementation’s rules for observing those accesses, which is useful for device registers.",
+            "It does not make a compound operation such as read-modify-write atomic, and does not provide ordering for ordinary shared memory.",
+            "Use the target’s documented synchronization primitives; do not substitute `volatile` for them."
+          ]
+        },
+        {
+          "title": "A multi-byte read interrupted halfway",
+          "prompt": "Adapted from the avr-libc atomic-block example: an 8-bit MCU reads a 16-bit counter in two byte loads. Starting at 0x0100, foreground reads the low byte, the ISR decrements the counter to 0x00FF, then foreground reads the high byte. What value does it assemble, and how do you prevent this?",
+          "answer": [
+            "It assembles 0x0000: low byte 0x00 from the old value and high byte 0x00 from the new value. The actual counter was never zero during this sequence.",
+            "Volatile does not make the two loads indivisible. On this single-core MCU, copy the counter while interrupts are masked, then use that local snapshot.",
+            "Restore the previous interrupt state, as avr-libc ATOMIC_RESTORESTATE does. Unconditionally enabling interrupts would break a caller that entered with them disabled."
+          ],
+          "code": "volatile uint16_t counter = 0x0100;\n/* ISR decrements counter. Foreground needs one consistent snapshot. */"
+        },
+        {
+          "title": "A ring with separate writers",
+          "prompt": "If only the producer writes one index and only the consumer writes the other, what must still be guaranteed?",
+          "answer": [
+            "Index accesses must be appropriately atomic on the target, and each side must observe the other index correctly.",
+            "Publish the producer index after writing data; publish the consumer index after finishing the read.",
+            "C11 thread implementations generally use suitable atomic operations and ordering. MCU interrupt implementations need documented target primitives; atomics used in an ISR must be suitable and lock-free on that target."
+          ]
+        }
+      ],
+      "instructions": "Answer one question out loud, then reveal its answer to check yourself. Log one rating for the whole card when you finish."
+    },
+    {
+      "id": "oral-rtos",
+      "title": "RTOS choices and priority inversion",
+      "kind": "oral",
+      "tier": "core",
+      "day": "tue",
+      "minutes": 5,
+      "why": "Onsites often probe design reasoning beyond a pure coding harness; this is a coverage hedge, not a company-specific forecast.",
+      "questions": [
+        {
+          "title": "Choose the primitive",
+          "prompt": "When would you choose a mutex, binary semaphore, counting semaphore, task notification, or queue?",
+          "answer": [
+            "Mutex: task-owned mutual exclusion for a shared resource.",
+            "Binary semaphore: an event signal that can coalesce repeated arrivals.",
+            "Counting semaphore: count available resources or accumulated occurrences.",
+            "Task notification: a lightweight signal/value sent to a specific task; exact semantics depend on the RTOS API.",
+            "Queue: transfer ordered data with explicit capacity and an overflow/backpressure policy."
+          ]
+        },
+        {
+          "title": "Priority inversion",
+          "prompt": "Explain priority inversion using a low-, medium-, and high-priority task. How does inheritance help?",
+          "answer": [
+            "The low-priority task holds a mutex needed by the high-priority task.",
+            "Medium-priority work preempts the low-priority owner, indirectly delaying the high-priority waiter.",
+            "Priority inheritance temporarily boosts the owner so it can release the mutex sooner. It does not replace bounded critical sections and careful design."
+          ]
+        },
+        {
+          "title": "Wake a worker from an interrupt",
+          "prompt": "How should an ISR hand work to a task, and what resource limits would you review?",
+          "answer": [
+            "Use an RTOS API permitted from interrupts, such as the relevant `FromISR` queue or notification operation. Follow its interrupt-priority and yield requirements.",
+            "Do not block in the ISR. Move lengthy processing into the worker.",
+            "Budget task stacks, queue capacity, worst-case latency, deadlines, and watchdog servicing."
+          ]
+        }
+      ],
+      "instructions": "Answer one question out loud, then reveal its answer to check yourself. Log one rating for the whole card when you finish."
+    },
+    {
+      "id": "oral-debug",
+      "title": "Peripheral debugging and data loss",
+      "kind": "oral",
+      "tier": "core",
+      "day": "tue",
+      "minutes": 5,
+      "why": "Turn coding mechanics into a systematic hardware/firmware diagnosis.",
+      "questions": [
+        {
+          "title": "A sensor returns zeros",
+          "prompt": "What are your first five checks, and what would you measure?",
+          "answer": [
+            "1. Verify power rails and reset state.",
+            "2. Verify pin mux, clocks, and peripheral configuration.",
+            "3. Read the device identity or another known register.",
+            "4. Inspect transactions on a scope or logic analyzer.",
+            "5. Check protocol errors, timeouts, and software buffer/state handling.",
+            "Reproduce the issue with a minimal test. Use a measurement to confirm the fix."
+          ]
+        },
+        {
+          "title": "Protocol checks",
+          "prompt": "What differs when debugging UART, SPI, and I2C?",
+          "answer": [
+            "UART: check baud rate, framing, voltage levels, and receive overruns.",
+            "SPI: check clock polarity/phase, chip-select timing, bit order, and clock rate.",
+            "I2C: check address conventions, ACK/NACK behavior, pull-ups, bus timing, and a stuck bus."
+          ]
+        },
+        {
+          "title": "Polling, interrupts, or DMA",
+          "prompt": "When would you choose each transfer method?",
+          "answer": [
+            "Polling is simple, but busy-waiting occupies the CPU and may delay other work.",
+            "Interrupts handle asynchronous arrivals; keep handler latency and execution time bounded.",
+            "DMA reduces CPU copying for streams. Define buffer ownership and completion/error handling.",
+            "On cached systems, check DMA cache coherency and alignment requirements."
+          ]
+        },
+        {
+          "title": "Intermittent UART data loss",
+          "prompt": "How would you size the buffer and distinguish insufficient capacity from another bug?",
+          "answer": [
+            "Start with incoming bytes/second × worst-case time between servicing the buffer, then add margin and account for bursts.",
+            "Add hardware-overrun, software-drop, and queue high-water counters. Reproduce under load.",
+            "Check interrupt masking, scheduling delays, races, and buffer ownership. A larger buffer cannot fix a sustained input rate above the drain rate.",
+            "If the device also resets, inspect fault/reset causes and stack usage."
+          ]
+        }
+      ],
+      "instructions": "Answer one question out loud, then reveal its answer to check yourself. Log one rating for the whole card when you finish."
+    },
+    {
+      "id": "oral-design",
+      "title": "Design a small sensor controller",
+      "kind": "oral",
+      "tier": "core",
+      "day": "tue",
+      "minutes": 5,
+      "why": "Connect data acquisition, timing, communication, and safe failure into one coherent explanation.",
+      "questions": [
+        {
+          "title": "Clarify the requirements",
+          "prompt": "You need to sample a sensor, filter it, control an actuator, and send telemetry. What do you ask first?",
+          "answer": [
+            "Ask for sample rate, control latency, accuracy, power limits, and telemetry throughput.",
+            "Define safe behavior for missing or invalid sensor data, communication loss, and reset.",
+            "Use those requirements to choose an architecture instead of immediately selecting an RTOS or peripheral."
+          ]
+        },
+        {
+          "title": "Draw the data path",
+          "prompt": "Sketch acquisition → buffering → processing → control → telemetry. Who owns each buffer and state variable?",
+          "answer": [
+            "Separate time-critical ISR/DMA acquisition from slower filtering and communication.",
+            "Specify timestamps, scheduling, queue capacity, and overflow policy at each boundary.",
+            "Assign ownership and synchronization explicitly; keep the control path bounded."
+          ]
+        },
+        {
+          "title": "Handle failure and recovery",
+          "prompt": "What states and failure paths must the design include?",
+          "answer": [
+            "Define startup, normal operation, fault, and recovery states.",
+            "Handle sensor timeouts, invalid readings, queue overflow, and watchdog/reset recovery.",
+            "Put the actuator into its specified safe state when inputs cannot be trusted.",
+            "If updates are relevant, discuss interrupted updates and rollback."
+          ]
+        },
+        {
+          "title": "Validate the design",
+          "prompt": "How would you test it, and what real project tradeoff could you explain?",
+          "answer": [
+            "Test pure logic on the host, peripheral interactions with mocks, and timing/electrical behavior on the target.",
+            "Measure latency, drop rates, memory use, and fault recovery against the requirements.",
+            "Explain one decision you made, the alternatives, the evidence you gathered, and the measured result."
+          ]
+        }
+      ],
+      "instructions": "Answer one question out loud, then reveal its answer to check yourself. Log one rating for the whole card when you finish."
+    },
+    {
+      "id": "oral-mock",
+      "title": "45-minute interview rehearsal",
+      "kind": "oral",
+      "tier": "core",
+      "day": "wed",
+      "minutes": 45,
+      "why": "Train the whole performance: clarify, reason, implement, communicate, and recover.",
+      "questions": [
+        {
+          "title": "Choose one route",
+          "prompt": "Pick your least rehearsed route. Use Start over on each question and stop after 45 minutes.",
+          "answer": [
+            "Route A: implement strlcpy and a ring buffer; discuss an overwrite-oldest variation.",
+            "Route B: implement a packet parser; discuss timeout reset and resynchronization.",
+            "Route C: implement binary-search lower bracket and longest unique substring."
+          ]
+        },
+        {
+          "title": "Run the interview",
+          "prompt": "How will you use the 45 minutes while narrating your decisions?",
+          "answer": [
+            "First 5 minutes: clarify inputs, invalid cases, ownership, and constraints; state an invariant.",
+            "Next 30 minutes: implement while explaining, and trace a small example when uncertain.",
+            "Final 10 minutes: test edge cases, explain complexity, and name the biggest limitation.",
+            "The original harness checks the base task. Manually trace variations with a changed contract."
+          ]
+        },
+        {
+          "title": "Debrief",
+          "prompt": "What should you score and repair afterward?",
+          "answer": [
+            "Score 0–2 each: contract clarity, invariant/reasoning, implementation, testing, and explanation.",
+            "Aim for 8/10 with no zero in correctness or testing. This is self-assessment, not an automated grader.",
+            "Spend the next 15 minutes repairing the biggest miss. Log the route and one prevention rule.",
+            "A repair that required hints is Used help, even if the final code passes."
+          ]
+        }
+      ],
+      "instructions": "Work through these three steps. Open each guide when you reach that step; choose one coding route for the mock."
+    },
+    {
+      "id": "fw-list-cycle",
+      "title": "Cycle detection",
+      "kind": "code",
+      "tier": "extension",
+      "day": "mon",
+      "minutes": 20,
+      "why": "Adds fast/slow pointers after basic list manipulation is reliable.",
+      "checks": [
+        "Empty, self-cycle, cycle starting after the head."
+      ],
+      "variation": "Explain finding the cycle entry as a follow-up."
+    },
+    {
+      "id": "fw-adc-moving-avg",
+      "title": "ADC moving average",
+      "kind": "code",
+      "tier": "extension",
+      "day": "tue",
+      "minutes": 20,
+      "why": "Useful sensor-domain transfer from a ring plus running sum.",
+      "checks": [
+        "Window initialization, eviction, accumulator width."
+      ],
+      "variation": "Compare fixed zero-filled warm-up with dividing by real sample count."
+    },
+    {
+      "id": "fw-gpio-debounce",
+      "title": "GPIO debounce",
+      "kind": "code",
+      "tier": "extension",
+      "day": "tue",
+      "minutes": 25,
+      "why": "A smaller state-and-time problem if you need another application of invariants.",
+      "checks": [
+        "Bounce cancels a pending transition; holding steady commits once; tick wrap."
+      ],
+      "variation": "Add a long-press event without blocking."
+    },
+    {
+      "id": "fw-spi-driver",
+      "title": "SPI register driver",
+      "kind": "code",
+      "tier": "extension",
+      "day": "tue",
+      "minutes": 25,
+      "why": "Useful if the confirmed role emphasizes driver bring-up.",
+      "checks": [
+        "Timeout, error, successful transfer; volatile MMIO access."
+      ],
+      "variation": "Replace iteration-count timeout with a hardware timebase and discuss register side effects."
+    },
+    {
+      "id": "fw-pool-alloc",
+      "title": "Static memory pool",
+      "kind": "code",
+      "tier": "extension",
+      "day": "sun",
+      "minutes": 35,
+      "why": "Only after pointer mechanics are comfortable; consolidates a free list and deterministic allocation.",
+      "checks": [
+        "Exhaustion, reuse, alignment/stride requirements, ownership and double-free policy."
+      ],
+      "variation": "Discuss typed storage versus embedding pointers in byte arrays; the simple harness does not prove all production safety properties."
+    },
+    {
+      "id": "fw-subarray-sum",
+      "title": "Non-negative sliding window",
+      "kind": "code",
+      "tier": "extension",
+      "day": "mon",
+      "minutes": 20,
+      "why": "Second window pattern if longest-unique is already cold and time remains.",
+      "checks": [
+        "Zeros, target zero, no result; accumulator width."
+      ],
+      "variation": "Explain why allowing negative values breaks the monotonic shrinking argument."
+    }
+  ],
+  "defer": "Defer sizeof-without-sizeof tricks, stack-direction probes, aligned_malloc, CRC polynomial details, SENT/MIPI packing, fixed-point math, and repeated versions of rings/pointer drills unless the job description calls for them. Review struct padding/alignment conceptually. These topics are not worthless; they have lower marginal value than repairing C basics within your time budget. Do not attempt all 65 questions.",
+  "cautions": [
+    "The UART RX harness tests sequential FIFO behavior only. It cannot certify ISR safety. Its shared count needs synchronization; your saved blocking-mutex approach is not a valid ISR solution.",
+    "The original string bug note suggested strncpy without its termination caveat. That note is corrected. The strlcpy exercise follows the published contract: truncate to fit, terminate when capacity is nonzero, and return the full source length.",
+    "Raw pointer/free-list exercises assume suitable storage. A cast alone does not establish alignment or compatible object type. Do not treat passing host tests as proof of portable C or hardware correctness.",
+    "Firmware coding exercises do not cover the whole onsite. Keep the oral RTOS, debugging, system-design, and real-project discussion blocks. Ask the recruiter about the actual interview format if it is still unknown."
+  ],
+  "sources": [
+    {
+      "title": "42 Piscine C02: implement strlcpy (exercise 10)",
+      "url": "https://raw.githubusercontent.com/kuvarti/42k-Piscine/main/PDFs/EN_C02.pdf",
+      "note": "Published practice exercise, available in a public mirror of the subject PDF. Adapted with size_t and a const source parameter."
+    },
+    {
+      "title": "OpenBSD: strlcpy contract",
+      "url": "https://man.openbsd.org/strlcpy",
+      "note": "Defines the behavior used in the prompt, reference solution, and tests."
+    },
+    {
+      "title": "Casey Muratori: Microsoft string-copy interview",
+      "url": "https://www.computerenhance.com/p/microsoft-intern-interview-question-ab7",
+      "note": "Firsthand account published in 2023 of a 1994 interview asking for strcpy. Evidence for the string-copy topic, not for strlcpy, Orion, or current interview frequency."
+    },
+    {
+      "title": "avr-libc: atomic access to ISR-shared variables",
+      "url": "https://avrdudes.github.io/avr-libc/avr-libc-user-manual-1.8.1/group__util__atomic.html",
+      "note": "Source for the shared 16-bit counter trace and restoring the previous interrupt state. The optional event-handoff exercise is a custom simulation, not a question from this manual."
+    },
+    {
+      "title": "SEI CERT: space for string data and the terminator",
+      "url": "https://cmu-sei.github.io/secure-coding-standards/sei-cert-c-coding-standard/rules/characters-and-strings-str/str31-c/",
+      "note": "Supports explicit capacity and termination checks."
+    },
+    {
+      "title": "GCC: volatile accesses and ordering",
+      "url": "https://gcc.gnu.org/onlinedocs/gcc/Volatiles.html",
+      "note": "Volatile is not a memory barrier for ordinary data."
+    },
+    {
+      "title": "Arm CMSIS-RTOS2: mutex management",
+      "url": "https://arm-software.github.io/CMSIS_6/main/RTOS2/group__CMSIS__RTOS__MutexMgmt.html",
+      "note": "Mutex APIs cannot be called from ISRs in this RTOS interface."
+    }
+  ]
+}

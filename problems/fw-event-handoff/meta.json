@@ -1,0 +1,12 @@
+{
+  "title": "Interrupt-Safe Pending Event Handoff",
+  "phase": 3,
+  "phaseName": "Core Firmware",
+  "difficulty": "Medium",
+  "tags": ["interrupts", "critical section", "volatile", "race conditions"],
+  "languages": ["python", "c"],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 38,
+  "authored": true
+}

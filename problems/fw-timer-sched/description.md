@@ -16,7 +16,7 @@ void ts_poll(timer_sched_t *ts, uint32_t now);
 - **`ts_poll`** — for each active slot, check if `(uint32_t)(now - slot.deadline) < 0x80000000u`; if true, fire the callback. One-shot timers deactivate after firing; periodic timers advance `deadline += period`
 - **`ts_cancel`** — deactivate the slot; return `false` if `timer_id` is out of range or already inactive
 
-The wraparound check `(uint32_t)(now - deadline) < 0x80000000u` is true when `now >= deadline` in unsigned 32-bit arithmetic, handling counter wraparound correctly.
+The wraparound check `(uint32_t)(now - deadline) < 0x80000000u` interprets the modular difference as due within a half-range window. Delays must be less than `2^31` ticks and polling must not miss a deadline by `2^31` ticks or more; otherwise past and future are ambiguous. Periodic timers require a nonzero period. This simplified exercise does not support callbacks that mutate the scheduler.
 
 ## Examples
 
