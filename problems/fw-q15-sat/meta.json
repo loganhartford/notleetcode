@@ -1,0 +1,19 @@
+{
+  "title": "Q15 Saturating Arithmetic",
+  "phase": 5,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": [
+    "fixed point",
+    "dsp",
+    "saturation"
+  ],
+  "languages": [
+    "c",
+    "python"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 64,
+  "authored": true
+}
