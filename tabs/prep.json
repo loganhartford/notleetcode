@@ -5,8 +5,7 @@
   "users": ["logan"],
   "sections": [
     {
-      "name": "Sunday — strings, then raw bytes",
-      "note": "~3.5 h. Stuck 10 min? Look up only the missing idea, close it, finish it yourself. Running late: move Parse integer to Thursday.",
+      "name": "Sunday — done",
       "items": [
         "fw-strlen",
         "fw-reverse-cstr",
@@ -14,32 +13,30 @@
         "fw-strcmp-strstr",
         "fw-i32-to-dec",
         "fw-run-length-encode",
-        "fw-cmd-parser",
-        "fw-parse-i32",
         "fw-ptr-byte-offset",
         "fw-ptr-swap",
         "fw-mem-primitives"
       ]
     },
     {
-      "name": "Monday — bits into bytes",
-      "note": "~90 min. Warm up: redo the tokenizer from a blank file (Reset).",
+      "name": "Monday — finish strings, then bits",
+      "note": "~90 min. Finish Parse integer first (you know the three fixes). The tokenizer uses the same loop shape as RLE.",
       "items": [
+        "fw-parse-i32",
+        "fw-cmd-parser",
         "fw-bit-ops",
         "fw-bswap",
         "fw-endian-detect",
-        "fw-reg-bitfield",
-        "fw-endian-serial",
-        "fw-sizeof-struct"
+        "fw-reg-bitfield"
       ]
     },
     {
-      "name": "Tuesday — buffers, interrupts, an unseen problem",
-      "note": "~90 min. Warm up: redo memmove and reg_write_field from blank files.",
+      "name": "Tuesday — bytes, buffers, interrupts",
+      "note": "~90 min. If you have 10 min spare, redo the tokenizer from a blank file (Reset) first.",
       "items": [
+        "fw-endian-serial",
         "fw-ring-buffer",
-        "fw-uart-rx",
-        "fw-find-bit-pattern"
+        "fw-uart-rx"
       ]
     },
     {
@@ -50,6 +47,14 @@
         "fw-macro-pitfalls",
         "fw-func-ptr-decl",
         "fw-packet-parser"
+      ]
+    },
+    {
+      "name": "Extra — only if you're ahead",
+      "note": "Struct padding is also covered by your new Anki cards.",
+      "items": [
+        "fw-find-bit-pattern",
+        "fw-sizeof-struct"
       ]
     }
   ]

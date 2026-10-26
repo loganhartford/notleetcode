@@ -211,5 +211,65 @@
     "lastLanguage": "c",
     "flagged": true,
     "updated": "2026-07-21T17:32:23.409Z"
+  },
+  "fw-strlen": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-25T21:14:57.403Z"
+  },
+  "fw-reverse-cstr": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-25T21:17:07.458Z"
+  },
+  "fw-bounded-strings": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-25T21:28:04.224Z"
+  },
+  "fw-strcmp-strstr": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-10-25T22:08:30.916Z"
+  },
+  "fw-i32-to-dec": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-10-25T23:19:18.230Z"
+  },
+  "fw-run-length-encode": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": true,
+    "updated": "2026-10-25T23:43:52.072Z"
+  },
+  "fw-ptr-swap": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-25T23:54:14.248Z"
+  },
+  "fw-ptr-byte-offset": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-25T23:56:07.349Z"
+  },
+  "fw-mem-primitives": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T00:17:51.976Z"
+  },
+  "fw-parse-i32": {
+    "status": "attempted",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T16:43:07.957Z"
   }
 }
