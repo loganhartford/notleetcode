@@ -267,9 +267,45 @@
     "updated": "2026-10-26T00:17:51.976Z"
   },
   "fw-parse-i32": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T20:49:05.797Z"
+  },
+  "fw-cmd-parser": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T21:06:15.241Z"
+  },
+  "fw-bit-ops": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T21:11:52.848Z"
+  },
+  "fw-bswap": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T21:20:32.731Z"
+  },
+  "fw-endian-detect": {
     "status": "attempted",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-10-26T20:27:25.314Z"
+    "updated": "2026-10-26T21:51:14.590Z"
+  },
+  "fw-reg-bitfield": {
+    "status": "solved",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T21:33:50.924Z"
+  },
+  "fw-endian-serial": {
+    "status": "attempted",
+    "lastLanguage": "c",
+    "flagged": false,
+    "updated": "2026-10-26T21:51:05.123Z"
   }
 }
