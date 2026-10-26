@@ -13,7 +13,7 @@ static void chk_sz(const char *nm, const char *in, size_t got, size_t exp) {
     nlc_case(nm, got == exp, in, e, g, "");
 }
 static void chk_str(const char *nm, const char *in, const char *got, const char *exp) {
-    nlc_case(nm, strcmp(got, exp) == 0, in, exp, got, "");
+    nlc_case(nm, got && strcmp(got, exp) == 0, in, exp, got ? got : "NULL", "");
 }
 
 int main(void) {
@@ -25,17 +25,20 @@ int main(void) {
 
     /* empty → 0 */
     strcpy(line, "");
+    memset(argv, 0, sizeof argv);
     n = parse_tokens(line, argv, 8);
     chk_sz("empty → 0", "parse_tokens(\"\")", n, 0);
 
     /* single token */
     strcpy(line, "cmd");
+    memset(argv, 0, sizeof argv);
     n = parse_tokens(line, argv, 8);
     chk_sz("single token count", "parse_tokens(\"cmd\")", n, 1);
     chk_str("single token value", "argv[0]", argv[0], "cmd");
 
     /* three tokens */
     strcpy(line, "cmd arg1 arg2");
+    memset(argv, 0, sizeof argv);
     n = parse_tokens(line, argv, 8);
     chk_sz("three tokens count", "parse_tokens 3 tokens", n, 3);
     chk_str("tok0", "argv[0]", argv[0], "cmd");
@@ -44,6 +47,7 @@ int main(void) {
 
     /* multiple spaces */
     strcpy(line, "  cmd   arg  ");
+    memset(argv, 0, sizeof argv);
     n = parse_tokens(line, argv, 8);
     chk_sz("multi-space count", "parse_tokens multi-space", n, 2);
     chk_str("multi-space tok0", "argv[0]", argv[0], "cmd");
@@ -51,12 +55,14 @@ int main(void) {
 
     /* tab separator */
     strcpy(line, "a\tb\tc");
+    memset(argv, 0, sizeof argv);
     n = parse_tokens(line, argv, 8);
     chk_sz("tab sep count", "parse_tokens tab", n, 3);
     chk_str("tab tok0", "argv[0]", argv[0], "a");
 
     /* max_args limit */
     strcpy(line, "a b c d e");
+    memset(argv, 0, sizeof argv);
     n = parse_tokens(line, argv, 2);
     chk_sz("max_args cap", "parse_tokens max_args=2", n, 2);
     chk_str("cap tok0", "argv[0]", argv[0], "a");

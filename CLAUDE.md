@@ -186,7 +186,7 @@ int main(void) {
 - `nlc_end()` — call once at the end of main
 - `nlc_case(name, passed, input, expected, got, captured_stdout)` — one per test
 - `nlc_fmt_ints(buf, cap, arr, n)` — formats an int array as `"[1, 2, 3]"`
-- `nlc_capture_begin()` / `nlc_capture_end()` — capture stdout from the user's function so it shows up per-test instead of jumbled. `nlc_capture_end()` returns a `char*` that must be `free()`d.
+- `nlc_capture_begin()` / `nlc_capture_end()` — no-ops kept so older harnesses compile; the user's stdout already shows in the Results panel because results go to stderr. `nlc_capture_end()` returns an empty `char*` that must be `free()`d. New harnesses can skip them and pass `""` as `captured_stdout`.
 
 All strings passed to `nlc_case` are JSON-escaped internally. Do not pre-escape them.
 

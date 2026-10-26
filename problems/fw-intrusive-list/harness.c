@@ -19,6 +19,13 @@ static void chk_sz(const char *nm, const char *in, size_t got, size_t exp) {
     snprintf(e, sizeof e, "%zu", exp);
     nlc_case(nm, got == exp, in, e, g, "");
 }
+static void chk_head(const char *nm, const char *in, const node_t *head, int exp) {
+    char g[16], e[16];
+    if (head) snprintf(g, sizeof g, "%d", head->value);
+    else snprintf(g, sizeof g, "NULL");
+    snprintf(e, sizeof e, "%d", exp);
+    nlc_case(nm, head && head->value == exp, in, e, g, "");
+}
 static void chk_val(const char *nm, const char *in, int got, int exp) {
     char g[16], e[16];
     snprintf(g, sizeof g, "%d", got);
@@ -37,13 +44,13 @@ int main(void) {
     list_push_front(&head, &b);
     list_push_front(&head, &c);
     chk_sz("count 3", "list_count after 3 push", list_count(head), 3);
-    chk_val("front is c", "head->value", head->value, 3);
+    chk_head("front is c", "head->value", head, 3);
 
     /* pop_front */
     node_t *p = list_pop_front(&head);
     chk_ptr("pop returns c", "list_pop_front", p, &c);
     chk_sz("count 2 after pop", "list_count", list_count(head), 2);
-    chk_val("new front is b", "head->value", head->value, 2);
+    chk_head("new front is b", "head->value", head, 2);
 
     /* pop_front empty */
     head = NULL;
@@ -56,11 +63,11 @@ int main(void) {
     list_push_front(&head, &b);
     list_push_front(&head, &c);
     chk_bool("remove head", "list_remove head c", list_remove(&head, &c), true);
-    chk_val("new head is b", "head after remove head", head->value, 2);
+    chk_head("new head is b", "head after remove head", head, 2);
 
     /* remove middle */
     chk_bool("remove mid", "list_remove mid b", list_remove(&head, &b), true);
-    chk_val("only a left", "head after remove mid", head->value, 1);
+    chk_head("only a left", "head after remove mid", head, 1);
 
     /* remove absent */
     chk_bool("remove absent", "list_remove not in list", list_remove(&head, &b), false);

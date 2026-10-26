@@ -37,6 +37,16 @@ static void _nlc_json_str(const char *s) {
     fputc('"', stderr);
 }
 
+/* Older harnesses wrap each call in a capture pair. Results go to stderr, so
+   the solution's stdout already reaches the Results panel on its own; these
+   remain so those harnesses compile. nlc_capture_end's result must be freed. */
+static inline void nlc_capture_begin(void) {}
+static inline char *nlc_capture_end(void) {
+    char *s = (char *)malloc(1);
+    if (s) s[0] = '\0';
+    return s;
+}
+
 static void nlc_case(const char *name, int passed, const char *input,
                      const char *expected, const char *got, const char *out) {
     if (!_nlc_first) fputc(',', stderr);
