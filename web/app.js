@@ -47,6 +47,8 @@ let editor = null;
 let saveTimer = null;
 let lastSavedCode = '';
 let openSeq = 0;          // latest openProblem call; older responses are dropped
+let rep = null;           // timed fresh attempt in progress (or just finished)
+let repTicker = null;
 
 const PHASE_NAMES = {};   // filled from problem data
 
@@ -166,6 +168,7 @@ async function init() {
   inp.setAttribute('spellcheck', 'false');
 
   wireButtons();
+  rep = loadRepState();
   const [, cfg] = await Promise.all([loadProblems(), fetch('/api/config').then((r) => r.json())]);
   allowedTabs = cfg.tabs || allowedTabs;
 
@@ -197,8 +200,11 @@ async function init() {
   document.querySelectorAll('.tab-btn').forEach((b) =>
     b.classList.toggle('active', b.dataset.tab === activeTab));
 
-  // Open last-opened (from hash) or first unsolved in active tab.
-  const fromHash = location.hash.slice(1);
+  // Open last-opened (from hash) or first unsolved in active tab. A rep link
+  // (#rep/<id>, from an Anki card) also starts a fresh attempt.
+  const hash = location.hash.slice(1);
+  const repId = hash.startsWith('rep/') ? hash.slice(4) : null;
+  const fromHash = repId || hash;
   let target = problems.find((p) => p.id === fromHash);
   if (target) {
     // Switch to the tab that owns this problem, unless the active tab lists it.
@@ -215,8 +221,14 @@ async function init() {
     target = list.find((p) => p.status !== 'solved') || list[0];
   }
   if (target) await openProblem(target.id);
+  if (target && repId) await startRep(target.id);
   renderSidebar();
   renderOverall();
+
+  window.addEventListener('hashchange', () => {
+    const h = location.hash.slice(1);
+    if (h.startsWith('rep/')) startRep(h.slice(4));
+  });
 }
 
 function wireButtons() {
@@ -228,6 +240,8 @@ function wireButtons() {
   document.getElementById('toggle-solution').onclick = toggleSolution;
   document.getElementById('flag-btn').onclick = toggleFlag;
   document.getElementById('copy-btn').onclick = copyForLLM;
+  document.getElementById('rep-btn').onclick = () => current && startRep(current.id, currentLang);
+  document.getElementById('rep-end').onclick = endOrCloseRep;
   document.querySelectorAll('.tab-btn').forEach((btn) => {
     btn.onclick = () => setTab(btn.dataset.tab);
   });
@@ -245,6 +259,7 @@ function switchInfoPanel(panel) {
 
 async function copyForLLM() {
   if (!current) return;
+  markRepHelp();
   const lang = currentLang || 'python';
   const code = editor.getValue();
   const text = [
@@ -294,6 +309,7 @@ async function loadProblems() {
 function renderSidebar() {
   const host = document.getElementById('problem-list');
   host.innerHTML = '';
+  const targets = (customTabs[activeTab] && customTabs[activeTab].targets) || {};
   let lastGroup = null;
   for (const p of tabProblems()) {
     const group = p.section || p.phase;
@@ -321,12 +337,16 @@ function renderSidebar() {
     const item = document.createElement('div');
     item.className = 'prob-item' + (p.authored ? '' : ' unauthored') + (current && p.id === current.id ? ' active' : '');
     item.dataset.id = p.id;
+    const minutes = targets[p.id];
+    const tag = minutes
+      ? `<span class="lang-tag" title="Target time">${minutes}m</span>`
+      : `<span class="lang-tag">${(p.languages[0] || 'py').replace('python', 'py').replace('cpp', 'c++')}</span>`;
     item.innerHTML = `
       <span class="status-dot ${p.status}"></span>
       <span class="num">${p.order || p.stackIndex}</span>
       <span class="name">${escapeHtml(p.title)}</span>
       <span class="flag-mark${p.flagged ? ' on' : ''}" title="Flagged for review">⚑</span>
-      <span class="lang-tag">${(p.languages[0] || 'py').replace('python', 'py').replace('cpp', 'c++')}</span>`;
+      ${tag}`;
     item.onclick = () => openProblem(p.id);
     host.appendChild(item);
   }
@@ -398,6 +418,7 @@ async function openProblem(id) {
   clearResults();
   switchInfoPanel('problem');
   highlightActive();
+  renderRep();
 }
 
 function renderFlag(flagged) {
@@ -467,7 +488,7 @@ function setupSolutionBlock() {
     block.classList.remove('hidden');
     code.textContent = ref;
     code.classList.add('hidden');
-    btn.textContent = '▸ Show reference solution';
+    btn.textContent = solutionLabel(true);
   } else {
     block.classList.add('hidden');
   }
@@ -477,7 +498,13 @@ function toggleSolution() {
   const code = document.getElementById('solution-code');
   const btn = document.getElementById('toggle-solution');
   const hidden = code.classList.toggle('hidden');
-  btn.textContent = (hidden ? '▸ Show' : '▾ Hide') + ' reference solution';
+  if (!hidden) markRepHelp();
+  btn.textContent = solutionLabel(hidden);
+}
+
+function solutionLabel(hidden) {
+  if (!hidden) return '▾ Hide reference solution';
+  return '▸ Show reference solution' + (repRunning() ? ' (suggests Again for this rep)' : '');
 }
 
 // ---------------------------------------------------------------------------
@@ -536,6 +563,11 @@ async function runTests() {
     });
     const data = await res.json();
     renderResults(data);
+    if (repRunning()) {
+      rep.runs++;
+      if (data.allPassed) await finishRep('passed');
+      else { saveRepState(); renderRep(); }
+    }
     switchInfoPanel('results');
     if (data.status) {
       renderStatusBadge(data.status);
@@ -652,6 +684,190 @@ function clearResults() {
   summary.className = 'results-summary';
   summary.textContent = 'Run your code to see results.';
   document.getElementById('results-detail').innerHTML = '';
+}
+
+// ---------------------------------------------------------------------------
+// Reps: a timed attempt from a blank starter, usually opened from an Anki
+// card via #rep/<id>. Kept in localStorage so a reload doesn't lose the clock.
+// ---------------------------------------------------------------------------
+const REP_KEY = 'nlc-rep';
+const GRADE_LABEL = { again: 'Again', hard: 'Hard', good: 'Good', easy: 'Easy' };
+
+function loadRepState() {
+  try { return JSON.parse(localStorage.getItem(REP_KEY)) || null; } catch (_) { return null; }
+}
+
+function saveRepState() {
+  try {
+    if (rep) localStorage.setItem(REP_KEY, JSON.stringify(rep));
+    else localStorage.removeItem(REP_KEY);
+  } catch (_) { /* private window: the rep just won't survive a reload */ }
+}
+
+// The curated tab that sets a target time for this problem (the Reps deck).
+function repTabFor(id) {
+  const t = Object.values(customTabs).find((tab) => tab.targets && tab.targets[id]);
+  return t ? t.id : null;
+}
+
+function repTarget(id) {
+  const tab = repTabFor(id);
+  return tab ? customTabs[tab].targets[id] : null;
+}
+
+function repRunning(id = current && current.id) {
+  return !!(rep && !rep.done && rep.id === id);
+}
+
+async function startRep(id, lang) {
+  // A rep opens in the curated tab that sets its target time.
+  const deckTab = repTabFor(id);
+  if (deckTab && deckTab !== activeTab && allowedTabs.includes(deckTab)) {
+    activeTab = deckTab;
+    localStorage.setItem('nlc-tab', activeTab);
+    document.querySelectorAll('.tab-btn').forEach((b) =>
+      b.classList.toggle('active', b.dataset.tab === activeTab));
+    renderSidebar();
+    renderOverall();
+  }
+  if (!current || current.id !== id) await openProblem(id);
+  if (!current || current.id !== id) return;
+  history.replaceState(null, '', '#' + id); // a reload resumes the rep, it doesn't restart it
+  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; await saveNow(); }
+  // A rep link uses the deck's language (C) when the problem offers it.
+  const deck = customTabs[repTabFor(id)];
+  const deckLang = deck && deck.language && current.languages.includes(deck.language) ? deck.language : null;
+  lang = lang || deckLang || current.defaultLanguage;
+  const res = await fetch('/api/rep/start', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, language: lang }),
+  });
+  if (!res.ok) {
+    setSaveState('Could not start a rep (restart the server?)');
+    return;
+  }
+  const data = await res.json();
+  if (!current || current.id !== id) return;
+  current.saved = { ...current.saved, [lang]: data.starter };
+  currentLang = lang;
+  document.getElementById('lang-select').value = lang;
+  loadEditorForLang();
+  clearResults();
+  rep = { id, lang, startedAt: Date.now(), runs: 0, help: false, target: repTarget(id), done: null };
+  saveRepState();
+  setupSolutionBlock();
+  switchInfoPanel('problem');
+  renderRep();
+  editor.focus();
+}
+
+function suggestGrade(seconds, runs, help, target) {
+  if (help) return 'again';
+  if (!target) return 'good';
+  if (seconds > target * 60) return 'hard';
+  if (seconds <= target * 30 && runs <= 2) return 'easy';
+  return 'good';
+}
+
+function gradeReason(r) {
+  const d = r.done;
+  if (d.outcome !== 'passed') return 'you gave up';
+  if (r.help) return 'you opened the reference solution or copied the problem for an LLM';
+  if (!r.target) return 'no target time is set, so grade it yourself';
+  if (d.grade === 'hard') return 'over the target time';
+  if (d.grade === 'easy') return 'under half the target time, in two runs or fewer';
+  return 'within the target time';
+}
+
+async function finishRep(outcome) {
+  const seconds = Math.round((Date.now() - rep.startedAt) / 1000);
+  const grade = outcome === 'passed' ? suggestGrade(seconds, rep.runs, rep.help, rep.target) : 'again';
+  rep.done = { outcome, seconds, grade };
+  saveRepState();
+  renderRep();
+  const solutionBtn = document.getElementById('toggle-solution');
+  if (document.getElementById('solution-code').classList.contains('hidden')) solutionBtn.textContent = solutionLabel(true);
+  const detail = document.getElementById('results-detail');
+  detail.insertBefore(repSummaryBlock(rep), detail.firstChild);
+  try {
+    await fetch('/api/rep/finish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: rep.id, language: rep.lang, startedAt: new Date(rep.startedAt).toISOString(),
+        seconds, runs: rep.runs, help: rep.help, outcome, grade, targetMinutes: rep.target,
+      }),
+    });
+  } catch (_) { /* the grade is still shown; only the log entry is lost */ }
+}
+
+// "Give up" while the clock runs; "Close" once the rep is over.
+async function endOrCloseRep() {
+  if (!rep) return;
+  if (rep.done) {
+    rep = null;
+    saveRepState();
+    renderRep();
+    setupSolutionBlock();
+    return;
+  }
+  clearResults();
+  document.getElementById('results-summary').textContent = 'Rep ended. The reference solution is open on the Problem tab.';
+  await finishRep('gave-up');
+  const code = document.getElementById('solution-code');
+  if (current.solution && current.solution[currentLang]) {
+    code.classList.remove('hidden');
+    document.getElementById('toggle-solution').textContent = solutionLabel(false);
+    switchInfoPanel('problem');
+    code.scrollIntoView({ block: 'start' });
+  } else {
+    switchInfoPanel('results');
+  }
+}
+
+function markRepHelp() {
+  if (!repRunning()) return;
+  rep.help = true;
+  saveRepState();
+}
+
+function repSummaryBlock(r) {
+  const div = document.createElement('div');
+  div.className = 'rep-summary ' + r.done.grade;
+  div.innerHTML =
+    `<div class="rep-summary-grade">Suggested grade: <b>${GRADE_LABEL[r.done.grade]}</b> ` +
+    `<span class="rep-dim">(${escapeHtml(gradeReason(r))})</span></div>` +
+    `<div class="kv">${fmtClock(r.done.seconds)}${r.target ? ` of ${r.target}:00` : ''} · ` +
+    `${r.runs} run${r.runs === 1 ? '' : 's'}</div>` +
+    '<div class="kv rep-dim">Flip the card in Anki and grade it.</div>';
+  return div;
+}
+
+function fmtClock(s) {
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
+function renderRep() {
+  const bar = document.getElementById('rep-bar');
+  const show = !!(rep && current && rep.id === current.id);
+  bar.classList.toggle('hidden', !show);
+  if (repTicker) { clearInterval(repTicker); repTicker = null; }
+  if (!show) return;
+
+  const seconds = rep.done ? rep.done.seconds : Math.floor((Date.now() - rep.startedAt) / 1000);
+  document.getElementById('rep-clock').textContent = fmtClock(seconds);
+  document.getElementById('rep-target').textContent = rep.target ? `/ ${rep.target}:00` : '';
+  document.getElementById('rep-runs').textContent = `${rep.runs} run${rep.runs === 1 ? '' : 's'}`;
+  bar.classList.toggle('over', !!rep.target && seconds > rep.target * 60);
+  bar.classList.toggle('done', !!rep.done);
+
+  const grade = document.getElementById('rep-grade');
+  grade.className = 'rep-grade ' + (rep.done ? rep.done.grade : 'hidden');
+  grade.textContent = rep.done ? GRADE_LABEL[rep.done.grade] : '';
+  document.getElementById('rep-end').textContent = rep.done ? 'Close' : 'Give up';
+
+  if (!rep.done) repTicker = setInterval(renderRep, 1000);
 }
 
 // ---------------------------------------------------------------------------

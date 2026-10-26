@@ -1,0 +1,174 @@
+{
+  "id": "reps",
+  "label": "Reps",
+  "after": "prep",
+  "users": [
+    "logan"
+  ],
+  "language": "c",
+  "sections": [
+    {
+      "name": "Tier 1 — Pointers and strings",
+      "items": [
+        "fw-strlen",
+        "fw-reverse-cstr",
+        "fw-ptr-debug",
+        "fw-ptr-swap",
+        "fw-bounded-strings",
+        "fw-strcmp-strstr",
+        "fw-array-ops"
+      ]
+    },
+    {
+      "name": "Tier 2 — Bits and bytes",
+      "items": [
+        "bit-macros",
+        "power-of-two",
+        "fw-bswap",
+        "fw-endian-detect",
+        "fw-reg-bitfield",
+        "fw-bit-suite"
+      ]
+    },
+    {
+      "name": "Tier 3 — C traps",
+      "items": [
+        "fw-int-promotion",
+        "fw-macro-pitfalls",
+        "fw-sizeof-var",
+        "fw-offsetof",
+        "fw-func-ptr-decl",
+        "fw-stack-growing-up",
+        "fw-bug-diagnosis"
+      ]
+    },
+    {
+      "name": "Tier 4 — Memory, parsing, formatting",
+      "items": [
+        "fw-mem-primitives",
+        "fw-run-length-encode",
+        "fw-i32-to-dec",
+        "fw-parse-i32",
+        "fw-cmd-parser",
+        "fw-hex-codec"
+      ]
+    },
+    {
+      "name": "Tier 5 — Buffers, windows, lists",
+      "items": [
+        "fw-ring-buffer",
+        "fw-adc-moving-avg",
+        "fw-lower-bracket",
+        "fw-subarray-sum",
+        "fw-longest-unique-c",
+        "valid-parentheses",
+        "fw-intrusive-list",
+        "fw-list-reverse"
+      ]
+    },
+    {
+      "name": "Tier 6 — Protocols and state machines",
+      "items": [
+        "fw-crc16",
+        "fw-endian-serial",
+        "fw-packet-parser",
+        "fw-gpio-debounce",
+        "fw-mipi-raw10",
+        "fw-can-signal"
+      ]
+    },
+    {
+      "name": "Tier 7 — Fixed-point, filters, drivers",
+      "items": [
+        "fw-q16-mul",
+        "fw-q15-sat",
+        "fw-ema-filter",
+        "fw-interp-table",
+        "fw-median-filter",
+        "fw-mmio-rw",
+        "fw-spi-driver"
+      ]
+    },
+    {
+      "name": "Tier 8 — Allocators, ISRs, timers",
+      "items": [
+        "fw-aligned-malloc",
+        "fw-bump-alloc",
+        "fw-pool-alloc",
+        "fw-uart-rx",
+        "fw-uart-word-stream",
+        "fw-timer-sched"
+      ]
+    },
+    {
+      "name": "Tier 9 — Ninja",
+      "items": [
+        "fw-find-bit-pattern",
+        "fw-hash-table",
+        "fw-bitmap-alloc",
+        "fw-mini-printf",
+        "fw-heap-alloc"
+      ]
+    }
+  ],
+  "targets": {
+    "fw-strlen": 3,
+    "fw-reverse-cstr": 5,
+    "fw-ptr-debug": 8,
+    "fw-ptr-swap": 5,
+    "fw-bounded-strings": 8,
+    "fw-strcmp-strstr": 10,
+    "fw-array-ops": 10,
+    "bit-macros": 5,
+    "power-of-two": 8,
+    "fw-bswap": 6,
+    "fw-endian-detect": 6,
+    "fw-reg-bitfield": 8,
+    "fw-bit-suite": 12,
+    "fw-int-promotion": 8,
+    "fw-macro-pitfalls": 8,
+    "fw-sizeof-var": 4,
+    "fw-offsetof": 10,
+    "fw-func-ptr-decl": 12,
+    "fw-stack-growing-up": 5,
+    "fw-bug-diagnosis": 12,
+    "fw-mem-primitives": 12,
+    "fw-run-length-encode": 12,
+    "fw-i32-to-dec": 12,
+    "fw-parse-i32": 15,
+    "fw-cmd-parser": 12,
+    "fw-hex-codec": 10,
+    "fw-ring-buffer": 12,
+    "fw-adc-moving-avg": 10,
+    "fw-lower-bracket": 8,
+    "fw-subarray-sum": 12,
+    "fw-longest-unique-c": 12,
+    "valid-parentheses": 8,
+    "fw-intrusive-list": 12,
+    "fw-list-reverse": 5,
+    "fw-crc16": 10,
+    "fw-endian-serial": 15,
+    "fw-packet-parser": 20,
+    "fw-gpio-debounce": 15,
+    "fw-mipi-raw10": 12,
+    "fw-can-signal": 20,
+    "fw-q16-mul": 8,
+    "fw-q15-sat": 12,
+    "fw-ema-filter": 10,
+    "fw-interp-table": 15,
+    "fw-median-filter": 12,
+    "fw-mmio-rw": 10,
+    "fw-spi-driver": 20,
+    "fw-aligned-malloc": 12,
+    "fw-bump-alloc": 12,
+    "fw-pool-alloc": 20,
+    "fw-uart-rx": 20,
+    "fw-uart-word-stream": 20,
+    "fw-timer-sched": 25,
+    "fw-find-bit-pattern": 25,
+    "fw-hash-table": 25,
+    "fw-bitmap-alloc": 20,
+    "fw-mini-printf": 30,
+    "fw-heap-alloc": 35
+  }
+}

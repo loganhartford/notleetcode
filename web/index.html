@@ -39,8 +39,17 @@
       <div id="editor-pane">
         <div class="editor-toolbar">
           <select id="lang-select"></select>
+          <div id="rep-bar" class="rep-bar hidden">
+            <span class="rep-label">Rep</span>
+            <span id="rep-clock" class="rep-clock">0:00</span>
+            <span id="rep-target" class="rep-dim"></span>
+            <span id="rep-runs" class="rep-dim"></span>
+            <span id="rep-grade" class="rep-grade hidden"></span>
+            <button id="rep-end" class="btn ghost rep-end">Give up</button>
+          </div>
           <div class="spacer"></div>
           <button id="copy-btn" class="btn ghost" title="Copy question + code to clipboard for an LLM">Copy for LLM</button>
+          <button id="rep-btn" class="btn ghost" title="Archive your code and start a timed attempt from the starter">Fresh rep</button>
           <button id="reset-btn" class="btn ghost" title="Reset to starter code">Reset</button>
           <button id="run-btn" class="btn run">▶ Run</button>
         </div>

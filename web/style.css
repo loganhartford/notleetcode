@@ -184,6 +184,32 @@ html, body {
   flex-shrink: 0;
 }
 .editor-toolbar .spacer { flex: 1; }
+
+/* Rep: timed fresh attempt */
+.rep-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 1px 2px 1px 10px; font-size: 13px; white-space: nowrap;
+  border: 1px solid var(--accent); border-radius: 5px;
+}
+.rep-bar.over { border-color: var(--amber); }
+.rep-bar.done { border-color: var(--border); }
+.rep-label { color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.rep-clock { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.rep-bar.over .rep-clock { color: var(--amber); }
+.rep-dim { color: var(--text-dim); }
+.rep-grade { font-weight: 600; }
+.rep-grade.again, .rep-summary.again b { color: var(--red); }
+.rep-grade.hard, .rep-summary.hard b { color: var(--amber); }
+.rep-grade.good, .rep-summary.good b { color: var(--green); }
+.rep-grade.easy, .rep-summary.easy b { color: var(--accent); }
+.rep-bar .rep-end { padding: 3px 8px; }
+.rep-summary {
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 5px; margin-bottom: 12px; padding: 10px 12px;
+  background: var(--bg-alt); font-size: 13px;
+}
+.rep-summary .kv { margin-top: 4px; }
+.rep-summary-grade { font-weight: 600; }
 #lang-select {
   background: var(--bg-elev);
   color: var(--text);

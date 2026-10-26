@@ -22,7 +22,9 @@ if (!NLC_USER) {
   process.exit(1);
 }
 const SOLUTIONS_DIR = path.join(ROOT, 'solutions', NLC_USER);
+const HISTORY_DIR = path.join(SOLUTIONS_DIR, 'history');
 const PROGRESS_FILE = path.join(ROOT, 'progress', `${NLC_USER}.json`);
+const REPS_FILE = path.join(ROOT, 'progress', `${NLC_USER}.reps.json`);
 
 const ALL_TABS = ['general', 'firmware', 'robotics'];
 const USER_TABS = {
@@ -85,7 +87,9 @@ function listProblemDirs() {
 
 // Curated tabs (tabs/<id>.json): an ordered list of existing problem ids,
 // shown only to the users listed in the file. Progress and solutions are
-// shared with the problem's home tab because the ids are the same.
+// shared with the problem's home tab because the ids are the same. A tab may
+// also set rep target times in minutes ("targets": {id: n}) and the language
+// reps start in ("language").
 function loadCustomTabs() {
   if (!fs.existsSync(TABS_DIR)) return [];
   return fs
@@ -226,6 +230,61 @@ function saveSolution(id, lang, code) {
 
 function loadSolution(id, lang) {
   return readIfExists(solutionPath(id, lang));
+}
+
+// ---------------------------------------------------------------------------
+// Reps: timed fresh attempts, scheduled from Anki
+// ---------------------------------------------------------------------------
+// Starting a rep moves the saved solution into solutions/<user>/history/<id>/
+// and puts the starter back, so the attempt begins from a blank file.
+function startRep(id, lang) {
+  if (!listProblemDirs().includes(id)) return null;
+  const prob = loadProblemFull(id);
+  if (!prob || !prob.languages.includes(lang) || !LANGS[lang]) return null;
+  const starter = prob.starter[lang];
+  const saved = loadSolution(id, lang);
+  let archived = null;
+  if (saved != null && saved !== starter) {
+    const dir = path.join(HISTORY_DIR, id);
+    fs.mkdirSync(dir, { recursive: true });
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+    archived = path.join(dir, `${stamp}.${LANGS[lang].ext}`);
+    fs.writeFileSync(archived, saved);
+  }
+  saveSolution(id, lang, starter);
+  return { ok: true, starter, archived: archived && path.relative(ROOT, archived) };
+}
+
+function loadReps() {
+  const raw = readIfExists(REPS_FILE);
+  if (!raw) return [];
+  try {
+    const reps = JSON.parse(raw);
+    return Array.isArray(reps) ? reps : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+const GRADES = ['again', 'hard', 'good', 'easy'];
+
+function logRep(body) {
+  const rep = {
+    id: body.id,
+    language: body.language,
+    startedAt: body.startedAt,
+    finishedAt: new Date().toISOString(),
+    seconds: Math.max(0, Math.round(Number(body.seconds) || 0)),
+    runs: Math.max(0, Math.round(Number(body.runs) || 0)),
+    help: !!body.help,
+    outcome: body.outcome === 'passed' ? 'passed' : 'gave-up',
+    grade: GRADES.includes(body.grade) ? body.grade : 'again',
+    targetMinutes: Number(body.targetMinutes) || null,
+  };
+  const reps = loadReps();
+  reps.push(rep);
+  fs.writeFileSync(REPS_FILE, JSON.stringify(reps, null, 2) + '\n');
+  return rep;
 }
 
 // ---------------------------------------------------------------------------
@@ -579,6 +638,21 @@ const server = http.createServer(async (req, res) => {
       if (!id || !status) return sendJSON(res, 400, { error: 'Missing fields' });
       const st = setStatus(id, status, language);
       return sendJSON(res, 200, { ok: true, status: st });
+    }
+
+    if (url === '/api/rep/start' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req));
+      const { id, language } = body;
+      if (!id || !language) return sendJSON(res, 400, { error: 'Missing fields' });
+      const started = startRep(id, language);
+      if (!started) return sendJSON(res, 404, { error: 'Unknown problem or language' });
+      return sendJSON(res, 200, started);
+    }
+
+    if (url === '/api/rep/finish' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req));
+      if (!body.id || !listProblemDirs().includes(body.id)) return sendJSON(res, 400, { error: 'Unknown problem' });
+      return sendJSON(res, 200, { ok: true, rep: logRep(body) });
     }
 
     if (url === '/api/flag' && req.method === 'POST') {
