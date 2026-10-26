@@ -46,6 +46,7 @@ function setTab(tab) {
 let editor = null;
 let saveTimer = null;
 let lastSavedCode = '';
+let openSeq = 0;          // latest openProblem call; older responses are dropped
 
 const PHASE_NAMES = {};   // filled from problem data
 
@@ -352,9 +353,12 @@ async function openProblem(id) {
   // Flush pending save for the previous problem.
   if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; await saveNow(); }
 
+  const seq = ++openSeq;
   const res = await fetch('/api/problem/' + id);
   if (!res.ok) return;
-  current = await res.json();
+  const prob = await res.json();
+  if (seq !== openSeq) return; // a later click already opened another problem
+  current = prob;
   location.hash = id;
 
   document.getElementById('prob-index').textContent = current.phase === 0
@@ -440,8 +444,11 @@ function loadEditorForLang() {
   const saved = current.saved && current.saved[currentLang];
   const starter = current.starter && current.starter[currentLang];
   const code = saved != null ? saved : (starter || '');
-  editor.setValue(code);
   lastSavedCode = code;
+  editor.setValue(code);
+  // Undo must not reach back into the previous problem's code (autosave
+  // would then write it into this one).
+  editor.clearHistory();
   setSaveState(saved != null ? 'Saved' : '');
 }
 

@@ -487,7 +487,8 @@ function serveStatic(req, res) {
       return;
     }
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+    // no-cache: a plain reload always picks up edited app files.
+    res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
     res.end(data);
   });
 }
