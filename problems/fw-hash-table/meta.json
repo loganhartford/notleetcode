@@ -1,0 +1,19 @@
+{
+  "title": "Fixed-Capacity Hash Map",
+  "phase": 6,
+  "phaseName": "Data Structures",
+  "difficulty": "Hard",
+  "tags": [
+    "hash map",
+    "open addressing",
+    "data structures"
+  ],
+  "languages": [
+    "c",
+    "python"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 65,
+  "authored": true
+}
