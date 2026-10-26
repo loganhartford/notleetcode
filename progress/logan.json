@@ -291,10 +291,10 @@
     "updated": "2026-10-26T21:20:32.731Z"
   },
   "fw-endian-detect": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-10-26T21:51:14.590Z"
+    "updated": "2026-10-26T21:58:01.177Z"
   },
   "fw-reg-bitfield": {
     "status": "solved",
@@ -303,9 +303,9 @@
     "updated": "2026-10-26T21:33:50.924Z"
   },
   "fw-endian-serial": {
-    "status": "attempted",
+    "status": "solved",
     "lastLanguage": "c",
     "flagged": false,
-    "updated": "2026-10-26T21:51:05.123Z"
+    "updated": "2026-10-26T22:01:33.394Z"
   }
 }

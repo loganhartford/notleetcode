@@ -6,17 +6,29 @@ int is_little_endian_layout(const void *one) {
 }
 
 int is_little_endian(void) {
-    return 0;
+    uint16_t x = 1;
+    uint8_t *p = (uint8_t *)&x;
+    return *p;
 }
 
 uint32_t to_network_order(uint32_t x, int host_is_little) {
     if (host_is_little) {
-
+        return ((x & 0x000000FF) << 24) | 
+            ((x & 0x0000FF00) << 8) | 
+            ((x & 0x00FF0000) >> 8) | 
+            ((x & 0xFF000000) >> 24);
     } else {
         return x;
     }
 }
 
 uint32_t my_htonl(uint32_t x) {
-    return 0;
+    if (is_little_endian()) {
+        return ((x & 0x000000FF) << 24) | 
+            ((x & 0x0000FF00) << 8) | 
+            ((x & 0x00FF0000) >> 8) | 
+            ((x & 0xFF000000) >> 24);
+    } else {
+        return x;
+    }
 }

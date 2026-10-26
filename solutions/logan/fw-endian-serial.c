@@ -31,7 +31,12 @@ size_t sensor_msg_encode(uint8_t *out, size_t out_len, const sensor_msg_t *msg) 
 }
 
 bool sensor_msg_decode(sensor_msg_t *msg, const uint8_t *in, size_t in_len) {
-    if (in_len < 9) return false;
+    if (in_len < SENSOR_MSG_WIRE_LEN) return false;
     
-    return false;
+    msg->device_id = in[0] | in[1] << 8 | in[2] << 16 | in[3] << 24;
+    msg->temperature_q8_8 = (int16_t)(in[4] | in[5] << 8);
+    msg->millivolts = in[6] | in[7] << 8;
+    msg->flags = in[8];
+    
+    return true;
 }
