@@ -1,0 +1,19 @@
+{
+  "title": "Hex Encode and Decode",
+  "phase": 5,
+  "phaseName": "Memory & Math",
+  "difficulty": "Easy",
+  "tags": [
+    "strings",
+    "parsing",
+    "buffers"
+  ],
+  "languages": [
+    "c",
+    "python"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 62,
+  "authored": true
+}
