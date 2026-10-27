@@ -48,6 +48,7 @@ let saveTimer = null;
 let lastSavedCode = '';
 let openSeq = 0;          // latest openProblem call; older responses are dropped
 let rep = null;           // timed fresh attempt in progress (or just finished)
+let repError = null;      // a rep that failed to start: {id, lang, message}
 let repTicker = null;
 
 const PHASE_NAMES = {};   // filled from problem data
@@ -732,21 +733,34 @@ async function startRep(id, lang) {
   }
   if (!current || current.id !== id) await openProblem(id);
   if (!current || current.id !== id) return;
-  history.replaceState(null, '', '#' + id); // a reload resumes the rep, it doesn't restart it
   if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; await saveNow(); }
   // A rep link uses the deck's language (C) when the problem offers it.
   const deck = customTabs[repTabFor(id)];
   const deckLang = deck && deck.language && current.languages.includes(deck.language) ? deck.language : null;
   lang = lang || deckLang || current.defaultLanguage;
-  const res = await fetch('/api/rep/start', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, language: lang }),
-  });
-  if (!res.ok) {
-    setSaveState('Could not start a rep (restart the server?)');
+  let res = null;
+  try {
+    res = await fetch('/api/rep/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, language: lang }),
+    });
+  } catch (_) { /* server not reachable */ }
+  if (!res || !res.ok) {
+    // Say so in the toolbar, and keep the rep link so a reload retries it.
+    // A 404/405 here means the server predates rep mode and needs a restart.
+    repError = {
+      id, lang,
+      message: !res ? 'Not started: server unreachable'
+        : res.status === 404 || res.status === 405 ? 'Not started: restart the server (old code)'
+        : `Not started: server error ${res.status}`,
+    };
+    history.replaceState(null, '', '#rep/' + id);
+    renderRep();
     return;
   }
+  repError = null;
+  history.replaceState(null, '', '#' + id); // a reload resumes the rep, it doesn't restart it
   const data = await res.json();
   if (!current || current.id !== id) return;
   current.saved = { ...current.saved, [lang]: data.starter };
@@ -802,8 +816,16 @@ async function finishRep(outcome) {
   } catch (_) { /* the grade is still shown; only the log entry is lost */ }
 }
 
-// "Give up" while the clock runs; "Close" once the rep is over.
+// "Retry" after a failed start; "Give up" while the clock runs; "Close" once
+// the rep is over.
 async function endOrCloseRep() {
+  if (repError) {
+    const { id, lang } = repError;
+    repError = null;
+    renderRep();
+    await startRep(id, lang);
+    return;
+  }
   if (!rep) return;
   if (rep.done) {
     rep = null;
@@ -850,10 +872,24 @@ function fmtClock(s) {
 
 function renderRep() {
   const bar = document.getElementById('rep-bar');
-  const show = !!(rep && current && rep.id === current.id);
+  const failed = !!(repError && current && repError.id === current.id);
+  const show = failed || !!(rep && current && rep.id === current.id);
   bar.classList.toggle('hidden', !show);
+  bar.classList.toggle('error', failed);
   if (repTicker) { clearInterval(repTicker); repTicker = null; }
   if (!show) return;
+
+  const msg = document.getElementById('rep-msg');
+  msg.textContent = failed ? repError.message : '';
+  msg.classList.toggle('hidden', !failed);
+  for (const el of ['rep-clock', 'rep-target', 'rep-runs']) {
+    document.getElementById(el).classList.toggle('hidden', failed);
+  }
+  if (failed) {
+    document.getElementById('rep-grade').className = 'rep-grade hidden';
+    document.getElementById('rep-end').textContent = 'Retry';
+    return;
+  }
 
   const seconds = rep.done ? rep.done.seconds : Math.floor((Date.now() - rep.startedAt) / 1000);
   document.getElementById('rep-clock').textContent = fmtClock(seconds);
