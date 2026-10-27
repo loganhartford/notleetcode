@@ -112,10 +112,15 @@ def set_fixed_ids(path, notetype_id, preset_id):
 
 
 def add_notetype(col):
+    # Field and template ids are random by default; a later build with new ones
+    # would import as a second note type instead of updating this one.
     m = col.models.new(NOTETYPE)
-    for name in FIELDS:
-        col.models.add_field(m, col.models.new_field(name))
+    for i, name in enumerate(FIELDS):
+        f = col.models.new_field(name)
+        f["id"] = NOTETYPE_ID + 100 + i
+        col.models.add_field(m, f)
     t = col.models.new_template("Rep")
+    t["id"] = NOTETYPE_ID + 200
     t["qfmt"], t["afmt"] = FRONT, BACK
     col.models.add_template(m, t)
     m["css"] = CSS
