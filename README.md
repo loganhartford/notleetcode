@@ -81,6 +81,12 @@ A **Show reference solution** toggle reveals a worked answer when you want to co
 
 A file in `tabs/` defines an extra sidebar tab: an ordered list of existing problem ids grouped into sections, visible only to the users it names. The problems are the same ones as in their home tab, so saved code and solved status are shared. See `tabs/prep.json`.
 
+### Reps (spaced repetition with Anki)
+
+**Fresh rep** (or a link to `http://localhost:5151/#rep/<problem-id>`) starts a timed attempt from a blank file: your saved code moves to `solutions/<your-name>/history/<problem-id>/`, the starter loads, and a timer and run counter appear in the toolbar. When the tests pass, the app suggests an Anki grade from your time against the target, the number of runs, and whether you opened the reference solution, and logs the rep to `progress/<your-name>.reps.json`.
+
+`tabs/reps.json` is the FW Coding Reps deck: problems in nine tiers with a target time each. `anki/` builds the matching Anki deck and a daily reminder; see `anki/README.md`.
+
 ### Keyboard shortcuts
 
 | Shortcut | Action |
@@ -160,6 +166,10 @@ solutions/
   <your-name>/         Your saved code (commit this)
 progress/
   <your-name>.json     Your status per problem (commit this)
+  <your-name>.reps.json  Your rep log (time, runs, suggested grade)
+tabs/
+  <tab-id>.json        Curated tabs; reps.json is the Anki rep deck
+anki/                  Builds the FW Coding Reps Anki deck and daily nudge
 server.js              Node server + code runner
 web/                   Browser UI
 scripts/

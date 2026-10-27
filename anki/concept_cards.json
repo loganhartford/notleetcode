@@ -1,0 +1,152 @@
+[
+  {
+    "id": "one-shift-31",
+    "front": "`1 << 31` vs `1u << 31`: what's the difference?",
+    "back": "`1 << 31` shifts a 1 into the sign bit of a 32-bit `int`: **undefined behavior**.\n`1u << 31` is the unsigned value 0x80000000.\nBuild masks from unsigned constants: `1u`, `1ul`, `UINT32_C(1)`."
+  },
+  {
+    "id": "clear-lowest-bit",
+    "front": "What does `x & (x - 1)` do?",
+    "back": "Clears the lowest set bit: 0b10100 becomes 0b10000.\n`x` is a power of two exactly when `x != 0 && (x & (x - 1)) == 0`.\nLooping `x &= x - 1` until zero counts the set bits (Kernighan)."
+  },
+  {
+    "id": "shift-by-width",
+    "front": "Why is `x << 32` a bug for a 32-bit `x`, and how do you rotate safely?",
+    "back": "Shifting by the type's width or more is **undefined behavior** (x86 masks the count, so it often returns `x`).\nRotate: `n &= 31; return n ? (x << n) | (x >> (32 - n)) : x;`\nor branch-free: `(x << n) | (x >> (-n & 31))`."
+  },
+  {
+    "id": "rmw-isr-race",
+    "front": "Why can `REG |= BIT;` in main code lose an update made by an ISR?",
+    "back": "It is a read-modify-write: load, OR, store. If the ISR changes the register between the load and the store, the store writes back the old value.\nFixes: disable interrupts around it, use set/clear registers (e.g. GPIO BSRR) or bit-banding, or atomic instructions."
+  },
+  {
+    "id": "tilde-uint8",
+    "front": "`uint8_t x = 0x0F;` What is `~x >> 4`?",
+    "back": "Not 0x0F. `x` promotes to `int`, so `~x` is -16 (0x...FFF0), and `>>` on a negative `int` is implementation-defined (gcc gives -1).\nCast back before shifting: `(uint8_t)~x >> 4` is 0x0F."
+  },
+  {
+    "id": "signed-unsigned-compare",
+    "front": "What does `-1 < 1u` evaluate to, and why?",
+    "back": "**0 (false).** With an `int` and an `unsigned int`, the usual arithmetic conversions convert the `int` to unsigned, so -1 becomes UINT_MAX.\nThe same trap hides in `if (i < sizeof buf)` with a negative `i`."
+  },
+  {
+    "id": "sign-extension",
+    "front": "`int8_t c = (int8_t)0x80; uint32_t u = c;` What is `u`?",
+    "back": "0xFFFFFF80. `c` is -128; converting to `uint32_t` wraps modulo 2^32, which looks like sign extension.\nFor the raw byte, go through unsigned first: `u = (uint8_t)c;` gives 0x80."
+  },
+  {
+    "id": "negative-right-shift",
+    "front": "What does C guarantee about right-shifting a negative signed integer?",
+    "back": "Nothing portable: it is **implementation-defined**. gcc and clang shift arithmetically, which floors: `-3 >> 1 == -2`, `-1 >> 1 == -1`.\nDivision truncates toward zero instead: `-3 / 2 == -1`.\nLeft-shifting a negative value is undefined."
+  },
+  {
+    "id": "precedence-and-eq",
+    "front": "What does `if (flags & MASK == 0)` actually test?",
+    "back": "`==` binds tighter than `&`, so it is `flags & (MASK == 0)`, i.e. `flags & 0`: always false for a nonzero MASK.\nWrite `(flags & MASK) == 0`. Also: `1 << n + 1` is `1 << (n + 1)`."
+  },
+  {
+    "id": "do-while-0",
+    "front": "Why wrap a multi-statement macro in `do { ... } while (0)`?",
+    "back": "It expands to exactly one statement that needs a trailing semicolon, so `if (c) MACRO(x); else other();` still parses.\nWith bare braces, the `;` after `}` ends the `if`, and the `else` becomes a syntax error."
+  },
+  {
+    "id": "macro-parens",
+    "front": "Why parenthesize every macro parameter and the whole macro body?",
+    "back": "Macros paste text. With `#define SQ(x) x * x`, `SQ(a + 1)` is `a + 1 * a + 1`.\nWith `#define DBL(x) (x) + (x)`, `2 * DBL(3)` is 9.\nWrite `#define SQ(x) ((x) * (x))`, and remember arguments may still be evaluated twice: `SQ(i++)`."
+  },
+  {
+    "id": "container-of",
+    "front": "Write `container_of(ptr, type, member)`.",
+    "back": "`#define container_of(ptr, type, member) ((type *)((char *)(ptr) - offsetof(type, member)))`\nSubtract in bytes through `char *`. It gets you from an embedded list node back to the object that contains it (intrusive lists, the Linux kernel)."
+  },
+  {
+    "id": "struct-padding",
+    "front": "`struct { char a; int b; char c; }` with a 4-byte `int`: what is its size, and how do you shrink it?",
+    "back": "**12**: `a` at 0, 3 bytes of padding, `b` at 4, `c` at 8, then 3 bytes of tail padding so arrays stay aligned.\nOrder members largest first (`int b; char a; char c;`) for **8**.\n`packed` also shrinks it, at the cost of unaligned access."
+  },
+  {
+    "id": "right-left-rule",
+    "front": "Read `int (*fp[4])(int)` aloud.",
+    "back": "Right-left rule from the name: `fp` is an array of 4 pointers to functions taking `int` and returning `int`.\nCleaner: `typedef int (*handler_t)(int); handler_t fp[4];`"
+  },
+  {
+    "id": "memmove-backward",
+    "front": "When must `memmove` copy backward?",
+    "back": "When `dst > src` and the regions overlap (`dst` inside `[src, src + n)`): copying forward would overwrite source bytes before reading them.\nOtherwise copy forward. `memcpy` assumes no overlap at all."
+  },
+  {
+    "id": "int32-min-itoa",
+    "front": "Why does `-value` break an integer-to-string routine for INT32_MIN, and what is the fix?",
+    "back": "|INT32_MIN| is 2^31, which does not fit in `int32_t`: negating it is signed overflow (undefined).\nTake the magnitude as unsigned: `uint32_t u = value < 0 ? 0u - (uint32_t)value : (uint32_t)value;`"
+  },
+  {
+    "id": "parse-overflow",
+    "front": "How do you detect overflow in `acc = acc * 10 + d` while parsing a positive `int32_t`?",
+    "back": "Check **before** computing: `if (acc > (INT32_MAX - d) / 10) return false;`\nChecking afterward is too late, because the overflow is already undefined behavior.\nFor negatives, accumulate in the negative range, or as unsigned with a limit of 2^31."
+  },
+  {
+    "id": "crc16-bitwise",
+    "front": "Write the bitwise CRC-16/CCITT update for one byte `b`.",
+    "back": "`crc ^= (uint16_t)(b << 8);`\n`for (int i = 0; i < 8; i++) crc = (crc & 0x8000) ? (uint16_t)((crc << 1) ^ 0x1021) : (uint16_t)(crc << 1);`\nCCITT-FALSE: init 0xFFFF, no reflection, no final XOR; `\"123456789\"` gives 0x29B1."
+  },
+  {
+    "id": "crc-table-tradeoff",
+    "front": "Bitwise vs table-driven CRC: what is the trade-off?",
+    "back": "**Table**: 256 entries (512 B for CRC-16, 1 KB for CRC-32) in flash; one lookup, shift and XOR per byte, roughly 8x faster.\n**Bitwise**: no table, 8 iterations per byte.\nA 16-entry nibble table sits in between. A hardware CRC peripheral beats both."
+  },
+  {
+    "id": "crc-vs-checksum",
+    "front": "What does a CRC catch that a simple additive checksum misses?",
+    "back": "A sum misses reordered bytes and errors that cancel out.\nCRC-16 catches all single- and double-bit errors (within its length limit), all odd numbers of bit errors when the polynomial has an (x + 1) factor, and every burst of 16 bits or fewer.\nNeither one is security: use a MAC for that."
+  },
+  {
+    "id": "q15-multiply",
+    "front": "Q15 multiply with rounding and saturation?",
+    "back": "`int32_t p = (int32_t)a * b;`\n`p = (p + (1 << 14)) >> 15;` rounds half up instead of always truncating down.\nClamp to [-32768, 32767]. Only -1 × -1 (0x8000 × 0x8000 = +1.0) needs the clamp."
+  },
+  {
+    "id": "ema-stall",
+    "front": "Why does `y += (x - y) >> k` never settle on a constant input, and what fixes it?",
+    "back": "Once `|x - y| < 2^k`, the step shifts to 0, so the output stalls up to 2^k - 1 short of the input.\nKeep the state scaled by 2^k: `s += x - (s >> k); y = s >> k;`, which settles exactly."
+  },
+  {
+    "id": "align-up",
+    "front": "Round `x` up to a multiple of a power-of-two `a`.",
+    "back": "`(x + a - 1) & ~(a - 1)`; for pointers, do it on `uintptr_t`.\nAligned check: `(x & (a - 1)) == 0`.\nOnly valid when `a` is a power of two."
+  },
+  {
+    "id": "count-lost-update",
+    "front": "Why can `count++` lose increments when an ISR also increments `count`?",
+    "back": "It is a read-modify-write. Main loads `count`, the ISR increments memory, then main stores its stale value + 1, and the ISR's increment is lost.\n`volatile` does not fix it. Disable interrupts around the update, use an atomic (LDREX/STREX, C11 atomics), or let only one context write it."
+  },
+  {
+    "id": "free-running-indices",
+    "front": "Ring buffer with free-running indices: why must N be a power of two?",
+    "back": "The indices only ever increment and wrap at 2^32. `count = head - tail` works through unsigned wrap.\n`slot = head % N` (or `head & (N - 1)`) stays continuous across that wrap only if N divides 2^32, i.e. N is a power of two.\nBonus: all N slots are usable, and there is no full/empty ambiguity."
+  },
+  {
+    "id": "spsc-order",
+    "front": "SPSC ring buffer between an ISR and main code: what order of operations keeps it safe?",
+    "back": "Producer: write the data slot, **then** advance `head`. Consumer: read the data, **then** advance `tail`.\nEach index is written by one side only and is `volatile` (or atomic).\nOn multicore or weakly ordered CPUs, add a release barrier before publishing and an acquire barrier after reading the other index (C11 `memory_order_release`/`acquire`, or `__DMB()`)."
+  },
+  {
+    "id": "wrap-safe-compare",
+    "front": "How do you compare tick timestamps safely across a 32-bit wrap?",
+    "back": "Deadline reached: `(int32_t)(now - deadline) >= 0`, valid while the two are less than 2^31 ticks apart.\nElapsed time: `(uint32_t)(now - start) >= timeout`.\n`now >= deadline` breaks at the wrap."
+  },
+  {
+    "id": "lowest-set-bit",
+    "front": "What does `x & -x` give?",
+    "back": "The lowest set bit, isolated (0b10100 becomes 0b00100), via two's complement. For unsigned types write `x & (0u - x)`.\nThe mirror trick `~x & (x + 1)` isolates the lowest zero bit, which is handy for bitmap allocators."
+  },
+  {
+    "id": "xor-single",
+    "front": "Every element appears twice except one. Find it in O(n) time and O(1) space.",
+    "back": "XOR everything together: `a ^ a == 0`, `a ^ 0 == a`, and XOR is commutative, so the pairs cancel and the single element remains."
+  },
+  {
+    "id": "add-without-plus",
+    "front": "Add two integers without `+`.",
+    "back": "`while (b) { unsigned carry = (a & b) << 1; a ^= b; b = carry; }`\nXOR adds without carries; AND shifted left is the carry. Use unsigned types so the carry out of the top bit is well defined."
+  }
+]

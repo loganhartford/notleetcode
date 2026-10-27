@@ -1,2 +1,6 @@
 # Claude Code agent scratch space / worktrees — never commit
 .claude/
+
+# Anki deck build output and the local Python launcher
+anki/out/
+anki/.build/

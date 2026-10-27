@@ -1,0 +1,509 @@
+{
+  "fw-strlen": {
+    "prompt": "Write `size_t c_strlen(const char *s)` without any library call.",
+    "ideas": [
+      "Walk a second pointer to the NUL and return `p - s`.",
+      "The empty string needs no special case: the loop body never runs."
+    ],
+    "bug": "Counting in a narrow type like `uint8_t` or `int`, which overflows on long strings."
+  },
+  "fw-reverse-cstr": {
+    "prompt": "Reverse a NUL-terminated string in place: `void reverse_cstr(char *s)`.",
+    "ideas": [
+      "Find the end first, then swap with two pointers moving inward.",
+      "Stop when `lo >= hi`; the middle character of an odd-length string stays put."
+    ],
+    "bug": "Starting `hi` at the NUL, or computing `len - 1` as a huge `size_t` on the empty string."
+  },
+  "fw-ptr-debug": {
+    "prompt": "Classify six `void *` expressions, then write, read, store and load through `void *` and step one byte past `p`.",
+    "ideas": [
+      "`void *` can't be dereferenced or advanced: cast to the real type first, `*(int *)p` or `(uint8_t *)p + 1`.",
+      "A pointer stored in memory is accessed through `void **`: `*(void **)storage = val`.",
+      "A cast is not an lvalue, so `(void **)p = x` doesn't compile."
+    ],
+    "bug": "`p + 1` on a `void *`: a GNU extension that compiles, so it hides in real code."
+  },
+  "fw-ptr-swap": {
+    "prompt": "Swap two objects of any type: `void swap_values(void *a, void *b, size_t size)`.",
+    "ideas": [
+      "Cast both to `uint8_t *` and swap byte by byte through a one-byte temporary.",
+      "No temp buffer, VLA or malloc; works for structs, doubles and pointers."
+    ],
+    "bug": "A fixed-width temporary such as `uint32_t`, or XOR-swap, which zeroes the object when `a == b`."
+  },
+  "fw-bounded-strings": {
+    "prompt": "Implement BSD `strlcpy`: copy at most `dstsize - 1` bytes, always terminate, return `strlen(src)`.",
+    "ideas": [
+      "The return value is the source length, so `ret >= dstsize` tells the caller it truncated.",
+      "Keep counting the source after you stop copying.",
+      "`dstsize == 0`: write nothing at all."
+    ],
+    "bug": "Writing the NUL at `dst[dstsize]`, or touching `dst` when `dstsize == 0`."
+  },
+  "fw-strcmp-strstr": {
+    "prompt": "Implement `my_strcmp` and `my_strstr` with no `<string.h>`.",
+    "ideas": [
+      "Compare bytes as `unsigned char`, so 0x80 and above sort after ASCII.",
+      "strcmp: advance while `*a && *a == *b`, then return the difference.",
+      "strstr: an empty needle returns `hay`; otherwise try each start position."
+    ],
+    "bug": "Comparing plain `char`, which is signed on most targets, so 0x80 sorts below 'a'."
+  },
+  "fw-array-ops": {
+    "prompt": "Reverse an `int32_t` array in place, and rotate it left by any `k` with O(1) extra space.",
+    "ideas": [
+      "Rotate left by k: reverse `[0, k)`, reverse `[k, n)`, then reverse the whole array.",
+      "Reduce `k %= n` first, after returning early for `n <= 1`."
+    ],
+    "bug": "`k % n` with `n == 0` (division by zero), or `size_t hi = n - 1` when `n == 0`."
+  },
+  "bit-macros": {
+    "prompt": "Write `SET_BIT`, `CLEAR_BIT`, `TOGGLE_BIT` and `TEST_BIT` for a `uint32_t` register.",
+    "ideas": [
+      "`|= (1u << (n))`, `&= ~(1u << (n))`, `^= (1u << (n))`, and `(((reg) >> (n)) & 1u)`.",
+      "Parenthesize every parameter and the whole expansion.",
+      "Use `1u`: `1 << 31` overflows a signed `int`."
+    ],
+    "bug": "An unparenthesized `n`, so `SET_BIT(r, i + 1)` expands to the wrong shift."
+  },
+  "power-of-two": {
+    "prompt": "`is_power_of_two(x)` and `round_up_pow2(x)` for 32-bit `x`, without looping over the bits.",
+    "ideas": [
+      "Power of two: `x && !(x & (x - 1))`; `x & (x - 1)` clears the lowest set bit.",
+      "Round up: `x--`, smear with `x |= x >> 1, 2, 4, 8, 16`, then return `x + 1`.",
+      "Return 1 for `x == 0` before the decrement."
+    ],
+    "bug": "Forgetting the `x &&`, so 0 counts as a power of two, or skipping the decrement, so exact powers double."
+  },
+  "fw-bswap": {
+    "prompt": "Byte-swap 16- and 32-bit values with shifts and masks only.",
+    "ideas": [
+      "32-bit: `(x >> 24) | ((x >> 8) & 0xFF00) | ((x << 8) & 0xFF0000) | (x << 24)`.",
+      "16-bit: `x << 8` produces an `int`; cast the result back to `uint16_t`."
+    ],
+    "bug": "Masking with the wrong constant after the shift, or returning bits above 0xFFFF from the 16-bit version."
+  },
+  "fw-endian-detect": {
+    "prompt": "Detect host byte order at runtime and implement `htonl` without library calls.",
+    "ideas": [
+      "Store `uint32_t one = 1` and read its first byte through a `uint8_t *`: 1 means little-endian.",
+      "`htonl` byte-swaps on a little-endian host and is the identity on a big-endian one."
+    ],
+    "bug": "Swapping unconditionally, or deciding endianness with a compile-time macro."
+  },
+  "fw-reg-bitfield": {
+    "prompt": "Set bits, clear bits, write a field and read a field of a 32-bit register value, given a mask and shift.",
+    "ideas": [
+      "Write: `(reg & ~mask) | ((value << shift) & mask)`.",
+      "Read: `(reg & mask) >> shift`.",
+      "Mask the shifted value so an oversized value can't spill into neighbouring fields."
+    ],
+    "bug": "OR-ing in the new value without clearing the old field first."
+  },
+  "fw-bit-suite": {
+    "prompt": "Popcount, bit reverse, and rotate left/right on `uint32_t`, with no builtins.",
+    "ideas": [
+      "Popcount: `while (x) { x &= x - 1; n++; }` loops once per set bit.",
+      "Rotate: `n &= 31; if (n == 0) return x; return (x << n) | (x >> (32 - n));`",
+      "Reverse: shift bits out of `x` and into `r` 32 times, or swap halves, bytes, nibbles, pairs, then bits."
+    ],
+    "bug": "`x >> 32` when `n` is 0 or 32: undefined behavior that often returns `x | x`."
+  },
+  "fw-int-promotion": {
+    "prompt": "Fix three sensor helpers (`sum_gt`, `all_ones`, `inv_hi_nibble`) that go wrong through implicit integer conversions.",
+    "ideas": [
+      "Mixing `unsigned` and `int` converts the `int` to unsigned: -1 becomes UINT_MAX.",
+      "`~` and `>>` on a `uint8_t` act on the promoted `int`: cast back, `(uint8_t)~port >> 4`.",
+      "Write constants in the type you need: `~0u`, not `~0`."
+    ],
+    "bug": "Fixing with a cast to `int` or `long`, which still overflows when `int` is 16 bits."
+  },
+  "fw-macro-pitfalls": {
+    "prompt": "Write `SECONDS_PER_YEAR`, `MIN(A, B)` and `WRITE_REG16(hi, lo, val)` macros that work in every context.",
+    "ideas": [
+      "`(60UL * 60UL * 24UL * 365UL)`: the `UL` suffix keeps the product from overflowing a 16-bit `int`.",
+      "`((A) < (B) ? (A) : (B))`: parenthesize each parameter and the whole expansion.",
+      "Multi-statement macros go in `do { ... } while (0)`, and each argument is evaluated exactly once."
+    ],
+    "bug": "A bare `{ ... }` body, which breaks `if (x) WRITE_REG16(...); else ...`."
+  },
+  "fw-sizeof-var": {
+    "prompt": "`MY_SIZEOF_VAR(x)`: the size of a variable or array in bytes, without `sizeof`.",
+    "ideas": [
+      "`((size_t)((char *)(&(x) + 1) - (char *)&(x)))`: one-past pointer minus start, in bytes.",
+      "`&arr + 1` steps over the whole array, so arrays give their full size."
+    ],
+    "bug": "Subtracting the typed pointers, which gives 1, instead of casting to `char *` first."
+  },
+  "fw-offsetof": {
+    "prompt": "Implement `MY_OFFSETOF(type, member)` and `MY_CONTAINER_OF(ptr, type, member)`.",
+    "ideas": [
+      "offsetof: `((size_t)&((type *)0)->member)`.",
+      "container_of: `((type *)((char *)(ptr) - MY_OFFSETOF(type, member)))`.",
+      "Do the subtraction on a `char *`, so it counts bytes."
+    ],
+    "bug": "Subtracting from `ptr` without the `char *` cast, which moves by `offset * sizeof(*ptr)`."
+  },
+  "fw-func-ptr-decl": {
+    "prompt": "Write typedefs from `int` up to an array of function pointers, then a `dispatch` jump table.",
+    "ideas": [
+      "Right-left rule: `int (*fp[10])(int)` is an array of 10 pointers to functions taking `int` and returning `int`.",
+      "`int (*p)[10]` is a pointer to an array; `int *a[10]` is an array of pointers.",
+      "`static int (*const ops[])(int, int) = {...};` and check `op < sizeof ops / sizeof ops[0]` before indexing."
+    ],
+    "bug": "`op <= N` (off by one), or calling the divide before checking for zero."
+  },
+  "fw-stack-growing-up": {
+    "prompt": "`bool is_stack_growing_up(void)`: detect the stack direction at runtime.",
+    "ideas": [
+      "Pass the address of a local to a separate, non-inlined function and compare it with that function's own local.",
+      "Mark the helper `__attribute__((noinline))`."
+    ],
+    "bug": "Comparing two locals in the same function: the compiler can order a frame however it likes."
+  },
+  "fw-bug-diagnosis": {
+    "prompt": "Fix `fix_bug1` (power-of-two check) and `fix_bug2` (clear bit i, toggle bit j), then name bugs 3–8.",
+    "ideas": [
+      "`==` binds tighter than `&`: `n && (n & (n - 1)) == 0` needs parentheses around the AND.",
+      "Toggle is `^= (1u << j)`; the `~` belongs only to the clear.",
+      "3–8: volatile copied once, sizeof of a pointer, returned stack buffer, unbounded strcpy, `1 << 31`, unchecked index."
+    ],
+    "bug": "Fixing the precedence but still reporting 0 as a power of two."
+  },
+  "fw-mem-primitives": {
+    "prompt": "Implement `memcpy`, `memmove` and `memset` from scratch.",
+    "ideas": [
+      "memmove: copy forward when `dst < src`, backward from the end otherwise.",
+      "Work through `unsigned char *`; memset writes `(unsigned char)value`; all three return `dst`."
+    ],
+    "bug": "memmove copying forward when `dst` overlaps the tail of `src`, smearing the first bytes across the region."
+  },
+  "fw-run-length-encode": {
+    "prompt": "Run-length encode a string as char + decimal count into a malloc'd result sized to the input.",
+    "ideas": [
+      "Two passes: compute the exact output length (count the digits of each run), then allocate and write.",
+      "Run lengths can have several digits: write them with a digit loop, not `'0' + n`.",
+      "The empty string still returns a freeable `\"\"`."
+    ],
+    "bug": "Allocating without room for the terminator, or assuming every count is one digit."
+  },
+  "fw-i32-to-dec": {
+    "prompt": "`bool i32_to_dec(char *out, size_t out_len, int32_t value)` without any printf.",
+    "ideas": [
+      "Take the magnitude as unsigned: `u = value < 0 ? 0u - (uint32_t)value : (uint32_t)value`.",
+      "Emit digits least significant first into a temp buffer, then copy them out reversed.",
+      "Check that digits + sign + NUL fit before writing anything."
+    ],
+    "bug": "`-value` on INT32_MIN, which overflows."
+  },
+  "fw-parse-i32": {
+    "prompt": "`bool parse_i32(const char *s, int32_t *out)`: optional sign, digits only, false on overflow or junk.",
+    "ideas": [
+      "Check before you multiply: reject when `acc > (limit - d) / 10`.",
+      "Use a limit of 2147483648 for a minus sign so INT32_MIN parses (accumulate in `uint32_t`, or in the negative range).",
+      "Reject the empty string, a lone sign, and any non-digit."
+    ],
+    "bug": "Checking for overflow after `acc * 10 + d` has already overflowed."
+  },
+  "fw-cmd-parser": {
+    "prompt": "Split a command line in place on spaces and tabs into an argv array: `parse_tokens(line, argv, max_args)`.",
+    "ideas": [
+      "Loop: skip whitespace, record the token start, scan to the next whitespace, write a NUL, repeat.",
+      "Stop once `count == max_args`; never write `argv[max_args]`."
+    ],
+    "bug": "Stepping past the string's terminator when the last token ends there."
+  },
+  "fw-hex-codec": {
+    "prompt": "`hex_to_bytes` and `bytes_to_hex`, with bounds checks and bad-digit rejection.",
+    "ideas": [
+      "Nibble value: three ranges, '0'–'9', 'a'–'f', 'A'–'F'; anything else fails.",
+      "Validate the length (even, fits `out_cap`) before writing.",
+      "Encode with `\"0123456789abcdef\"[b >> 4]` and `[b & 0xF]`."
+    ],
+    "bug": "Forgetting room for the NUL (`2n + 1`), or a loose range check that accepts ':' or 'g'."
+  },
+  "fw-ring-buffer": {
+    "prompt": "Byte ring buffer over caller storage with a `full` flag: push, pop, available, free space.",
+    "ideas": [
+      "`head == tail` means empty or full; the flag decides. Set it when a push makes the indices meet, clear it on every pop.",
+      "Advance an index with `(i + 1) % capacity`.",
+      "Available = `full ? capacity : (write - read + capacity) % capacity`."
+    ],
+    "bug": "Never clearing `full` on pop, so the buffer reports full forever."
+  },
+  "fw-adc-moving-avg": {
+    "prompt": "Moving average of the last 10 eight-bit ADC samples, O(1) per sample.",
+    "ideas": [
+      "Running sum: subtract the sample being overwritten, add the new one, advance the slot.",
+      "The window starts as ten zeros, so always divide by 10."
+    ],
+    "bug": "Re-summing all 10 samples every call, or a running sum in `uint8_t`."
+  },
+  "fw-lower-bracket": {
+    "prompt": "Largest `i` with `xs[i] <= target` in a sorted `int32_t` array, by binary search.",
+    "ideas": [
+      "Search `[lo, hi)` for the first element greater than target; the answer is that index minus 1.",
+      "Compute `mid = lo + (hi - lo) / 2`; target below `xs[0]` returns false."
+    ],
+    "bug": "An infinite loop from `lo = mid`, or `size_t` underflow when computing `i - 1`."
+  },
+  "fw-subarray-sum": {
+    "prompt": "Find a contiguous run of non-negative values summing exactly to target; return `[start, end)`.",
+    "ideas": [
+      "Two pointers: extend `end` while sum < target, advance `start` while sum > target.",
+      "This only works because the values are non-negative, so the window sum only grows as it extends.",
+      "target 0 is the empty window `[0, 0)`."
+    ],
+    "bug": "Letting `start` pass `end`, or a 32-bit running sum that overflows."
+  },
+  "fw-longest-unique-c": {
+    "prompt": "Length of the longest substring with no repeated byte, without malloc.",
+    "ideas": [
+      "Sliding window `[lo, hi)` plus `last[256]` holding each byte's last index + 1 (0 = unseen).",
+      "On a repeat inside the window (`last[c] > lo`), jump `lo = last[c]`; `lo` never moves back.",
+      "Index with `(unsigned char)s[hi]`."
+    ],
+    "bug": "Moving `lo` backward on a repeat outside the window ('abba'), or indexing with a negative `char`."
+  },
+  "valid-parentheses": {
+    "prompt": "In C: is a string of `()[]{}` balanced and properly nested?",
+    "ideas": [
+      "Push openers onto a char stack; a closer must match the top, which you pop.",
+      "Valid only if the stack is empty at the end."
+    ],
+    "bug": "Popping an empty stack on a leading closer, or returning true with openers left over."
+  },
+  "fw-intrusive-list": {
+    "prompt": "push_front, pop_front, remove and count on an intrusive singly linked list via `node_t **head`.",
+    "ideas": [
+      "Remove with a pointer-to-pointer walk: `for (node_t **pp = head; *pp; pp = &(*pp)->next) if (*pp == node) { *pp = node->next; return true; }`.",
+      "pop_front on an empty list returns NULL."
+    ],
+    "bug": "Special-casing the head and forgetting to update `*head` when removing the first node."
+  },
+  "fw-list-reverse": {
+    "prompt": "Reverse a singly linked list in place and return the new head.",
+    "ideas": [
+      "`prev = NULL; while (cur) { next = cur->next; cur->next = prev; prev = cur; cur = next; } return prev;`"
+    ],
+    "bug": "Overwriting `cur->next` before saving it, which loses the rest of the list."
+  },
+  "fw-crc16": {
+    "prompt": "CRC-16/CCITT-FALSE: poly 0x1021, init 0xFFFF, no reflection, no final XOR; `\"123456789\"` gives 0x29B1.",
+    "ideas": [
+      "Per byte: `crc ^= (uint16_t)byte << 8`, then 8 times: `crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1`.",
+      "Keep `crc` a `uint16_t` (or mask with 0xFFFF) after each shift.",
+      "Empty input returns the init value."
+    ],
+    "bug": "XOR-ing the byte into the low byte, which is the reflected variant."
+  },
+  "fw-endian-serial": {
+    "prompt": "Encode and decode a fixed sensor message as little-endian bytes, field by field.",
+    "ideas": [
+      "Write `out[i] = (uint8_t)(v >> (8 * k))`; read `v |= (uint32_t)in[i] << (8 * k)`.",
+      "Signed field: encode `(uint16_t)temp`; decode into a `uint16_t`, then cast to `int16_t`.",
+      "Check the buffer length before touching it."
+    ],
+    "bug": "`in[3] << 24` on a promoted `int` (sets the sign bit), or memcpy of the struct (padding and host byte order)."
+  },
+  "fw-packet-parser": {
+    "prompt": "Byte-at-a-time parser for `0xAA | LEN | PAYLOAD | CHECKSUM`: packet, error, or need more.",
+    "ideas": [
+      "One switch on the state: WAIT_START, READ_LEN, READ_PAYLOAD, READ_CKSUM.",
+      "Checksum = low 8 bits of LEN + the payload bytes; accumulate as bytes arrive.",
+      "An oversized LEN or bad checksum returns an error and goes back to hunting for 0xAA."
+    ],
+    "bug": "Not resetting the payload index and running checksum on resync."
+  },
+  "fw-gpio-debounce": {
+    "prompt": "Debounce a GPIO with timestamps: commit a new level only after it holds for `debounce_ms`.",
+    "ideas": [
+      "Track a pending level and its start time; commit when `(uint32_t)(now - start) >= debounce_ms`.",
+      "A bounce back to the committed level cancels the pending change.",
+      "Report the event once, on the update that commits."
+    ],
+    "bug": "`now >= start + debounce_ms`, which breaks when the counter wraps."
+  },
+  "fw-mipi-raw10": {
+    "prompt": "Unpack MIPI RAW10 (4 pixels in 5 bytes) into 16-bit pixels.",
+    "ideas": [
+      "Bytes 0–3 are each pixel's top 8 bits; byte 4 holds the four 2-bit LSB pairs, pixel 0 in bits 1:0.",
+      "`px[i] = (b[i] << 2) | ((b[4] >> (2 * i)) & 3)`, then advance 5 bytes in and 4 pixels out."
+    ],
+    "bug": "Taking pixel 0's LSBs from bits 7:6 of byte 4."
+  },
+  "fw-can-signal": {
+    "prompt": "Read, sign-extend and write an N-bit signal at any bit offset in an 8-byte Intel-order CAN frame.",
+    "ideas": [
+      "Assemble the frame into a `uint64_t` (byte 0 lowest), then shift and mask.",
+      "Build masks in 64 bits, `(1ULL << len) - 1`, so `len == 32` is defined.",
+      "Sign-extend: if bit `len - 1` is set, subtract `1LL << len`.",
+      "Write: `raw = (raw & ~mask) | (((uint64_t)value << start) & mask)`."
+    ],
+    "bug": "`(1u << len) - 1` with `len == 32` (undefined), or setting bits without clearing the old ones."
+  },
+  "fw-q16-mul": {
+    "prompt": "Q16.16 multiply and int conversions that stay exact when `a * b` overflows 32 bits.",
+    "ideas": [
+      "`(q16_t)(((int64_t)a * b) >> 16)`: widen before you multiply.",
+      "from_int is `x << 16` (multiply by 65536 for negatives, avoiding UB); to_int is `x >> 16`.",
+      "Right shift of a negative value is implementation-defined; it is arithmetic on every real target."
+    ],
+    "bug": "Multiplying in 32 bits and widening afterward, when the product has already overflowed."
+  },
+  "fw-q15-sat": {
+    "prompt": "Q15 saturating add/sub, and multiply with round-to-nearest; -1 × -1 must give 0x7FFF.",
+    "ideas": [
+      "Widen to `int32_t`, compute, then clamp to [INT16_MIN, INT16_MAX].",
+      "mul: `(a * b + (1 << 14)) >> 15` rounds half up; only -32768 × -32768 then needs the clamp.",
+      "No float; no signed overflow."
+    ],
+    "bug": "Skipping the multiply's clamp, so -1 × -1 wraps to -1."
+  },
+  "fw-ema-filter": {
+    "prompt": "Integer EMA with alpha = 1/2^k that settles exactly on a constant input.",
+    "ideas": [
+      "Keep the state scaled by 2^k: `state += x - (state >> k)`, output `state >> k`.",
+      "The unscaled `y += (x - y) >> k` stalls up to 2^k - 1 short of the target.",
+      "Initialize the state to `initial` scaled by 2^k (multiply, so negatives aren't UB)."
+    ],
+    "bug": "The unscaled update, which never reaches the input."
+  },
+  "fw-interp-table": {
+    "prompt": "Piecewise-linear interpolation over a sorted calibration table; false outside the range.",
+    "ideas": [
+      "Find the segment with `x0 <= x <= x1` (a scan or binary search).",
+      "`y0 + (int32_t)((int64_t)(y1 - y0) * (x - x0) / (x1 - x0))`: widen the product.",
+      "Multiply before you divide."
+    ],
+    "bug": "A 32-bit product that overflows, or dividing first and losing precision."
+  },
+  "fw-median-filter": {
+    "prompt": "Median of the last n samples (n odd, at most 15), updated each sample, lower middle while warming up.",
+    "ideas": [
+      "Keep arrival order in the ring; copy the live samples to a scratch array and sort the copy (insertion sort; n ≤ 15).",
+      "Median of k sorted values is index `(k - 1) / 2`, the lower middle when k is even.",
+      "Use `count` until the window fills."
+    ],
+    "bug": "Sorting the ring in place, which destroys arrival order so the wrong sample leaves the window."
+  },
+  "fw-mmio-rw": {
+    "prompt": "32-bit MMIO read and write with range and alignment checks against a fake register window.",
+    "ideas": [
+      "Valid when `addr >= BASE`, `addr - BASE <= SIZE - 4` and `(addr & 3) == 0`.",
+      "Subtract before comparing so nothing can overflow near UINTPTR_MAX.",
+      "Store little-endian, byte by byte."
+    ],
+    "bug": "`addr + 4 <= BASE + SIZE`, which wraps for huge addresses, or accepting the last 1–3 bytes of the window."
+  },
+  "fw-spi-driver": {
+    "prompt": "SPI byte transfer against a register struct: poll TX ready, write, poll RX ready, check error, read.",
+    "ideas": [
+      "Each poll loop re-reads the status register and decrements a timeout, returning SPI_TIMEOUT at 0.",
+      "Check the error bit only after RX ready is seen.",
+      "Init always sets the enable bit, whatever the flags."
+    ],
+    "bug": "Spinning on a status value read once, instead of re-reading the register every iteration."
+  },
+  "fw-aligned-malloc": {
+    "prompt": "`aligned_malloc(size, align)` and `aligned_free(ptr)` using only malloc and free.",
+    "ideas": [
+      "Allocate `size + align - 1 + sizeof(void *)`, then round up past room for one pointer.",
+      "Store the raw pointer just below the aligned block: `((void **)aligned)[-1] = raw`.",
+      "Round up as `(addr + align - 1) & ~(uintptr_t)(align - 1)` on a `uintptr_t`."
+    ],
+    "bug": "Freeing the aligned pointer instead of the stored raw one."
+  },
+  "fw-bump-alloc": {
+    "prompt": "Aligned bump allocator over a fixed buffer: alloc with any power-of-two alignment, reset only.",
+    "ideas": [
+      "Align up: `(x + a - 1) & ~(a - 1)`.",
+      "Check that the aligned offset plus `sz` fits before committing; on failure return NULL and leave the offset alone."
+    ],
+    "bug": "Checking for space before adding the alignment padding."
+  },
+  "fw-pool-alloc": {
+    "prompt": "Fixed-block pool over caller storage, with O(1) alloc and free using a free list kept inside the free blocks.",
+    "ideas": [
+      "Init threads every block onto the list: `*(void **)block = next_block`.",
+      "Alloc pops: `p = head; head = *(void **)p`. Free pushes: `*(void **)p = head; head = p`.",
+      "Reject block sizes smaller than `sizeof(void *)`."
+    ],
+    "bug": "Accepting a pointer in free without checking it lies inside storage on a block boundary."
+  },
+  "fw-uart-rx": {
+    "prompt": "Lock-free UART RX buffer: the ISR writes `head` and `dropped`, the main loop writes `tail`.",
+    "ideas": [
+      "Free-running counters: used = `head - tail` (unsigned wrap is fine); full when used == capacity.",
+      "ISR: store the byte, then advance head. Reader: copy bytes out, then advance tail.",
+      "Each side writes only its own index; read the other side's index once into a local."
+    ],
+    "bug": "Advancing `head` before storing the byte, so the reader can see a slot that isn't written yet."
+  },
+  "fw-uart-word-stream": {
+    "prompt": "Print UART bytes from an ISR one word per line from the main loop, losing nothing.",
+    "ideas": [
+      "The ISR only copies `UART_RX_REGISTER` into a ring buffer; all printing happens in `main_loop`.",
+      "main_loop drains what has arrived, printing a newline for each space.",
+      "Shared indices are `volatile`, and each side writes only its own."
+    ],
+    "bug": "Printing from the ISR, or a consumer that also writes the producer's index."
+  },
+  "fw-timer-sched": {
+    "prompt": "Software timers on a wrapping 32-bit ms counter: start, cancel, poll, one-shot and periodic.",
+    "ideas": [
+      "Due check: `(uint32_t)(now - deadline) < 0x80000000u`, i.e. `(int32_t)(now - deadline) >= 0`.",
+      "Periodic: `deadline += period`, not `now + period`, so it never drifts.",
+      "Use the lowest free slot; cancel rejects out-of-range and inactive ids."
+    ],
+    "bug": "`now >= deadline`, which fires everything immediately (or never) across the wrap."
+  },
+  "fw-find-bit-pattern": {
+    "prompt": "Find the first bit offset of 0xFE6B2840 in an MSB-first byte stream; the match may be unaligned.",
+    "ideas": [
+      "Shift bits into a `uint32_t` window one at a time: `w = (w << 1) | bit`.",
+      "Compare only once 32 bits are in; the match starts at bits consumed minus 32.",
+      "Handle NULL or fewer than 4 bytes, and never read past the end."
+    ],
+    "bug": "Comparing before the window holds 32 real bits, or returning the end offset instead of the start."
+  },
+  "fw-hash-table": {
+    "prompt": "Fixed-capacity `uint32_t` → `uint32_t` map with put, get and delete, no heap; every key is valid.",
+    "ideas": [
+      "Open addressing with linear probing; a state per slot: EMPTY, USED, DELETED.",
+      "Delete leaves a tombstone so keys further along the chain stay reachable.",
+      "Put searches the whole chain for the key first, then inserts into the first tombstone or empty slot.",
+      "Bound every probe loop at HT_CAP steps."
+    ],
+    "bug": "Delete marking the slot EMPTY, which breaks lookups for keys further down the chain."
+  },
+  "fw-bitmap-alloc": {
+    "prompt": "Allocate the lowest free ID, or the lowest run of n free IDs, from a 128-bit bitmap, and free IDs.",
+    "ideas": [
+      "Skip full words (`== 0xFFFFFFFF`); `~w & (w + 1)` isolates the lowest zero bit (or use `__builtin_ctz(~w)`).",
+      "Runs: count consecutive zero bits across word boundaries, and mark nothing until the whole run is found.",
+      "Use `1u << b`, never `1 << 31`."
+    ],
+    "bug": "Marking bits during the search, then failing with the map half changed."
+  },
+  "fw-mini-printf": {
+    "prompt": "`mini_snprintf` with %d %u %x %c %s %%, a 0 flag and width, truncation and the C99 return value.",
+    "ideas": [
+      "Route every character through one `put(c)` that writes only while `len + 1 < cap` but always counts.",
+      "Numbers: take the magnitude as unsigned (`0u - (unsigned)v` covers INT_MIN), emit digits reversed from a temp buffer.",
+      "Pad with spaces before the sign, zeros after it.",
+      "Terminate at `min(len, cap - 1)` when cap > 0; return the full length."
+    ],
+    "bug": "Returning the truncated length instead of the length the full output would have."
+  },
+  "fw-heap-alloc": {
+    "prompt": "First-fit malloc and free over a caller's arena, with splitting and merging of free neighbours.",
+    "ideas": [
+      "Every block starts with a header (size + free flag); blocks tile the arena, so the next header is at `hdr + size`.",
+      "Alloc: round n up to 8, walk blocks first fit, split when the remainder can hold a header plus 8 bytes.",
+      "Free: mark free, merge with the next block if free, and with the previous one (walk from the start, or keep a footer)."
+    ],
+    "bug": "Merging only forward, so freeing in reverse order never rebuilds the big block."
+  }
+}
