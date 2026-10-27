@@ -1,0 +1,19 @@
+{
+  "title": "Running Median Filter",
+  "phase": 5,
+  "phaseName": "Memory & Math",
+  "difficulty": "Medium",
+  "tags": [
+    "filters",
+    "dsp",
+    "sorting"
+  ],
+  "languages": [
+    "c",
+    "python"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 67,
+  "authored": true
+}
