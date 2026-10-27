@@ -48,7 +48,7 @@ rb_pop(&rb, &v);  // v=20
 
 - The caller provides `storage`; the buffer does not allocate memory
 - Empty: `head == tail && !full`; Full: `head == tail && full`
-- `rb_available`: `full ? capacity : (tail - head + capacity) % capacity`
-- `rb_free_space`: `capacity - rb_available(rb)`
+- `rb_available` returns the number of bytes stored
+- `rb_free_space` returns how many more bytes fit
 
 **Optimal complexity:** O(1) per operation

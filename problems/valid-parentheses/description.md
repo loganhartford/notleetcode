@@ -29,4 +29,4 @@ Output: False
 - `1 <= len(s) <= 10^4`
 - `s` consists only of the six bracket characters.
 
-**Optimal complexity:** O(n)  — single-pass stack
+**Optimal complexity:** O(n)

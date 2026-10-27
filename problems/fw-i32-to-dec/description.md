@@ -38,7 +38,7 @@ i32_to_dec(buf, 0, 0)    → false
 ## Constraints
 
 - No `sprintf`, `snprintf`, `itoa`, or `printf`
-- `INT32_MIN` must be handled without undefined behavior (use `uint32_t` for digit extraction)
+- `INT32_MIN` must be handled without undefined behavior
 - Return `false` if buffer (including space for `'\0'`) is too small
 
-**Optimal complexity:** O(log n) — one digit per division
+**Optimal complexity:** O(number of digits)

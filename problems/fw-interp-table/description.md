@@ -41,7 +41,7 @@ interp_i32(pts, 2, 21, &y) → false  (above)
 ## Constraints
 
 - Table has `n >= 2` points (you may assume valid input)
-- Use `int64_t` for the slope calculation to avoid overflow: `(int64_t)(y1-y0)*(x-x0)/(x1-x0)`
+- Results must be exact even when `(y1 - y0) * (x - x0)` does not fit in 32 bits
 - Integer division truncates toward zero (consistent with C99)
 - `n == 0` or `n == 1` may be treated as below-range (return false)
 

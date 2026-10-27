@@ -38,4 +38,4 @@ a = {1,2,3},  target=7  → false
 - Single element equal to target: `start=i`, `end=i+1`
 - Return `false` if no subarray sums to `target`
 
-**Optimal complexity:** O(n) — sliding window
+**Optimal complexity:** O(n) time, O(1) extra space

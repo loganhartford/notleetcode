@@ -44,8 +44,7 @@ sensor_msg_decode(&msg, buf, 8) → false    (input too short)
 
 ## Constraints
 
-- Serialize with explicit byte extractions: `out[0] = val & 0xFF; out[1] = (val >> 8) & 0xFF; ...`
-- `temperature_q8_8` is `int16_t` — cast carefully when encoding
+- Multi-byte fields are little-endian on the wire; `temperature_q8_8` is a signed `int16_t`
 - `out_len < SENSOR_MSG_WIRE_LEN` → return 0; `in_len < SENSOR_MSG_WIRE_LEN` → return false
 
 **Optimal complexity:** O(1) — fixed-size message

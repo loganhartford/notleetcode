@@ -10,9 +10,9 @@ q16_t   q16_from_int(int32_t x);
 int32_t q16_to_int(q16_t x);
 ```
 
-- **`q16_from_int(x)`** — convert integer to Q16.16: `x << 16`
-- **`q16_to_int(x)`** — convert Q16.16 to integer (truncate toward zero): arithmetic right shift by 16
-- **`q16_mul(a, b)`** — multiply two Q16.16 values: `(int64_t)a * b >> 16`
+- **`q16_from_int(x)`** — convert an integer to Q16.16
+- **`q16_to_int(x)`** — convert Q16.16 to an integer by dropping the fractional part (`q16_to_int(32768)` is 0)
+- **`q16_mul(a, b)`** — multiply two Q16.16 values, dropping the fractional bits of the product below 2^-16
 
 ## Examples
 
@@ -38,8 +38,7 @@ q16_to_int(32768)     → 0       // 0.5 truncates to 0
 
 ## Constraints
 
-- Use `int64_t` intermediate for `q16_mul` to avoid overflow
-- `q16_to_int`: arithmetic right shift (implementation-defined for negative in C, but works on all common targets; alternatively use `/65536`)
+- `q16_mul` must be correct whenever the true product is in range, even when `a * b` itself does not fit in 32 bits
 - Representable range: approximately -32768.0 to +32767.99998
 
 **Optimal complexity:** O(1)

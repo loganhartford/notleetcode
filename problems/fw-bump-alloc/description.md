@@ -14,8 +14,6 @@ void  bump_reset(bump_alloc_t *a);
 - **`bump_alloc_aligned`** — align the current offset up to `alignment`, then allocate `sz` bytes; return `NULL` if insufficient space
 - **`bump_reset`** — set `offset = 0`, allowing the entire region to be reused
 
-Alignment formula: `aligned = (offset + alignment - 1) & ~(alignment - 1)`.
-
 `alignment` is always a power of two.
 
 ## Examples

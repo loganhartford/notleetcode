@@ -1,6 +1,6 @@
 # Implement strlen
 
-Implement your own version of the standard `strlen` function. Walk the string pointer until the null terminator is found and return the number of characters.
+Implement your own version of the standard `strlen` function. Return the number of characters before the null terminator.
 
 ```c
 size_t c_strlen(const char *s);
@@ -35,4 +35,4 @@ c_strlen("x")      → 1
 - Return type is `size_t`
 - Do not use `strlen` or any other string library function
 
-**Optimal complexity:** O(n) — single pointer walk
+**Optimal complexity:** O(n)

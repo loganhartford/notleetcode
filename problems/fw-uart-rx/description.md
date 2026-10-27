@@ -59,9 +59,7 @@ uart_rx_init(&u, buf, 4);
 ## Constraints
 
 - Only the ISR writes `head` and `dropped`; only the main loop writes `tail`
-- Store the byte before advancing `head`; copy bytes out before advancing `tail`
 - On overflow: drop the new byte, increment `dropped`
 - `uart_rx_read` from an empty buffer returns 0
-- In real firmware, make `capacity` a power of two so `counter % capacity` stays consistent when the counters wrap
 
 **Optimal complexity:** O(n) read, O(1) isr_byte

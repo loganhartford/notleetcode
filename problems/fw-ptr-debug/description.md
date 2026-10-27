@@ -7,7 +7,18 @@ void *p = some_address;
 void *other_address = ...;
 ```
 
-Classify each expression and, where invalid, state why:
+Classify each expression as valid or invalid C, and say why:
+
+| Expression |
+|-----------|
+| `*p = 10;` |
+| `*(int *)p = 10;` |
+| `*(void **)p = other_address;` |
+| `(void **)p = other_address;` |
+| `p + 1;` |
+| `(uint8_t *)p + 1;` |
+
+<details><summary>Answers</summary>
 
 | Expression | Valid? | Why |
 |-----------|--------|-----|
@@ -17,6 +28,8 @@ Classify each expression and, where invalid, state why:
 | `(void **)p = other_address;` | ❌ | Assigning to a cast expression — casts are not lvalues |
 | `p + 1;` | ❌ | Pointer arithmetic on `void *` is undefined in C (no element size) |
 | `(uint8_t *)p + 1;` | ✅ | Cast to byte pointer first, then advance by one byte |
+
+</details>
 
 ---
 

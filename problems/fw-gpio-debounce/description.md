@@ -45,7 +45,7 @@ db_level(&d)              → true
 
 ## Constraints
 
-- Use `(uint32_t)(now_ms - pending_start) >= debounce_ms` for the time check (wraparound-safe)
+- `now_ms` is a free-running 32-bit counter: timing must stay correct when it wraps past `UINT32_MAX`
 - Only return an event on the poll that crosses the debounce threshold; subsequent polls with the same stable level return `DB_NONE`
 - `db_level` returns the committed stable level, not the raw level
 

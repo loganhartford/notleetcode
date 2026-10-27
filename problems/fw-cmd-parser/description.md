@@ -41,4 +41,4 @@ parse_tokens("a b c", argv, 2) → 2  (capped at max_args)
 - Returns at most `max_args` tokens; extra tokens are silently truncated
 - `argv` must not be written past index `max_args - 1`
 
-**Optimal complexity:** O(n) — single pass through the string
+**Optimal complexity:** O(n)

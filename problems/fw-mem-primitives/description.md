@@ -36,7 +36,7 @@ c_memset(dst, 0,    4) → dst = {0x00, 0x00, 0x00, 0x00}
 ## Constraints
 
 - `n` may be 0 (do nothing, return `dst`)
-- `c_memmove`: if `dst > src` and regions overlap, copy back-to-front; otherwise front-to-back
+- `c_memmove`: `dst` and `src` may overlap, in either direction
 - `c_memset`: write `(uint8_t)(value & 0xFF)` to each byte
 
 **Optimal complexity:** O(n)

@@ -47,7 +47,7 @@ p2 != NULL  → true
 ## Constraints
 
 - No `malloc` or heap allocation
-- `pool_init` must return `false` if `block_size < sizeof(void*)` (can't store the next pointer)
+- `pool_init` must return `false` if `block_size < sizeof(void*)`
 - `pool_free(NULL)` returns `false`
 - Blocks are contiguous within `storage`; each block is exactly `block_size` bytes
 

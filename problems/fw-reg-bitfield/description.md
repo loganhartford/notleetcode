@@ -39,4 +39,4 @@ reg_read_field(0x0000AB00, 0x0000FF00, 8) → 0x000000AB
 - `mask` indicates which bits belong to the field; `shift` is the LSB position of the field
 - `reg_write_field` must preserve bits outside the mask
 
-**Optimal complexity:** O(1) — single mask and shift operation
+**Optimal complexity:** O(1)

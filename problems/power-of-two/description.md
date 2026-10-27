@@ -29,8 +29,7 @@ round_up_pow2(17) -> 32
 
 ### Constraints
 - `0 <= x <= 2^31` (results fit in `uint32_t`).
-- `is_power_of_two`: `x && !(x & (x - 1))`.
-- `round_up_pow2`: smear the highest set bit down with shifts/ORs, then `+1`.
+- No loops over the individual bits and no compiler builtins.
 - This is `[author]`-defined firmware practice.
 
-**Optimal complexity:** O(1)  — single bitwise AND for check; O(1) for round-up (5 OR+shift steps)
+**Optimal complexity:** O(1)

@@ -36,8 +36,6 @@ crc16_ccitt({0xFF}, 1)   → 0xFF00
 
 ## Constraints
 
-- Bit-by-bit computation (no lookup table required)
-- For each byte, process 8 bits MSB first
-- For each bit: if MSB of CRC is 1, shift left and XOR with 0x1021; else just shift left
+- No lookup table required
 
-**Optimal complexity:** O(8n) — 8 bit iterations per byte
+**Optimal complexity:** O(n)

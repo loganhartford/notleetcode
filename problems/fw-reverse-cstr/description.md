@@ -35,4 +35,4 @@ s = "x"      →  s stays "x"    (single char — nothing to do)
 - `s` is a valid, writable, null-terminated C string
 - No allocation or libc string functions allowed — use only pointer arithmetic
 
-**Optimal complexity:** O(n) — single pass with two pointers
+**Optimal complexity:** O(n) time, O(1) extra space

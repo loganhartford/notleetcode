@@ -42,7 +42,7 @@ parse_i32("+",   &v) → false  (sign only, no digits)
 ## Constraints
 
 - No `atoi`, `strtol`, `sscanf`, or other conversion functions
-- Detect overflow before it happens (compare against `INT32_MAX / 10` etc.)
+- Out-of-range values return `false`, and no step of the parse may itself overflow (no undefined behavior)
 - Empty string → `false`; sign with no digits → `false`
 
 **Optimal complexity:** O(n)

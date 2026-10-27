@@ -43,7 +43,7 @@ rotl32(x, 32)          → x            // n=32 same as n=0
 ## Constraints
 
 - No compiler builtins
-- For `rotl32`/`rotr32`: reduce `n %= 32` first; if `n == 0`, return `x` unchanged (avoids undefined shift by 32)
+- `rotl32`/`rotr32` accept any `n`; rotating by `n` is the same as rotating by `n % 32`
 - `reverse_bits32`: may use a 32-iteration loop
 
-**Optimal complexity:** O(k) popcount where k = set bit count; O(1) for rotate/reverse
+**Optimal complexity:** O(1) per call
