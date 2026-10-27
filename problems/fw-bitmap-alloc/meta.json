@@ -1,0 +1,19 @@
+{
+  "title": "Bitmap ID Allocator",
+  "phase": 3,
+  "phaseName": "Core Firmware",
+  "difficulty": "Hard",
+  "tags": [
+    "bit manipulation",
+    "allocators",
+    "resource management"
+  ],
+  "languages": [
+    "c",
+    "python"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 69,
+  "authored": true
+}
