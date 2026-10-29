@@ -1,0 +1,17 @@
+{
+  "title": "Connected Pixels",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Medium",
+  "tags": [
+    "stack"
+  ],
+  "languages": [
+    "cpp"
+  ],
+  "tab": "firmware",
+  "stackIndex": 54,
+  "authored": true,
+  "defaultLanguage": "cpp",
+  "company": "Skydio"
+}

@@ -1,0 +1,21 @@
+{
+  "title": "ADC Code to Bipolar Voltage",
+  "phase": 0,
+  "phaseName": "Real Interviews",
+  "difficulty": "Easy",
+  "tags": [
+    "adc",
+    "fixed-point",
+    "scaling",
+    "floating point",
+    "embedded"
+  ],
+  "languages": [
+    "c"
+  ],
+  "defaultLanguage": "c",
+  "tab": "firmware",
+  "stackIndex": 55,
+  "authored": true,
+  "company": "Mill"
+}
